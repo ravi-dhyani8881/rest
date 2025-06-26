@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: rest
-        image: ravi8881/ravi-ravisuborg-ravidevenv-ravigraphid2-rest:9.0.0
+        image: ravi8881/ravi-ravisuborg-ravidevenv-ravigraphid2-rest:10.0.0
         ports:
-        - containerPort: 8080
+        - containerPort: 8081
