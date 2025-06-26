@@ -9,10 +9,10 @@ metadata:
 spec:
   ingressClassName: ngrok
   rules:
-    - host: picked-apt-wombat.ngrok-free.app
+    - host: honestly-handy-herring.ngrok-free.app
       http:
         paths:
-          - path: /febe
+          - path: /febe-rest
             pathType: Prefix
             backend:
               service:
