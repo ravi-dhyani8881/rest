@@ -1,0 +1,142 @@
+name: Docker Image CI
+
+on:
+  repository_dispatch:
+    types: [trigger-rest-docker-code-compile-workflow]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Fe
+
+
+    - name: Log event payload to a file
+      run: echo '${{ toJson(github.event.client_payload) }}' > event_payload.json
+
+    - name: Print the location and contents of file.json
+      run: |
+        echo "Location of file.json: $(pwd)/event_payload.json"
+        echo "Contents of event_payload.json:"
+        cat event_payload.json
+        cat ${{ github.workspace }}/event_payload.json
+        
+    - name: Extract projectName and write to file.json
+      run: |
+        # Check if event_payload.json exists
+        if [ ! -f event_payload.json ]; then
+          echo "Error: event_payload.json file not found!"
+          exit 1
+        fi
+    
+        # Extract projectName from JSON
+        projectName=$(jq -r '.organizationID' event_payload.json)
+        subOrganizationID=$(jq -r '.subOrganizationID' event_payload.json)
+        enviromentID=$(jq -r '.enviromentID' event_payload.json)
+        graphID=$(jq -r '.graphID' event_payload.json)
+        version=$(jq -r '.version' event_payload.json)
+        
+    
+        # Validate extracted value
+        if [[ -z "$projectName" ]]; then
+          echo "Error: projectName is empty or not found in JSON"
+          exit 1
+        fi
+    
+        # Log extracted value
+        echo "Extracted projectName: $projectName"
+        echo "Extracted subOrganizationID: $subOrganizationID"
+        
+        # Write projectName to file.json
+        echo "$projectName" > file.json
+    
+        # Export projectName as an environment variable
+        echo "PROJECT_PAYLOAD=$projectName" >> $GITHUB_ENV
+        echo "SUB_ORG_PAYLOAD=$subOrganizationID" >> $GITHUB_ENV
+        echo "ENV_ID=$enviromentID" >> $GITHUB_ENV
+        echo "GRAPH_ID=$graphID" >> $GITHUB_ENV
+        echo "VERSION=$version" >> $GITHUB_ENV
+        
+
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Print Current Directory and Git Status
+      run: |
+        echo "📂 Current working directory:"
+        pwd
+
+        echo "📜 Git status:"
+        git status
+
+        echo "📁 Listing all files and folders in current directory:"
+        ls -la
+        
+    - name: Switch to the branch and change directory
+      run: |
+        echo "🔄 Switching to branch: ${{ env.PROJECT_PAYLOAD }}"
+        git fetch origin
+        git checkout ${{ env.PROJECT_PAYLOAD }}
+    
+        # Change to the nested folder structure
+        WORKING_DIR="${{ env.SUB_ORG_PAYLOAD }}/${{ env.ENV_ID }}/${{ env.GRAPH_ID }}"
+        
+        echo "📂 Changing into directory: $WORKING_DIR"
+    
+        if [ -d "$WORKING_DIR" ]; then
+          cd "$WORKING_DIR"
+          echo "✅ Successfully changed directory to: $(pwd)"
+        else
+          echo "❌ Directory $WORKING_DIR does not exist!"
+          exit 1
+        fi
+    
+        # Store the working directory in a GitHub environment variable for the next step
+        echo "WORKING_DIR=$WORKING_DIR" >> $GITHUB_ENV
+            
+
+    - name: Extract metadata for Docker image name
+      run: |
+        # Extract values from JSON
+        projectName=$(jq -r '.organizationID' event_payload.json)
+        subOrganizationID=$(jq -r '.subOrganizationID' event_payload.json)
+        enviromentID=$(jq -r '.enviromentID' event_payload.json)
+        graphID=$(jq -r '.graphID' event_payload.json)
+        version=$(jq -r '.version' event_payload.json)
+    
+        # Convert values to lowercase & sanitize (optional)
+        image_name="$(echo ${projectName}-${subOrganizationID}-${enviromentID}-${graphID} | tr '[:upper:]' '[:lower:]' | tr -d ' ' | tr '/' '-')"
+        
+        # Define full image name with version tag
+        full_image_name="ravi8881/${image_name}:${version}"
+    
+        # Log output
+        echo "🚀 Generated Docker Image Name: $full_image_name"
+    
+        # Export to GitHub environment variables
+        echo "DOCKER_IMAGE_NAME=$full_image_name" >> $GITHUB_ENV
+    
+    - name: Build Docker image
+      run: |
+        echo "Building Docker image: $DOCKER_IMAGE_NAME"
+        cd "$WORKING_DIR"
+        docker build -t $DOCKER_IMAGE_NAME .
+    
+    - name: List Docker images for debugging
+      run: docker images
+    
+    - name: Push Docker image
+      run: |
+        echo "🚀 Pushing Docker image: $DOCKER_IMAGE_NAME"
+        docker push $DOCKER_IMAGE_NAME
+    
+
