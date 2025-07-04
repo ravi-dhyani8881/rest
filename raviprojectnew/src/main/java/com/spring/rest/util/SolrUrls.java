@@ -3,10 +3,10 @@ package com.spring.rest.util;
 public interface SolrUrls {
 	public static String protocol="http";
 			
-	public static String host="localhost";
+	public static String host="solr-service-9dd0c8bf-0a27-4293-9442-db5b86a7c07f";
 			
 	
-    public static String port="8983";
+    public static String port="80";
 	public static String context="solr";
 							
 	public static String baseUrl= protocol+"://"+host+":"+port+"/"+context;
