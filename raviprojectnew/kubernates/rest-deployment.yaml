@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
       - name: rest9dd0c8bf-0a27-4293-9442-db5b86a7c07f
-        image: ravi8881/85c8a741-63c7-438b-8abe-9fe23efa41e5-ravisuborg1-ravidevenv-9dd0c8bf-0a27-4293-9442-db5b86a7c07f-graph:10.0.0
+        image: ravi8881/85c8a741-63c7-438b-8abe-9fe23efa41e5-ravisuborg1-ravidevenv-9dd0c8bf-0a27-4293-9442-db5b86a7c07f-rest:10.0.0
         ports:
         - containerPort: 8081
