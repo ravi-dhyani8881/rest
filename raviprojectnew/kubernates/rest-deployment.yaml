@@ -4,16 +4,16 @@ metadata:
   name: rest-app-9dd0c8bf-0a27-4293-9442-db5b86a7c07f
   namespace: 85c8a741-63c7-438b-8abe-9fe23efa41e5
   labels:
-    app: rest-9dd0c8bf-0a27-4293-9442-db5b86a7c07f
+    app: rest-app-9dd0c8bf-0a27-4293-9442-db5b86a7c07f
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: rest-app9dd0c8bf-0a27-4293-9442-db5b86a7c07f
+      app: rest-app-9dd0c8bf-0a27-4293-9442-db5b86a7c07f
   template:
     metadata:
       labels:
-        app: rest-app9dd0c8bf-0a27-4293-9442-db5b86a7c07f
+        app: rest-app-9dd0c8bf-0a27-4293-9442-db5b86a7c07f
     spec:
       containers:
       - name: rest9dd0c8bf-0a27-4293-9442-db5b86a7c07f
