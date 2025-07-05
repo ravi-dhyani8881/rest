@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rest-app-
+  namespace: 1234
+  labels:
+    app: rest-app-
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rest-app-
+  template:
+    metadata:
+      labels:
+        app: rest-app-
+    spec:
+      containers:
+      - name: rest
+        image: ravi8881/1234-1234-1234--rest:
+        ports:
+        - containerPort: 8081
