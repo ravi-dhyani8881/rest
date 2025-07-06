@@ -64,6 +64,15 @@ jobs:
         echo "VERSION=$version" >> $GITHUB_ENV
         echo "PROJECT_NAME=$projectName" >> $GITHUB_ENV
 
+    - name: Clone Maven Library
+      run: git clone https://github.com/ravi-dhyani8881/maven-library-skeleton-master.git
+
+    - name: Build and Install Local Maven Library
+      run: |
+        cd maven-library-skeleton-master
+        mvn clean install -DskipTests
+
+
     - name: Log in to Docker Hub
       uses: docker/login-action@v2
       with:
