@@ -63,9 +63,6 @@ jobs:
         echo "GRAPH_ID=$graphID" >> $GITHUB_ENV
         echo "VERSION=$version" >> $GITHUB_ENV
         echo "PROJECT_NAME=$projectName" >> $GITHUB_ENV
-        
-        
-
 
     - name: Log in to Docker Hub
       uses: docker/login-action@v2
@@ -92,7 +89,7 @@ jobs:
     
         # Change to the nested folder structure
         WORKING_DIR="${{ env.SUB_ORG_PAYLOAD }}/${{ env.ENV_ID }}/${{ env.GRAPH_ID }}/${{ env.PROJECT_NAME }}"
-        
+        echo "WORKING_DIR=$WORKING_DIR" >> $GITHUB_ENV
         echo "📂 Changing into directory: $WORKING_DIR"
     
         if [ -d "$WORKING_DIR" ]; then
@@ -105,7 +102,14 @@ jobs:
     
         # Store the working directory in a GitHub environment variable for the next step
         echo "WORKING_DIR=$WORKING_DIR" >> $GITHUB_ENV
-            
+
+    - name: Print Java version
+      run: java -version
+
+    - name: Build with Maven
+      run: mvn clean install
+      working-directory: ${{ env.WORKING_DIR }}
+
 
     - name: Extract metadata for Docker image name
       run: |
