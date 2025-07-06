@@ -34,8 +34,8 @@ jobs:
           exit 1
         fi
     
-        # Extract projectName from JSON
-        projectName=$(jq -r '.organizationID' event_payload.json)
+        # Extract organizationID from JSON
+        organizationID=$(jq -r '.organizationID' event_payload.json)
         subOrganizationID=$(jq -r '.subOrganizationID' event_payload.json)
         enviromentID=$(jq -r '.enviromentID' event_payload.json)
         graphID=$(jq -r '.graphID' event_payload.json)
@@ -43,20 +43,20 @@ jobs:
         
     
         # Validate extracted value
-        if [[ -z "$projectName" ]]; then
-          echo "Error: projectName is empty or not found in JSON"
+        if [[ -z "$organizationID" ]]; then
+          echo "Error: organizationID is empty or not found in JSON"
           exit 1
         fi
     
         # Log extracted value
-        echo "Extracted projectName: $projectName"
+        echo "Extracted organizationID: $organizationID"
         echo "Extracted subOrganizationID: $subOrganizationID"
         
-        # Write projectName to file.json
-        echo "$projectName" > file.json
+        # Write organizationID to file.json
+        echo "$organizationID" > file.json
     
-        # Export projectName as an environment variable
-        echo "PROJECT_PAYLOAD=$projectName" >> $GITHUB_ENV
+        # Export organizationID as an environment variable
+        echo "PROJECT_PAYLOAD=$organizationID" >> $GITHUB_ENV
         echo "SUB_ORG_PAYLOAD=$subOrganizationID" >> $GITHUB_ENV
         echo "ENV_ID=$enviromentID" >> $GITHUB_ENV
         echo "GRAPH_ID=$graphID" >> $GITHUB_ENV
@@ -107,14 +107,14 @@ jobs:
     - name: Extract metadata for Docker image name
       run: |
         # Extract values from JSON
-        projectName=$(jq -r '.organizationID' event_payload.json)
+        organizationID=$(jq -r '.organizationID' event_payload.json)
         subOrganizationID=$(jq -r '.subOrganizationID' event_payload.json)
         enviromentID=$(jq -r '.enviromentID' event_payload.json)
         graphID=$(jq -r '.graphID' event_payload.json)
         version=$(jq -r '.version' event_payload.json)
     
         # Convert values to lowercase & sanitize (optional)
-        image_name="$(echo ${projectName}-${subOrganizationID}-${enviromentID}-${graphID} | tr '[:upper:]' '[:lower:]' | tr -d ' ' | tr '/' '-')"
+        image_name="$(echo ${organizationID}-${subOrganizationID}-${enviromentID}-${graphID} | tr '[:upper:]' '[:lower:]' | tr -d ' ' | tr '/' '-')"
         
         # Define full image name with version tag
         full_image_name="ravi8881/${image_name}:${version}"
