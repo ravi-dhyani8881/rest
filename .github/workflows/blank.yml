@@ -145,11 +145,23 @@ jobs:
         # Tag current versioned image
         # docker tag "$full_image_name" "ravi8881/${image_name}"
     
-    - name: Build Docker image
+
+    - name: 🛠️ Build Docker image
       run: |
-        echo "Building Docker image: $DOCKER_IMAGE_NAME"
+        # Extract and sanitize inputs
         cd "$WORKING_DIR"
-        docker build -t $DOCKER_IMAGE_NAME .
+        organizationID=$(jq -r '.organizationID' event_payload.json | tr -d '\n\r ')
+        subOrganizationID=$(jq -r '.subOrganizationID' event_payload.json | tr -d '\n\r ')
+        enviromentID=$(jq -r '.enviromentID' event_payload.json | tr -d '\n\r ')
+        graphID=$(jq -r '.graphID' event_payload.json | tr -d '\n\r ')
+        version=$(jq -r '.version' event_payload.json | tr -d '\n\r ')
+    
+        image_name=$(echo "${organizationID}-${subOrganizationID}-${enviromentID}-${graphID}-graph" | tr '[:upper:]' '[:lower:]' | tr -d ' ' | tr '/' '-')
+        full_image_name="ravi8881/${image_name}:${version}"
+    
+        echo "🔨 Building image: $full_image_name"
+        docker build -t "$full_image_name" .
+
     
     - name: List Docker images for debugging
       run: docker images
