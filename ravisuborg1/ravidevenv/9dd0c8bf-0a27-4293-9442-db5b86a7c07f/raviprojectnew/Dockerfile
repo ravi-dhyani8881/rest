@@ -1,4 +1,5 @@
-FROM openjdk:11-jre-slim
+# FROM openjdk:11-jre-slim
+FROM eclipse-temurin:17-jdk
 Expose 8081
 # ADD target/raviprojectnew-0.0.1-SNAPSHOT.jar raviprojectnew-0.0.1-SNAPSHOT.jar
 
