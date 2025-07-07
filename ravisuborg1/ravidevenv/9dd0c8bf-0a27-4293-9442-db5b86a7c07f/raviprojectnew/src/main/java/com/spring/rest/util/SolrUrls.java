@@ -7,7 +7,7 @@ public interface SolrUrls {
 			
 	
     public static String port="80";
-	public static String context="solr-service-9dd0c8bf-0a27-4293-9442-db5b86a7c07f";
+	public static String context="solr";
 							
       public static String baseUrl= protocol+"://"+host+":"+port+"/"+context;
 	
