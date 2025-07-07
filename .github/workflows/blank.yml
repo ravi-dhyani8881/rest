@@ -179,11 +179,16 @@ jobs:
         # Build image name
         image_name=$(echo "${organizationID}-${subOrganizationID}-${enviromentID}-${graphID}-graph" | tr '[:upper:]' '[:lower:]' | tr -d ' ' | tr '/' '-')
         full_image_name="ravi8881/${image_name}:${version}"
-    
-        echo "📤 Pushing: $full_image_name and :latest"
-        
+        latest_image_name="ravi8881/${image_name}:latest"
+
+        echo "📤 Pushing: $full_image_name and $latest_image_name"
+
+        # Tag image as latest
+        docker tag "$full_image_name" "$latest_image_name"
+
+        # Push both tags
         docker push "$full_image_name"
-        docker push "ravi8881/${image_name}:latest"
+        docker push "$latest_image_name"
 
     
 
