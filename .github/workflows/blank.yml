@@ -154,9 +154,24 @@ jobs:
     - name: List Docker images for debugging
       run: docker images
     
-    - name: Push Docker image
+
+    - name: 🚀 Push Docker image
       run: |
-        echo "🚀 Pushing Docker image: $DOCKER_IMAGE_NAME"
-        docker push "ravi8881/${image_name}"
+        # Extract and sanitize inputs
+        organizationID=$(jq -r '.organizationID' event_payload.json | tr -d '\n\r ')
+        subOrganizationID=$(jq -r '.subOrganizationID' event_payload.json | tr -d '\n\r ')
+        enviromentID=$(jq -r '.enviromentID' event_payload.json | tr -d '\n\r ')
+        graphID=$(jq -r '.graphID' event_payload.json | tr -d '\n\r ')
+        version=$(jq -r '.version' event_payload.json | tr -d '\n\r ')
+        
+        # Build image name
+        image_name=$(echo "${organizationID}-${subOrganizationID}-${enviromentID}-${graphID}-graph" | tr '[:upper:]' '[:lower:]' | tr -d ' ' | tr '/' '-')
+        full_image_name="ravi8881/${image_name}:${version}"
+    
+        echo "📤 Pushing: $full_image_name and :latest"
+        
+        docker push "$full_image_name"
+        docker push "ravi8881/${image_name}:latest"
+
     
 
