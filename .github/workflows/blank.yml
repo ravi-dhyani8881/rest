@@ -143,7 +143,7 @@ jobs:
         echo "✅ Tagging image as: $full_image_name and :latest"
     
         # Tag current versioned image
-        docker tag "$full_image_name" "ravi8881/${image_name}:latest"
+        docker tag "$full_image_name" "ravi8881/${image_name}"
     
     - name: Build Docker image
       run: |
@@ -157,6 +157,6 @@ jobs:
     - name: Push Docker image
       run: |
         echo "🚀 Pushing Docker image: $DOCKER_IMAGE_NAME"
-        docker push "ravi8881/${image_name}:latest"
+        docker push "ravi8881/${image_name}"
     
 
