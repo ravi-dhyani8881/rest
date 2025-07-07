@@ -156,7 +156,7 @@ jobs:
         graphID=$(jq -r '.graphID' event_payload.json | tr -d '\n\r ')
         version=$(jq -r '.version' event_payload.json | tr -d '\n\r ')
         cd "$WORKING_DIR"
-        image_name=$(echo "${organizationID}-${subOrganizationID}-${enviromentID}-${graphID}-graph" | tr '[:upper:]' '[:lower:]' | tr -d ' ' | tr '/' '-')
+        image_name=$(echo "${organizationID}-${subOrganizationID}-${enviromentID}-${graphID}-rest" | tr '[:upper:]' '[:lower:]' | tr -d ' ' | tr '/' '-')
         full_image_name="ravi8881/${image_name}:${version}"
     
         echo "🔨 Building image: $full_image_name"
@@ -177,7 +177,7 @@ jobs:
         version=$(jq -r '.version' event_payload.json | tr -d '\n\r ')
         
         # Build image name
-        image_name=$(echo "${organizationID}-${subOrganizationID}-${enviromentID}-${graphID}-graph" | tr '[:upper:]' '[:lower:]' | tr -d ' ' | tr '/' '-')
+        image_name=$(echo "${organizationID}-${subOrganizationID}-${enviromentID}-${graphID}-rest" | tr '[:upper:]' '[:lower:]' | tr -d ' ' | tr '/' '-')
         full_image_name="ravi8881/${image_name}:${version}"
         latest_image_name="ravi8881/${image_name}:latest"
 
