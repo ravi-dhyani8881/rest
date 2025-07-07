@@ -140,6 +140,10 @@ jobs:
     
         # Export to GitHub environment variables
         echo "DOCKER_IMAGE_NAME=$full_image_name" >> $GITHUB_ENV
+        echo "✅ Tagging image as: $full_image_name and :latest"
+    
+        # Tag current versioned image
+        docker tag "$full_image_name" "ravi8881/${image_name}:latest"
     
     - name: Build Docker image
       run: |
@@ -153,6 +157,6 @@ jobs:
     - name: Push Docker image
       run: |
         echo "🚀 Pushing Docker image: $DOCKER_IMAGE_NAME"
-        docker push $DOCKER_IMAGE_NAME
+        docker push "ravi8881/${image_name}:latest"
     
 
