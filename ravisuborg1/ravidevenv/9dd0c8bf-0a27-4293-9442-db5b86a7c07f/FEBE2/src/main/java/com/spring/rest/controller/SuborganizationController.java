@@ -33,6 +33,8 @@ import com.spring.rest.util.SolrUrls;
 import com.spring.rest.util.Utility;
 import com.spring.rest.validation.ValidationService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @Api(value = "Suborganization Mangment System" , description = "Service used to perform operation on subOrganization.", tags = "subOrganization")
 @RestController
