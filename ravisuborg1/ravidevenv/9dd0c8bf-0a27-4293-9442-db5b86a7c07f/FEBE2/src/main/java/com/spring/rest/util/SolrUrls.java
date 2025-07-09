@@ -21,4 +21,5 @@ public interface SolrUrls {
     public static final String GRAPH_URL = baseUrl+"/"+"graph";
     public static final String PUBLISHGRAPH_URL = baseUrl+"/"+"publishGraph";
     public static final String PUBLISHREST_URL = baseUrl+"/"+"publishRest";
+    public static final String APIKEY_URL = baseUrl+"/"+"apiKey";
 }
