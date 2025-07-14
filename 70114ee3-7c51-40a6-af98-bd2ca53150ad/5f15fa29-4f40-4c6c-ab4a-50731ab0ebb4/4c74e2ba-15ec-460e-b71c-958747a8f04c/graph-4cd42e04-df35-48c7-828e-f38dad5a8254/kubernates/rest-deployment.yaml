@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rest-app-4c74e2ba-15ec-460e-b71c-958747a8f04c
+  namespace: 3219e62e-f28c-4e9a-b62e-77aae69fb44b
+  labels:
+    app: rest-app-4c74e2ba-15ec-460e-b71c-958747a8f04c
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rest-app-4c74e2ba-15ec-460e-b71c-958747a8f04c
+  template:
+    metadata:
+      labels:
+        app: rest-app-4c74e2ba-15ec-460e-b71c-958747a8f04c
+    spec:
+      containers:
+      - name: rest4c74e2ba-15ec-460e-b71c-958747a8f04c
+        image: ravi8881/3219e62e-f28c-4e9a-b62e-77aae69fb44b-70114ee3-7c51-40a6-af98-bd2ca53150ad-5f15fa29-4f40-4c6c-ab4a-50731ab0ebb4-4c74e2ba-15ec-460e-b71c-958747a8f04c-rest:1.0.0
+        ports:
+        - containerPort: 8080
