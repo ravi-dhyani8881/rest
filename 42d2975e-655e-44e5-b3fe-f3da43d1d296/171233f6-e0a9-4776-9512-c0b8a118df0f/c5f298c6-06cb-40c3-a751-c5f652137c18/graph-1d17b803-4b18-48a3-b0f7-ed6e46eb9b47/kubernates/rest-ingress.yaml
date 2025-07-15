@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rest-ingress-c5f298c6-06cb-40c3-a751-c5f652137c18
+  namespace: 3219e62e-f28c-4e9a-b62e-77aae69fb44b
+  annotations:
+    ngrok.com/ingress-mode: edge
+  labels:
+    app: rest-app-c5f298c6-06cb-40c3-a751-c5f652137c18
+spec:
+  ingressClassName: ngrok
+  rules:
+    - host: honestly-handy-herring.ngrok-free.app
+      http:
+        paths:
+          - path: /febe-rest-c5f298c6-06cb-40c3-a751-c5f652137c18/
+            pathType: Prefix
+            backend:
+              service:
+                name: rest-service-c5f298c6-06cb-40c3-a751-c5f652137c18
+                port:
+                  number: 80
