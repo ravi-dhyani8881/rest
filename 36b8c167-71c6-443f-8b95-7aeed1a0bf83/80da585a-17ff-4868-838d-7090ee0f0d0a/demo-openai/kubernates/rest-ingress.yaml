@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rest-ingress-2566dc81-6e7f-41a6-b391-14b9493ff73b
+  namespace: 0d4c39bd-d8c0-4515-a387-02d6160fd073
+  labels:
+    app: rest-app-2566dc81-6e7f-41a6-b391-14b9493ff73b
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: demo-openai-wpozkv.p5wiqz.us-east-2.febe.kbs
+      http:
+        paths:
+          - path: /febe-rest-2566dc81-6e7f-41a6-b391-14b9493ff73b/
+            pathType: Prefix
+            backend:
+              service:
+                name: rest-service-2566dc81-6e7f-41a6-b391-14b9493ff73b
+                port:
+                  number: 80
