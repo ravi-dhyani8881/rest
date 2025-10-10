@@ -76,6 +76,7 @@ jobs:
       run: |
         cd ..
         mvn clean package -DskipTests
+        working-directory: ./rest
 
     - name: Log in to Docker Hub
       uses: docker/login-action@v2
