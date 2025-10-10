@@ -71,7 +71,11 @@ jobs:
       run: |
         cd maven-library-skeleton-master
         mvn clean install -DskipTests
-
+    
+    - name: Build Main Project
+      run: |
+        cd ..
+        mvn clean package -DskipTests
 
     - name: Log in to Docker Hub
       uses: docker/login-action@v2
