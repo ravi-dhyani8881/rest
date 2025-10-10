@@ -65,7 +65,7 @@ jobs:
         echo "PROJECT_NAME=$projectName" >> $GITHUB_ENV
 
     - name: Clone Maven Library
-      run: git clone https://github.com/ravi-dhyani8881/maven-library-skeleton-master.git
+      run: git clone https://x-access-token:${{ secrets.OTHER_REPO_GITHUB_TOKEN }}@github.com/ravi-dhyani8881/maven-library-skeleton-master.git
 
     - name: Build and Install Local Maven Library
       run: |
