@@ -35,7 +35,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.spring.rest.model.PublishGraph;
-import com.spring.rest.apiresponse.publishGraphResponse;
+import com.spring.rest.apiresponse.PublishGraphResponse;
 import com.spring.rest.service.CommonDocumentService;
 import com.spring.rest.util.FacetFieldDTO;
 import com.spring.rest.util.FacetValueDTO;

@@ -35,7 +35,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.spring.rest.model.UserSetting;
-import com.spring.rest.apiresponse.userSettingResponse;
+import com.spring.rest.apiresponse.UserSettingResponse;
 import com.spring.rest.service.CommonDocumentService;
 import com.spring.rest.util.FacetFieldDTO;
 import com.spring.rest.util.FacetValueDTO;
