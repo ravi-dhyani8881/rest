@@ -35,7 +35,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.spring.rest.model.DeploymentConfiguration;
-
+import com.spring.rest.apiresponse.deploymentConfigurationResponse;
 import com.spring.rest.service.CommonDocumentService;
 import com.spring.rest.util.FacetFieldDTO;
 import com.spring.rest.util.FacetValueDTO;
@@ -177,7 +177,7 @@ public class DeploymentconfigurationController {
 	@ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User found",
                          content = @Content(mediaType = "application/json",
-                         schema = @Schema(implementation = ResponseMessage.class))),
+                         schema = @Schema(implementation = DeploymentConfiguration.class))),
             @ApiResponse(responseCode = "400", description = "Invalid user ID supplied",
                          content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
             @ApiResponse(responseCode = "404", description = "User not found",
