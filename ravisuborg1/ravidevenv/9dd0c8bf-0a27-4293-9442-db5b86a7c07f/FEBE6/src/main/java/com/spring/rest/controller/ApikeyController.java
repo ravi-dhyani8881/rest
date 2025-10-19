@@ -177,7 +177,7 @@ public class ApikeyController {
 	@ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User found",
                          content = @Content(mediaType = "application/json",
-                         schema = @Schema(implementation = ApiKey.class))),
+                         schema = @Schema(implementation = ApiKeyResponse.class))),
             @ApiResponse(responseCode = "400", description = "Invalid user ID supplied",
                          content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
             @ApiResponse(responseCode = "404", description = "User not found",

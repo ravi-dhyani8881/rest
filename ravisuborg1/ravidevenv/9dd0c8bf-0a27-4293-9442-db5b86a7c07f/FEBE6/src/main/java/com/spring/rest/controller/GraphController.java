@@ -177,7 +177,7 @@ public class GraphController {
 	@ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User found",
                          content = @Content(mediaType = "application/json",
-                         schema = @Schema(implementation = Graph.class))),
+                         schema = @Schema(implementation = GraphResponse.class))),
             @ApiResponse(responseCode = "400", description = "Invalid user ID supplied",
                          content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
             @ApiResponse(responseCode = "404", description = "User not found",

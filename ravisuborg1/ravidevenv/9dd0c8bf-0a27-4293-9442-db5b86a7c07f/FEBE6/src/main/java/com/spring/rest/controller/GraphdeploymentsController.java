@@ -177,7 +177,7 @@ public class GraphdeploymentsController {
 	@ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User found",
                          content = @Content(mediaType = "application/json",
-                         schema = @Schema(implementation = GraphDeployments.class))),
+                         schema = @Schema(implementation = GraphDeploymentsResponse.class))),
             @ApiResponse(responseCode = "400", description = "Invalid user ID supplied",
                          content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
             @ApiResponse(responseCode = "404", description = "User not found",
