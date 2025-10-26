@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.*;
 import com.spring.rest.model.Environment;
 import com.spring.rest.apiresponse.EnvironmentResponse;
 
+import com.spring.rest.custom.ErrorResponse;
 import com.spring.rest.custom.StandardApiResponses;
 import com.spring.rest.service.CommonDocumentService;
 import com.spring.rest.util.FacetFieldDTO;

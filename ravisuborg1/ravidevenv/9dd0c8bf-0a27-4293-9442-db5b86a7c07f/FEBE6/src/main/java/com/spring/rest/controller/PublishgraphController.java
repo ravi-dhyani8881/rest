@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.*;
 import com.spring.rest.model.PublishGraph;
 import com.spring.rest.apiresponse.PublishGraphResponse;
 
+import com.spring.rest.custom.ErrorResponse;
 import com.spring.rest.custom.StandardApiResponses;
 import com.spring.rest.service.CommonDocumentService;
 import com.spring.rest.util.FacetFieldDTO;
@@ -94,10 +95,10 @@ public class PublishgraphController {
 	            Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate( publishGraph, url);
 	            if (apiResponse instanceof Exception) {
 	                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	                        .body(ErrorResponse.of("internal_error", "Failed to save environment"));
+	                        .body(ErrorResponse.of("internal_error", "Failed to save publishGraph"));
 	            }
 	            return ResponseEntity.status(HttpStatus.CREATED)
-	                    .body(new ResponseMessage.Builder("Environment created successfully", 201)
+	                    .body(new ResponseMessage.Builder("PublishGraph created successfully", 201)
 	                            .withUserObject(publishGraph)
 	                            .build());
 	           }

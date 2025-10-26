@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.*;
 import com.spring.rest.model.PublishRest;
 import com.spring.rest.apiresponse.PublishRestResponse;
 
+import com.spring.rest.custom.ErrorResponse;
 import com.spring.rest.custom.StandardApiResponses;
 import com.spring.rest.service.CommonDocumentService;
 import com.spring.rest.util.FacetFieldDTO;
@@ -94,10 +95,10 @@ public class PublishrestController {
 	            Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate( publishRest, url);
 	            if (apiResponse instanceof Exception) {
 	                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	                        .body(ErrorResponse.of("internal_error", "Failed to save environment"));
+	                        .body(ErrorResponse.of("internal_error", "Failed to save publishRest"));
 	            }
 	            return ResponseEntity.status(HttpStatus.CREATED)
-	                    .body(new ResponseMessage.Builder("Environment created successfully", 201)
+	                    .body(new ResponseMessage.Builder("PublishRest created successfully", 201)
 	                            .withUserObject(publishRest)
 	                            .build());
 	           }
