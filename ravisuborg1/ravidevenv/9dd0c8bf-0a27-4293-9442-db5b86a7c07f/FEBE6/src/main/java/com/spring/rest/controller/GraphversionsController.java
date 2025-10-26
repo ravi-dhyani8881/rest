@@ -36,6 +36,8 @@ import org.springframework.web.bind.annotation.*;
 
 import com.spring.rest.model.GraphVersions;
 import com.spring.rest.apiresponse.GraphVersionsResponse;
+
+import com.spring.rest.custom.StandardApiResponses;
 import com.spring.rest.service.CommonDocumentService;
 import com.spring.rest.util.FacetFieldDTO;
 import com.spring.rest.util.FacetValueDTO;
@@ -63,48 +65,46 @@ public class GraphversionsController {
     
 		
 	@ApiOperation(value = "Service used to add Graphversions")
+	@StandardApiResponses
 	@RequestMapping(value="/graphVersions" , method=RequestMethod.POST)
-	public ModelMap  addGraphversions(@RequestBody  GraphVersions graphVersions
+	@ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "create a new Graphversions",
+                         content = @Content(mediaType = "application/json",
+                         schema = @Schema(implementation = Graphversions.class)))
+        })
+	public ResponseEntity<?>   addGraphversions(@RequestBody  GraphVersions graphVersions
  , HttpServletResponse response, HttpServletRequest request,
 			@RequestHeader(name="X-API-Key", required=true) String apiKeyx ,
 			@RequestHeader(name="X-USER-ID", required=true) String userId) {
 		
-	      ModelMap model = new ModelMap();
-	        String Id = ( graphVersions.getID() != null && ! graphVersions.getID().isEmpty()) ?  graphVersions.getID(): Utility.getUniqueId();
-	        try {
+	       try {
 	            // ✅ Validate API key
 	            int validationStatus = validationService.validateApiKey(apiKeyx, userId);
-	            if (validationStatus == 500) {
-	                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-	                return model.addAttribute("Message",
-	                        new ResponseMessage.Builder("Server down Internal server error", 500).build());
-	            } else if (validationStatus == 401) {
-	                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-	                return model.addAttribute("Message",
-	                        new ResponseMessage.Builder("Invalid Api Key", 403).build());
+	            if (validationStatus == 401) {
+	                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+	                        .body(ErrorResponse.of("unauthorized", "Invalid API key"));
+	            } else if (validationStatus == 500) {
+	                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                        .body(ErrorResponse.of("internal_error", "API validation service unavailable"));
 	            }
-	            // ✅ Ensure ID is set
-	            if ( graphVersions.getID() == null ||  graphVersions.getID().isEmpty()) {
-	            	 graphVersions.setID(Id);
-	            }
+	            
+				graphVersions.setID(Utility.getUniqueId());
+	             
 	            // Call service layer
 	            Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate( graphVersions, url);
 	            if (apiResponse instanceof Exception) {
-	                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-	                return model.addAttribute("Message",
-	                        new ResponseMessage.Builder("Server down Internal server error", 500).build());
+	                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                        .body(ErrorResponse.of("internal_error", "Failed to save environment"));
 	            }
-	            // ✅ Success Response
-	            return model.addAttribute("Message",
-	                    new ResponseMessage.Builder("Content added Successfully", 201)
-	                            
+	            return ResponseEntity.status(HttpStatus.CREATED)
+	                    .body(new ResponseMessage.Builder("Environment created successfully", 201)
 	                            .withUserObject(graphVersions)
-	                             .build());
-	        } catch (Exception e) {
+	                            .build());
+	           }
+	        catch (Exception e) {
 	            e.printStackTrace();
-	            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-	            return model.addAttribute("Message",
-	                    new ResponseMessage.Builder("Unexpected error occurred", 500).build());
+	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                    .body(ErrorResponse.of("internal_error", "Unexpected error occurred", e.getMessage()));
 	        }
 	    }
 	
