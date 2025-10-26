@@ -71,7 +71,7 @@ public class DeploymentconfigurationController {
 	@ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "create a new Deploymentconfiguration",
                          content = @Content(mediaType = "application/json",
-                         schema = @Schema(implementation = Deploymentconfiguration.class)))
+                         schema = @Schema(implementation = DeploymentConfiguration.class)))
         })
 	public ResponseEntity<?>   addDeploymentconfiguration(@RequestBody  DeploymentConfiguration deploymentConfiguration
  , HttpServletResponse response, HttpServletRequest request,

@@ -71,7 +71,7 @@ public class GraphversionsController {
 	@ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "create a new Graphversions",
                          content = @Content(mediaType = "application/json",
-                         schema = @Schema(implementation = Graphversions.class)))
+                         schema = @Schema(implementation = GraphVersions.class)))
         })
 	public ResponseEntity<?>   addGraphversions(@RequestBody  GraphVersions graphVersions
  , HttpServletResponse response, HttpServletRequest request,

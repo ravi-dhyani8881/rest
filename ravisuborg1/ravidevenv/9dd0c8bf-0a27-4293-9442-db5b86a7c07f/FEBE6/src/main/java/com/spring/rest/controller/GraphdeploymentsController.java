@@ -71,7 +71,7 @@ public class GraphdeploymentsController {
 	@ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "create a new Graphdeployments",
                          content = @Content(mediaType = "application/json",
-                         schema = @Schema(implementation = Graphdeployments.class)))
+                         schema = @Schema(implementation = GraphDeployments.class)))
         })
 	public ResponseEntity<?>   addGraphdeployments(@RequestBody  GraphDeployments graphDeployments
  , HttpServletResponse response, HttpServletRequest request,

@@ -71,7 +71,7 @@ public class ApikeyController {
 	@ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "create a new Apikey",
                          content = @Content(mediaType = "application/json",
-                         schema = @Schema(implementation = Apikey.class)))
+                         schema = @Schema(implementation = ApiKey.class)))
         })
 	public ResponseEntity<?>   addApikey(@RequestBody  ApiKey apiKey
  , HttpServletResponse response, HttpServletRequest request,

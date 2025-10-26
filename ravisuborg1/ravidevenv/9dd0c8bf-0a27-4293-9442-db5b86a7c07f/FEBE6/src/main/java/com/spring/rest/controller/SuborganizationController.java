@@ -71,7 +71,7 @@ public class SuborganizationController {
 	@ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "create a new Suborganization",
                          content = @Content(mediaType = "application/json",
-                         schema = @Schema(implementation = Suborganization.class)))
+                         schema = @Schema(implementation = SubOrganization.class)))
         })
 	public ResponseEntity<?>   addSuborganization(@RequestBody  SubOrganization subOrganization
  , HttpServletResponse response, HttpServletRequest request,

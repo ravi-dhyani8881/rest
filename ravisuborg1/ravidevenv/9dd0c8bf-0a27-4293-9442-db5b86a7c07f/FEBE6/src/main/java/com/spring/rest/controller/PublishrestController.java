@@ -71,7 +71,7 @@ public class PublishrestController {
 	@ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "create a new Publishrest",
                          content = @Content(mediaType = "application/json",
-                         schema = @Schema(implementation = Publishrest.class)))
+                         schema = @Schema(implementation = PublishRest.class)))
         })
 	public ResponseEntity<?>   addPublishrest(@RequestBody  PublishRest publishRest
  , HttpServletResponse response, HttpServletRequest request,

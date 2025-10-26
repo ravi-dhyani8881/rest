@@ -71,7 +71,7 @@ public class PublishgraphController {
 	@ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "create a new Publishgraph",
                          content = @Content(mediaType = "application/json",
-                         schema = @Schema(implementation = Publishgraph.class)))
+                         schema = @Schema(implementation = PublishGraph.class)))
         })
 	public ResponseEntity<?>   addPublishgraph(@RequestBody  PublishGraph publishGraph
  , HttpServletResponse response, HttpServletRequest request,

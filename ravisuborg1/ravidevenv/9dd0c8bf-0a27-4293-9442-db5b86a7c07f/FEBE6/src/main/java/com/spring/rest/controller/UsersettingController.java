@@ -71,7 +71,7 @@ public class UsersettingController {
 	@ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "create a new Usersetting",
                          content = @Content(mediaType = "application/json",
-                         schema = @Schema(implementation = Usersetting.class)))
+                         schema = @Schema(implementation = UserSetting.class)))
         })
 	public ResponseEntity<?>   addUsersetting(@RequestBody  UserSetting userSetting
  , HttpServletResponse response, HttpServletRequest request,
