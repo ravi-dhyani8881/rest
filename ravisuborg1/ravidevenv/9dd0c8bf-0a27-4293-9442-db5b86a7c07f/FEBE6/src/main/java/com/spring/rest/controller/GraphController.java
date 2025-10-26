@@ -174,17 +174,12 @@ public class GraphController {
 	}
 	
 	@ApiOperation(value = "This service used to search Graph by query")
+	@StandardApiResponses
 	@RequestMapping(value="/graph" , method=RequestMethod.GET)
 	@ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User found",
                          content = @Content(mediaType = "application/json",
-                         schema = @Schema(implementation = GraphResponse.class))),
-            @ApiResponse(responseCode = "400", description = "Invalid user ID supplied",
-                         content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
-            @ApiResponse(responseCode = "404", description = "User not found",
-                         content = @Content),
-            @ApiResponse(responseCode = "500", description = "Internal server error",
-                         content = @Content)
+                         schema = @Schema(implementation = GraphResponse.class)))
         })
 	public ModelMap  advanceSearch(@RequestParam(name = "query", required = true) String query,
 			@RequestParam(name = "rows",  defaultValue = "8", required = false) String rows ,
