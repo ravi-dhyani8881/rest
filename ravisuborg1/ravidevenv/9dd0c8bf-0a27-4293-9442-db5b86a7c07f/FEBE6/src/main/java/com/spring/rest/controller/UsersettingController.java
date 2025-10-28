@@ -112,7 +112,7 @@ public class UsersettingController {
 @ApiOperation(value = "This service used to update Usersetting")
 @StandardApiResponses	
 @RequestMapping(value="/userSetting" , method=RequestMethod.PUT)
-public ResponseEntity<ResponseMessage> updateuserSetting(
+public ResponseEntity<?> updateuserSetting(
         @RequestBody UserSetting userSetting,
         HttpServletResponse response,
         HttpServletRequest request,
@@ -155,7 +155,6 @@ public ResponseEntity<ResponseMessage> updateuserSetting(
         if (queryResponse.getResults().isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
-        }
 
        
         commonDocumentService.updateDocumentAndExceptionByTemplate(userSetting, url);

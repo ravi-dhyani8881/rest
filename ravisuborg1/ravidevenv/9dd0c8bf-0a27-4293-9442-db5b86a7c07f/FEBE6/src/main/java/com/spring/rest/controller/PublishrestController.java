@@ -112,7 +112,7 @@ public class PublishrestController {
 @ApiOperation(value = "This service used to update Publishrest")
 @StandardApiResponses	
 @RequestMapping(value="/publishRest" , method=RequestMethod.PUT)
-public ResponseEntity<ResponseMessage> updatepublishRest(
+public ResponseEntity<?> updatepublishRest(
         @RequestBody PublishRest publishRest,
         HttpServletResponse response,
         HttpServletRequest request,
@@ -155,7 +155,6 @@ public ResponseEntity<ResponseMessage> updatepublishRest(
         if (queryResponse.getResults().isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
-        }
 
        
         commonDocumentService.updateDocumentAndExceptionByTemplate(publishRest, url);

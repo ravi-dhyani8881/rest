@@ -112,7 +112,7 @@ public class SuborganizationController {
 @ApiOperation(value = "This service used to update Suborganization")
 @StandardApiResponses	
 @RequestMapping(value="/subOrganization" , method=RequestMethod.PUT)
-public ResponseEntity<ResponseMessage> updatesubOrganization(
+public ResponseEntity<?> updatesubOrganization(
         @RequestBody SubOrganization subOrganization,
         HttpServletResponse response,
         HttpServletRequest request,
@@ -155,7 +155,6 @@ public ResponseEntity<ResponseMessage> updatesubOrganization(
         if (queryResponse.getResults().isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
-        }
 
        
         commonDocumentService.updateDocumentAndExceptionByTemplate(subOrganization, url);

@@ -112,7 +112,7 @@ public class ConfigurationController {
 @ApiOperation(value = "This service used to update Configuration")
 @StandardApiResponses	
 @RequestMapping(value="/configuration" , method=RequestMethod.PUT)
-public ResponseEntity<ResponseMessage> updateConfiguration(
+public ResponseEntity<?> updateConfiguration(
         @RequestBody Configuration configuration,
         HttpServletResponse response,
         HttpServletRequest request,
@@ -155,7 +155,6 @@ public ResponseEntity<ResponseMessage> updateConfiguration(
         if (queryResponse.getResults().isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
-        }
 
        
         commonDocumentService.updateDocumentAndExceptionByTemplate(configuration, url);

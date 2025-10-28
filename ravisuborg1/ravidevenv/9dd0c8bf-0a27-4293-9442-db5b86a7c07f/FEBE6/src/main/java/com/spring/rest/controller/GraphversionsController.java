@@ -112,7 +112,7 @@ public class GraphversionsController {
 @ApiOperation(value = "This service used to update Graphversions")
 @StandardApiResponses	
 @RequestMapping(value="/graphVersions" , method=RequestMethod.PUT)
-public ResponseEntity<ResponseMessage> updategraphVersions(
+public ResponseEntity<?> updategraphVersions(
         @RequestBody GraphVersions graphVersions,
         HttpServletResponse response,
         HttpServletRequest request,
@@ -155,7 +155,6 @@ public ResponseEntity<ResponseMessage> updategraphVersions(
         if (queryResponse.getResults().isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
-        }
 
        
         commonDocumentService.updateDocumentAndExceptionByTemplate(graphVersions, url);

@@ -112,7 +112,7 @@ public class ApikeyController {
 @ApiOperation(value = "This service used to update Apikey")
 @StandardApiResponses	
 @RequestMapping(value="/apiKey" , method=RequestMethod.PUT)
-public ResponseEntity<ResponseMessage> updateapiKey(
+public ResponseEntity<?> updateapiKey(
         @RequestBody ApiKey apiKey,
         HttpServletResponse response,
         HttpServletRequest request,
@@ -155,7 +155,6 @@ public ResponseEntity<ResponseMessage> updateapiKey(
         if (queryResponse.getResults().isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
-        }
 
        
         commonDocumentService.updateDocumentAndExceptionByTemplate(apiKey, url);

@@ -112,7 +112,7 @@ public class GraphController {
 @ApiOperation(value = "This service used to update Graph")
 @StandardApiResponses	
 @RequestMapping(value="/graph" , method=RequestMethod.PUT)
-public ResponseEntity<ResponseMessage> updategraph(
+public ResponseEntity<?> updategraph(
         @RequestBody Graph graph,
         HttpServletResponse response,
         HttpServletRequest request,
@@ -155,7 +155,6 @@ public ResponseEntity<ResponseMessage> updategraph(
         if (queryResponse.getResults().isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
-        }
 
        
         commonDocumentService.updateDocumentAndExceptionByTemplate(graph, url);

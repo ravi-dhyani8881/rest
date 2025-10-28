@@ -112,7 +112,7 @@ public class EnvironmentController {
 @ApiOperation(value = "This service used to update Environment")
 @StandardApiResponses	
 @RequestMapping(value="/environment" , method=RequestMethod.PUT)
-public ResponseEntity<ResponseMessage> updateenvironment(
+public ResponseEntity<?> updateenvironment(
         @RequestBody Environment environment,
         HttpServletResponse response,
         HttpServletRequest request,
@@ -155,7 +155,6 @@ public ResponseEntity<ResponseMessage> updateenvironment(
         if (queryResponse.getResults().isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
-        }
 
        
         commonDocumentService.updateDocumentAndExceptionByTemplate(environment, url);

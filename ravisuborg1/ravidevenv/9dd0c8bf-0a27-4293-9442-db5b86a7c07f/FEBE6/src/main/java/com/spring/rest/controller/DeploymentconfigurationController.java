@@ -112,7 +112,7 @@ public class DeploymentconfigurationController {
 @ApiOperation(value = "This service used to update Deploymentconfiguration")
 @StandardApiResponses	
 @RequestMapping(value="/deploymentConfiguration" , method=RequestMethod.PUT)
-public ResponseEntity<ResponseMessage> updatedeploymentConfiguration(
+public ResponseEntity<?> updatedeploymentConfiguration(
         @RequestBody DeploymentConfiguration deploymentConfiguration,
         HttpServletResponse response,
         HttpServletRequest request,
@@ -155,7 +155,6 @@ public ResponseEntity<ResponseMessage> updatedeploymentConfiguration(
         if (queryResponse.getResults().isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
-        }
 
        
         commonDocumentService.updateDocumentAndExceptionByTemplate(deploymentConfiguration, url);

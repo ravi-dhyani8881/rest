@@ -112,7 +112,7 @@ public class PublishgraphController {
 @ApiOperation(value = "This service used to update Publishgraph")
 @StandardApiResponses	
 @RequestMapping(value="/publishGraph" , method=RequestMethod.PUT)
-public ResponseEntity<ResponseMessage> updatepublishGraph(
+public ResponseEntity<?> updatepublishGraph(
         @RequestBody PublishGraph publishGraph,
         HttpServletResponse response,
         HttpServletRequest request,
@@ -155,7 +155,6 @@ public ResponseEntity<ResponseMessage> updatepublishGraph(
         if (queryResponse.getResults().isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
-        }
 
        
         commonDocumentService.updateDocumentAndExceptionByTemplate(publishGraph, url);

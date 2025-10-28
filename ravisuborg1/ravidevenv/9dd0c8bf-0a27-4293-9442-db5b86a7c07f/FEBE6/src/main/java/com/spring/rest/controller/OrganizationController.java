@@ -112,7 +112,7 @@ public class OrganizationController {
 @ApiOperation(value = "This service used to update Organization")
 @StandardApiResponses	
 @RequestMapping(value="/organization" , method=RequestMethod.PUT)
-public ResponseEntity<ResponseMessage> updateorganization(
+public ResponseEntity<?> updateorganization(
         @RequestBody Organization organization,
         HttpServletResponse response,
         HttpServletRequest request,
@@ -155,7 +155,6 @@ public ResponseEntity<ResponseMessage> updateorganization(
         if (queryResponse.getResults().isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
-        }
 
        
         commonDocumentService.updateDocumentAndExceptionByTemplate(organization, url);
