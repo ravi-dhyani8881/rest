@@ -110,68 +110,72 @@ public class PublishrestController {
 	    }
 	
 @ApiOperation(value = "This service used to update Publishrest")
-	@RequestMapping(value="/publishRest" , method=RequestMethod.PUT)
-	public ModelMap  updatepublishRest(@RequestBody  PublishRest publishRest, HttpServletResponse response, HttpServletRequest request,
-			@RequestHeader(name="X-API-Key", required=true) String apiKeyx ,
-			@RequestHeader(name="X-USER-ID", required=true) String userIdx) {
+@StandardApiResponses	
+@RequestMapping(value="/publishRest" , method=RequestMethod.PUT)
+public ResponseEntity<ResponseMessage> updatepublishRest(
+        @RequestBody PublishRest publishRest,
+        HttpServletResponse response,
+        HttpServletRequest request,
+        @RequestHeader(name = "X-API-Key", required = true) String apiKeyx,
+        @RequestHeader(name = "X-USER-ID", required = true) String userIdx) {
 
-	    ModelMap model = new ModelMap();
-	    String publishRestId = null;
+    String publishRestId = null;
 
-	    try {
-	        // ✅ Validate API Key
-	        int validationStatus = validationService.validateApiKey(apiKeyx, userIdx);
-	        if (validationStatus == 500) {
-	            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-	            return model.addAttribute("Message",
-	                    new ResponseMessage.Builder("Server down Internal server error", 500).build());
-	        } else if (validationStatus == 401) {
-	            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-	            return model.addAttribute("Message",
-	                    new ResponseMessage.Builder("Invalid Api Key", 401).build());
-	        }
+    try {
+        // ✅ Validate API Key
+        int validationStatus = validationService.validateApiKey(apiKeyx, userIdx);
 
-	        // ✅ Check for ID in Customers POJO
+         if (validationStatus == 401) {
+	                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+	                        .body(ErrorResponse.of("unauthorized", "Invalid API key"));
+	            } else if (validationStatus == 500) {
+	                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                        .body(ErrorResponse.of("internal_error", "API validation service unavailable"));
+	            }
+
+         // ✅ Check for ID in Customers POJO
 	        if (publishRest.getID() == null || publishRest.getID().trim().isEmpty()) {
 	            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 	            return model.addAttribute("Message",
 	                    new ResponseMessage.Builder("Unique ID missing from request, Invalid ID", 400).build());
 	        }
 
+    
 	        publishRestId = publishRest.getID();
-
-	        // ✅ Query Solr for existing record
+            
+            // ✅ Query Solr for existing record
 	        Object apiResponse = commonDocumentService.advanceQueryAndExceptionByTemplate("ID:" + publishRestId, url);
 
-	        if (apiResponse instanceof Exception) {
-	            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-	            return model.addAttribute("Message",
-	                    new ResponseMessage.Builder("Server down Internal server error", 500).build());
-	        } else if (((QueryResponse) apiResponse).getResults().isEmpty()) {
-	            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-	            return model.addAttribute("Message",
-	                    new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
-	        } else {
-	            // ✅ Found existing doc → update
-	            SolrDocument solrDocument = ((QueryResponse) apiResponse).getResults().get(0);
-	            commonDocumentService.updateDocumentAndExceptionByTemplate(publishRest, url);
-	        }
+        if (apiResponse instanceof Exception) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseMessage.Builder("Server down Internal server error", 500).build());
+        }
 
-	        // ✅ Success Response
-	        return model.addAttribute("Message",
-	                new ResponseMessage.Builder("Content updated Successfully", 201)
-	                        .withID(publishRestId)
-	                        .withUserObject(publishRest)
-	                        .withResponseType("updated")
-	                        .build());
+        QueryResponse queryResponse = (QueryResponse) apiResponse;
+        if (queryResponse.getResults().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
+        }
 
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-	        return model.addAttribute("Message",
-	                new ResponseMessage.Builder("Server down Internal server error", 500).build());
-	    }
-	}
+       
+        commonDocumentService.updateDocumentAndExceptionByTemplate(publishRest, url);
+
+        // ✅ Success Response
+        ResponseMessage successResponse = new ResponseMessage.Builder("Content updated Successfully", 200)
+                .withID(environmentId)
+                .withUserObject(environment)
+                .withResponseType("updated")
+                .build();
+
+        return ResponseEntity.ok(successResponse);
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ResponseMessage.Builder("Unexpected server error occurred", 500).build());
+    }
+}
+
 	
 	@ApiOperation(value = "This service used to search Publishrest by query")
 	@StandardApiResponses

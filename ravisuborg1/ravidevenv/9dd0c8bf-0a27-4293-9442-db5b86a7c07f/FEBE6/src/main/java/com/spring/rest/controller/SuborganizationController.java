@@ -110,68 +110,72 @@ public class SuborganizationController {
 	    }
 	
 @ApiOperation(value = "This service used to update Suborganization")
-	@RequestMapping(value="/subOrganization" , method=RequestMethod.PUT)
-	public ModelMap  updatesubOrganization(@RequestBody  SubOrganization subOrganization, HttpServletResponse response, HttpServletRequest request,
-			@RequestHeader(name="X-API-Key", required=true) String apiKeyx ,
-			@RequestHeader(name="X-USER-ID", required=true) String userIdx) {
+@StandardApiResponses	
+@RequestMapping(value="/subOrganization" , method=RequestMethod.PUT)
+public ResponseEntity<ResponseMessage> updatesubOrganization(
+        @RequestBody SubOrganization subOrganization,
+        HttpServletResponse response,
+        HttpServletRequest request,
+        @RequestHeader(name = "X-API-Key", required = true) String apiKeyx,
+        @RequestHeader(name = "X-USER-ID", required = true) String userIdx) {
 
-	    ModelMap model = new ModelMap();
-	    String subOrganizationId = null;
+    String subOrganizationId = null;
 
-	    try {
-	        // ✅ Validate API Key
-	        int validationStatus = validationService.validateApiKey(apiKeyx, userIdx);
-	        if (validationStatus == 500) {
-	            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-	            return model.addAttribute("Message",
-	                    new ResponseMessage.Builder("Server down Internal server error", 500).build());
-	        } else if (validationStatus == 401) {
-	            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-	            return model.addAttribute("Message",
-	                    new ResponseMessage.Builder("Invalid Api Key", 401).build());
-	        }
+    try {
+        // ✅ Validate API Key
+        int validationStatus = validationService.validateApiKey(apiKeyx, userIdx);
 
-	        // ✅ Check for ID in Customers POJO
+         if (validationStatus == 401) {
+	                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+	                        .body(ErrorResponse.of("unauthorized", "Invalid API key"));
+	            } else if (validationStatus == 500) {
+	                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                        .body(ErrorResponse.of("internal_error", "API validation service unavailable"));
+	            }
+
+         // ✅ Check for ID in Customers POJO
 	        if (subOrganization.getID() == null || subOrganization.getID().trim().isEmpty()) {
 	            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 	            return model.addAttribute("Message",
 	                    new ResponseMessage.Builder("Unique ID missing from request, Invalid ID", 400).build());
 	        }
 
+    
 	        subOrganizationId = subOrganization.getID();
-
-	        // ✅ Query Solr for existing record
+            
+            // ✅ Query Solr for existing record
 	        Object apiResponse = commonDocumentService.advanceQueryAndExceptionByTemplate("ID:" + subOrganizationId, url);
 
-	        if (apiResponse instanceof Exception) {
-	            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-	            return model.addAttribute("Message",
-	                    new ResponseMessage.Builder("Server down Internal server error", 500).build());
-	        } else if (((QueryResponse) apiResponse).getResults().isEmpty()) {
-	            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-	            return model.addAttribute("Message",
-	                    new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
-	        } else {
-	            // ✅ Found existing doc → update
-	            SolrDocument solrDocument = ((QueryResponse) apiResponse).getResults().get(0);
-	            commonDocumentService.updateDocumentAndExceptionByTemplate(subOrganization, url);
-	        }
+        if (apiResponse instanceof Exception) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseMessage.Builder("Server down Internal server error", 500).build());
+        }
 
-	        // ✅ Success Response
-	        return model.addAttribute("Message",
-	                new ResponseMessage.Builder("Content updated Successfully", 201)
-	                        .withID(subOrganizationId)
-	                        .withUserObject(subOrganization)
-	                        .withResponseType("updated")
-	                        .build());
+        QueryResponse queryResponse = (QueryResponse) apiResponse;
+        if (queryResponse.getResults().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
+        }
 
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-	        return model.addAttribute("Message",
-	                new ResponseMessage.Builder("Server down Internal server error", 500).build());
-	    }
-	}
+       
+        commonDocumentService.updateDocumentAndExceptionByTemplate(subOrganization, url);
+
+        // ✅ Success Response
+        ResponseMessage successResponse = new ResponseMessage.Builder("Content updated Successfully", 200)
+                .withID(environmentId)
+                .withUserObject(environment)
+                .withResponseType("updated")
+                .build();
+
+        return ResponseEntity.ok(successResponse);
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ResponseMessage.Builder("Unexpected server error occurred", 500).build());
+    }
+}
+
 	
 	@ApiOperation(value = "This service used to search Suborganization by query")
 	@StandardApiResponses
