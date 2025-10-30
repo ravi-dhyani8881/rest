@@ -160,8 +160,8 @@ public ResponseEntity<?> updateapiKey(
 
         // ✅ Success Response
         ResponseMessage successResponse = new ResponseMessage.Builder("Content updated Successfully", 200)
-                .withID(environmentId)
-                .withUserObject(environment)
+                .withID(apiKeyId)
+                .withUserObject(apiKey)
                 .withResponseType("updated")
                 .build();
 

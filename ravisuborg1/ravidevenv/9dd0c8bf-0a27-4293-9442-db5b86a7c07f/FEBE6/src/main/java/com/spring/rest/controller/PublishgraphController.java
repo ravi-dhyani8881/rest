@@ -160,8 +160,8 @@ public ResponseEntity<?> updatepublishGraph(
 
         // ✅ Success Response
         ResponseMessage successResponse = new ResponseMessage.Builder("Content updated Successfully", 200)
-                .withID(environmentId)
-                .withUserObject(environment)
+                .withID(publishGraphId)
+                .withUserObject(publishGraph)
                 .withResponseType("updated")
                 .build();
 

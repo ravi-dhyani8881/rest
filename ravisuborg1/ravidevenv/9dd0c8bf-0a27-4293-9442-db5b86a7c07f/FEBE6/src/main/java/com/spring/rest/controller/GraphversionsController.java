@@ -160,8 +160,8 @@ public ResponseEntity<?> updategraphVersions(
 
         // ✅ Success Response
         ResponseMessage successResponse = new ResponseMessage.Builder("Content updated Successfully", 200)
-                .withID(environmentId)
-                .withUserObject(environment)
+                .withID(graphVersionsId)
+                .withUserObject(graphVersions)
                 .withResponseType("updated")
                 .build();
 

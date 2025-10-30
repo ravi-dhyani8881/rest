@@ -160,8 +160,8 @@ public ResponseEntity<?> updatesubOrganization(
 
         // ✅ Success Response
         ResponseMessage successResponse = new ResponseMessage.Builder("Content updated Successfully", 200)
-                .withID(environmentId)
-                .withUserObject(environment)
+                .withID(subOrganizationId)
+                .withUserObject(subOrganization)
                 .withResponseType("updated")
                 .build();
 

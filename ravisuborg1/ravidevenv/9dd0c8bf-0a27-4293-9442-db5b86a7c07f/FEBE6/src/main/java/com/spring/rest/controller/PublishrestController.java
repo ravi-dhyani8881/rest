@@ -160,8 +160,8 @@ public ResponseEntity<?> updatepublishRest(
 
         // ✅ Success Response
         ResponseMessage successResponse = new ResponseMessage.Builder("Content updated Successfully", 200)
-                .withID(environmentId)
-                .withUserObject(environment)
+                .withID(publishRestId)
+                .withUserObject(publishRest)
                 .withResponseType("updated")
                 .build();
 

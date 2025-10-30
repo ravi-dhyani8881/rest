@@ -160,8 +160,8 @@ public ResponseEntity<?> updateConfiguration(
 
         // ✅ Success Response
         ResponseMessage successResponse = new ResponseMessage.Builder("Content updated Successfully", 200)
-                .withID(environmentId)
-                .withUserObject(environment)
+                .withID(configurationId)
+                .withUserObject(configuration)
                 .withResponseType("updated")
                 .build();
 
