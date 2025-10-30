@@ -154,7 +154,7 @@ public ResponseEntity<?> updatedeploymentConfiguration(
         if (queryResponse.getResults().isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
-
+		}
        
         commonDocumentService.updateDocumentAndExceptionByTemplate(deploymentConfiguration, url);
 
