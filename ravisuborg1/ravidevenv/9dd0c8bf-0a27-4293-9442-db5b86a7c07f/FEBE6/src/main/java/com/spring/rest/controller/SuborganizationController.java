@@ -135,9 +135,8 @@ public ResponseEntity<?> updatesubOrganization(
 
          // ✅ Check for ID in Customers POJO
 	        if (subOrganization.getID() == null || subOrganization.getID().trim().isEmpty()) {
-	            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-	            return model.addAttribute("Message",
-	                    new ResponseMessage.Builder("Unique ID missing from request, Invalid ID", 400).build());
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
 	        }
 
     
