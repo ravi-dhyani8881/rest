@@ -307,51 +307,55 @@ public ResponseEntity<?> updategraphVersions(
 		}
 	}
 	
-	@ApiOperation(value = "This service delete Graphversions by query")
-	@RequestMapping(value="/graphVersions" , method=RequestMethod.DELETE)
-	public ModelMap  deleteByQuery(@RequestParam(name = "query", required = true) String query , 
-			HttpServletResponse response, HttpServletRequest request,
-			@RequestHeader(name="X-API-Key", required=true) String apiKey ,
-			@RequestHeader(name="X-USER-ID", required=true) String userId) {
-		
-		ModelMap model=new ModelMap();
-		
-		
-		if(validationService.validateApiKey(apiKey, userId) == 500 )
-		{	
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-		//	return model.addAttribute("Message", new ResponseMessage("Server down Internal server error", 500));
-			return model.addAttribute("Message", new ResponseMessage.Builder("Server down Internal server error", 500).build());
-			 
-		}else if(validationService.validateApiKey(apiKey, userId) == 401) {
-			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-			 // return model.addAttribute("Message", new ResponseMessage("Invalid Api Key",401));
-			return model.addAttribute("Message", new ResponseMessage.Builder("Invalid Api Key", 401).build());
-			
-		}
-		
-		Object apiResponse = commonDocumentService.deleteDocumentAndExceptionByTemplate(query, url);
-		
-		if(apiResponse instanceof Exception )
-		{
-			if(((Exception) apiResponse).getMessage().contains("SyntaxError")) {
-				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			//	return model.addAttribute("Message", new ResponseMessage("Invalid Query or SyntaxError, SyntaxError", 401));
-				return model.addAttribute("Message", new ResponseMessage.Builder("Invalid Api Key", 401).build());
-				
-			}else{
-				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			//	return model.addAttribute("Message", new ResponseMessage("Server down Internal server error", 500));
-				return model.addAttribute("Message", new ResponseMessage.Builder("Server down Internal server error", 500).build());
-			}
-		}
-	//	return model.addAttribute("Message", new ResponseMessage("Content deleted Sucesfully with Query", 200,query,"deleted"));
-		return model.addAttribute("Message", new ResponseMessage.Builder("Graphversions deleted Sucesfully with Query", 200)
-																.withQuery(query)
-																.withResponseType("deleted")
-																.build());
-													}
+@ApiOperation(value = "This service delete Graphversions by query")
+@StandardApiResponses
+@DeleteMapping("/graphVersions")
+public ResponseEntity<?> deleteByQuery(
+        @RequestParam(name = "query") String query,
+        @RequestHeader(name = "X-API-Key", required = true) String apiKey,
+        @RequestHeader(name = "X-USER-ID", required = true) String userId) {
 
+    try {
+        // ✅ Validate API Key
+        int validationStatus = validationService.validateApiKey(apiKey, userId);
+
+        if (validationStatus == 500) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseMessage.Builder("Server down Internal server error", 500).build());
+        } else if (validationStatus == 401) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ResponseMessage.Builder("Invalid API Key", 401).build());
+        }
+
+        // ✅ Delete Operation
+        Object apiResponse = commonDocumentService.deleteDocumentAndExceptionByTemplate(query, url);
+
+        if (apiResponse instanceof Exception) {
+            Exception ex = (Exception) apiResponse;
+
+            if (ex.getMessage().contains("SyntaxError")) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(new ResponseMessage.Builder("Invalid Query or Syntax Error", 400).build());
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(new ResponseMessage.Builder("Server down Internal server error", 500).build());
+            }
+        }
+
+        // ✅ Success
+        return ResponseEntity.ok(
+                new ResponseMessage.Builder("Graphversions deleted successfully with Query", 200)
+                        .withQuery(query)
+                        .withResponseType("deleted")
+                        .build()
+        );
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ResponseMessage.Builder("Unexpected error occurred", 500).build());
+    }
+}
 
 //	public Map<String, Object> createDoc(Map<String, Object> payload , SolrDocument solrDocument) {
 //		solrDocument.forEach((k,v) ->{
