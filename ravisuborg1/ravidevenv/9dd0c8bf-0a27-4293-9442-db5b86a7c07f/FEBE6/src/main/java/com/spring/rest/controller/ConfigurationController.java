@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import springfox.documentation.annotations.ApiIgnore;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.http.ResponseEntity;
@@ -243,6 +244,7 @@ public ResponseEntity<?> updateConfiguration(
 		}
 	}
 	
+	@ApiIgnore
 	@ApiOperation(value = "This service used to search content by query")
 	@RequestMapping(value="/searchConfigurationById" , method=RequestMethod.GET)
 	public ModelMap  searchContentById(@RequestParam(name = "Id", required = true) String query,
@@ -379,7 +381,7 @@ public ResponseEntity<?> deleteByQuery(
 	    return updatedDoc;
 	}
 
-
+	@ApiIgnore
 	@GetMapping("/findByQuery")
 	public  ResponseEntity<ResponseMessage>  advanceSearch(@RequestParam(name = "query", required = true) String query,
 			@RequestParam(name = "rows",  defaultValue = "8", required = false) String rows ,
