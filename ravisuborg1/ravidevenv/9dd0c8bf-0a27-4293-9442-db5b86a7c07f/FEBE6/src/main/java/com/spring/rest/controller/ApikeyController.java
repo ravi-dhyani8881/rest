@@ -57,7 +57,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @ExposesResourceFor(ApikeyController.class)
 // @RequestMapping("/Apikey")
-// @RequestMapping("/api")
+@RequestMapping("/api")
 public class ApikeyController {
 	
 	@Autowired

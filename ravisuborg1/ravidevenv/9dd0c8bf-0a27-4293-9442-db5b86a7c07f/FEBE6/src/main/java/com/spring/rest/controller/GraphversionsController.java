@@ -57,7 +57,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @ExposesResourceFor(GraphversionsController.class)
 // @RequestMapping("/Graphversions")
-// @RequestMapping("/api")
+@RequestMapping("/api")
 public class GraphversionsController {
 	
 	@Autowired

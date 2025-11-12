@@ -57,7 +57,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @ExposesResourceFor(ConfigurationController.class)
 // @RequestMapping("/Configuration")
-// @RequestMapping("/api")
+@RequestMapping("/api")
 public class ConfigurationController {
 	
 	@Autowired

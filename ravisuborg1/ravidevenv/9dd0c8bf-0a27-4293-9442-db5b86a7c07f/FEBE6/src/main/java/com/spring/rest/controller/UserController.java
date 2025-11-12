@@ -57,7 +57,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @ExposesResourceFor(UserController.class)
 // @RequestMapping("/User")
-// @RequestMapping("/api")
+@RequestMapping("/api")
 public class UserController {
 	
 	@Autowired
