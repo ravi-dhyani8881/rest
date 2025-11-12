@@ -315,7 +315,7 @@ public ResponseEntity<?> updategraphVersions(
 @ApiOperation(value = "This service delete Graphversions by query")
 @StandardApiResponses
 @DeleteMapping("/graphVersions")
-public ResponseEntity<?> deleteByQuery(
+public ResponseEntity<?> deleteGraphversionsByQuery(
         @RequestParam(name = "query") String query,
         @RequestHeader(name = "X-API-Key", required = true) String apiKey,
         @RequestHeader(name = "X-USER-ID", required = true) String userId) {

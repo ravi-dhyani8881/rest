@@ -315,7 +315,7 @@ public ResponseEntity<?> updatedeploymentConfiguration(
 @ApiOperation(value = "This service delete Deploymentconfiguration by query")
 @StandardApiResponses
 @DeleteMapping("/deploymentConfiguration")
-public ResponseEntity<?> deleteByQuery(
+public ResponseEntity<?> deleteDeploymentconfigurationByQuery(
         @RequestParam(name = "query") String query,
         @RequestHeader(name = "X-API-Key", required = true) String apiKey,
         @RequestHeader(name = "X-USER-ID", required = true) String userId) {

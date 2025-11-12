@@ -315,7 +315,7 @@ public ResponseEntity<?> updateapiKey(
 @ApiOperation(value = "This service delete Apikey by query")
 @StandardApiResponses
 @DeleteMapping("/apiKey")
-public ResponseEntity<?> deleteByQuery(
+public ResponseEntity<?> deleteApikeyByQuery(
         @RequestParam(name = "query") String query,
         @RequestHeader(name = "X-API-Key", required = true) String apiKey,
         @RequestHeader(name = "X-USER-ID", required = true) String userId) {

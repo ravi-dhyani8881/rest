@@ -315,7 +315,7 @@ public ResponseEntity<?> updateuserSetting(
 @ApiOperation(value = "This service delete Usersetting by query")
 @StandardApiResponses
 @DeleteMapping("/userSetting")
-public ResponseEntity<?> deleteByQuery(
+public ResponseEntity<?> deleteUsersettingByQuery(
         @RequestParam(name = "query") String query,
         @RequestHeader(name = "X-API-Key", required = true) String apiKey,
         @RequestHeader(name = "X-USER-ID", required = true) String userId) {

@@ -315,7 +315,7 @@ public ResponseEntity<?> updatesubOrganization(
 @ApiOperation(value = "This service delete Suborganization by query")
 @StandardApiResponses
 @DeleteMapping("/subOrganization")
-public ResponseEntity<?> deleteByQuery(
+public ResponseEntity<?> deleteSuborganizationByQuery(
         @RequestParam(name = "query") String query,
         @RequestHeader(name = "X-API-Key", required = true) String apiKey,
         @RequestHeader(name = "X-USER-ID", required = true) String userId) {

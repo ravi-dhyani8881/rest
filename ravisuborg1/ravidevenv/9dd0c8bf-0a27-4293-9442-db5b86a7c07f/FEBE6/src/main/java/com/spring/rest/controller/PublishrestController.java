@@ -315,7 +315,7 @@ public ResponseEntity<?> updatepublishRest(
 @ApiOperation(value = "This service delete Publishrest by query")
 @StandardApiResponses
 @DeleteMapping("/publishRest")
-public ResponseEntity<?> deleteByQuery(
+public ResponseEntity<?> deletePublishrestByQuery(
         @RequestParam(name = "query") String query,
         @RequestHeader(name = "X-API-Key", required = true) String apiKey,
         @RequestHeader(name = "X-USER-ID", required = true) String userId) {

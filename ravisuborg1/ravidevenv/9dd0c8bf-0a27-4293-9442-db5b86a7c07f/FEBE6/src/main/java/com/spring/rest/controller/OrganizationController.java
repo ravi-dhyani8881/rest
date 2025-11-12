@@ -315,7 +315,7 @@ public ResponseEntity<?> updateorganization(
 @ApiOperation(value = "This service delete Organization by query")
 @StandardApiResponses
 @DeleteMapping("/organization")
-public ResponseEntity<?> deleteByQuery(
+public ResponseEntity<?> deleteOrganizationByQuery(
         @RequestParam(name = "query") String query,
         @RequestHeader(name = "X-API-Key", required = true) String apiKey,
         @RequestHeader(name = "X-USER-ID", required = true) String userId) {

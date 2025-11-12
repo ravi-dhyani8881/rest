@@ -315,7 +315,7 @@ public ResponseEntity<?> updateenvironment(
 @ApiOperation(value = "This service delete Environment by query")
 @StandardApiResponses
 @DeleteMapping("/environment")
-public ResponseEntity<?> deleteByQuery(
+public ResponseEntity<?> deleteEnvironmentByQuery(
         @RequestParam(name = "query") String query,
         @RequestHeader(name = "X-API-Key", required = true) String apiKey,
         @RequestHeader(name = "X-USER-ID", required = true) String userId) {
