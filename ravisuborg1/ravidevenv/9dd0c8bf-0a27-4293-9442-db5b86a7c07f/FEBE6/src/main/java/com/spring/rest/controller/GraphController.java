@@ -56,7 +56,8 @@ import io.swagger.annotations.ApiOperation;
 @Api(value = "Graph Mangment System" , description = "Service used to perform operation on graph.", tags = "graph")
 @RestController
 @ExposesResourceFor(GraphController.class)
-@RequestMapping("/Graph")
+// @RequestMapping("/Graph")
+// @RequestMapping("/api")
 public class GraphController {
 	
 	@Autowired
@@ -68,7 +69,7 @@ public class GraphController {
     String url=SolrUrls.GRAPH_URL;
     
 		
-	@ApiOperation(value = "Service used to add Graph")
+	@ApiOperation(value = "Service used to create Graph")
 	@StandardApiResponses
 	@RequestMapping(value="/graph" , method=RequestMethod.POST)
 	@ApiResponses(value = {
@@ -76,7 +77,7 @@ public class GraphController {
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = Graph.class)))
         })
-	public ResponseEntity<?>   addGraph(@RequestBody  Graph graph
+	public ResponseEntity<?>   createGraph(@RequestBody  Graph graph
  , HttpServletResponse response, HttpServletRequest request,
 			@RequestHeader(name="X-API-Key", required=true) String apiKeyx ,
 			@RequestHeader(name="X-USER-ID", required=true) String userId) {
@@ -186,7 +187,7 @@ public ResponseEntity<?> updategraph(
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = GraphResponse.class)))
         })
-	public ModelMap  advanceSearch(@RequestParam(name = "query", required = true) String query,
+	public ModelMap  searchGraph(@RequestParam(name = "query", required = true) String query,
 			@RequestParam(name = "rows",  defaultValue = "8", required = false) String rows ,
 			@RequestParam(name = "start",defaultValue = "0", required = false) String start,
 			@RequestParam(name = "fl" ,defaultValue = "" , required = false) String fl ,

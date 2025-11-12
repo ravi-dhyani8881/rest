@@ -56,7 +56,8 @@ import io.swagger.annotations.ApiOperation;
 @Api(value = "Configuration Mangment System" , description = "Service used to perform operation on Configuration.", tags = "Configuration")
 @RestController
 @ExposesResourceFor(ConfigurationController.class)
-@RequestMapping("/Configuration")
+// @RequestMapping("/Configuration")
+// @RequestMapping("/api")
 public class ConfigurationController {
 	
 	@Autowired
@@ -68,7 +69,7 @@ public class ConfigurationController {
     String url=SolrUrls.CONFIGURATION_URL;
     
 		
-	@ApiOperation(value = "Service used to add Configuration")
+	@ApiOperation(value = "Service used to create Configuration")
 	@StandardApiResponses
 	@RequestMapping(value="/configuration" , method=RequestMethod.POST)
 	@ApiResponses(value = {
@@ -76,7 +77,7 @@ public class ConfigurationController {
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = Configuration.class)))
         })
-	public ResponseEntity<?>   addConfiguration(@RequestBody  Configuration configuration
+	public ResponseEntity<?>   createConfiguration(@RequestBody  Configuration configuration
  , HttpServletResponse response, HttpServletRequest request,
 			@RequestHeader(name="X-API-Key", required=true) String apiKeyx ,
 			@RequestHeader(name="X-USER-ID", required=true) String userId) {
@@ -186,7 +187,7 @@ public ResponseEntity<?> updateConfiguration(
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = ConfigurationResponse.class)))
         })
-	public ModelMap  advanceSearch(@RequestParam(name = "query", required = true) String query,
+	public ModelMap  searchConfiguration(@RequestParam(name = "query", required = true) String query,
 			@RequestParam(name = "rows",  defaultValue = "8", required = false) String rows ,
 			@RequestParam(name = "start",defaultValue = "0", required = false) String start,
 			@RequestParam(name = "fl" ,defaultValue = "" , required = false) String fl ,

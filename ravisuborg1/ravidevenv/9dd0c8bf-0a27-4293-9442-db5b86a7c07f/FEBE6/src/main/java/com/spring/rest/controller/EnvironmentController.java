@@ -56,7 +56,8 @@ import io.swagger.annotations.ApiOperation;
 @Api(value = "Environment Mangment System" , description = "Service used to perform operation on environment.", tags = "environment")
 @RestController
 @ExposesResourceFor(EnvironmentController.class)
-@RequestMapping("/Environment")
+// @RequestMapping("/Environment")
+// @RequestMapping("/api")
 public class EnvironmentController {
 	
 	@Autowired
@@ -68,7 +69,7 @@ public class EnvironmentController {
     String url=SolrUrls.ENVIRONMENT_URL;
     
 		
-	@ApiOperation(value = "Service used to add Environment")
+	@ApiOperation(value = "Service used to create Environment")
 	@StandardApiResponses
 	@RequestMapping(value="/environment" , method=RequestMethod.POST)
 	@ApiResponses(value = {
@@ -76,7 +77,7 @@ public class EnvironmentController {
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = Environment.class)))
         })
-	public ResponseEntity<?>   addEnvironment(@RequestBody  Environment environment
+	public ResponseEntity<?>   createEnvironment(@RequestBody  Environment environment
  , HttpServletResponse response, HttpServletRequest request,
 			@RequestHeader(name="X-API-Key", required=true) String apiKeyx ,
 			@RequestHeader(name="X-USER-ID", required=true) String userId) {
@@ -186,7 +187,7 @@ public ResponseEntity<?> updateenvironment(
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = EnvironmentResponse.class)))
         })
-	public ModelMap  advanceSearch(@RequestParam(name = "query", required = true) String query,
+	public ModelMap  searchEnvironment(@RequestParam(name = "query", required = true) String query,
 			@RequestParam(name = "rows",  defaultValue = "8", required = false) String rows ,
 			@RequestParam(name = "start",defaultValue = "0", required = false) String start,
 			@RequestParam(name = "fl" ,defaultValue = "" , required = false) String fl ,

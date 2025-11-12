@@ -56,7 +56,8 @@ import io.swagger.annotations.ApiOperation;
 @Api(value = "Organization Mangment System" , description = "Service used to perform operation on organization.", tags = "organization")
 @RestController
 @ExposesResourceFor(OrganizationController.class)
-@RequestMapping("/Organization")
+// @RequestMapping("/Organization")
+// @RequestMapping("/api")
 public class OrganizationController {
 	
 	@Autowired
@@ -68,7 +69,7 @@ public class OrganizationController {
     String url=SolrUrls.ORGANIZATION_URL;
     
 		
-	@ApiOperation(value = "Service used to add Organization")
+	@ApiOperation(value = "Service used to create Organization")
 	@StandardApiResponses
 	@RequestMapping(value="/organization" , method=RequestMethod.POST)
 	@ApiResponses(value = {
@@ -76,7 +77,7 @@ public class OrganizationController {
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = Organization.class)))
         })
-	public ResponseEntity<?>   addOrganization(@RequestBody  Organization organization
+	public ResponseEntity<?>   createOrganization(@RequestBody  Organization organization
  , HttpServletResponse response, HttpServletRequest request,
 			@RequestHeader(name="X-API-Key", required=true) String apiKeyx ,
 			@RequestHeader(name="X-USER-ID", required=true) String userId) {
@@ -186,7 +187,7 @@ public ResponseEntity<?> updateorganization(
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = OrganizationResponse.class)))
         })
-	public ModelMap  advanceSearch(@RequestParam(name = "query", required = true) String query,
+	public ModelMap  searchOrganization(@RequestParam(name = "query", required = true) String query,
 			@RequestParam(name = "rows",  defaultValue = "8", required = false) String rows ,
 			@RequestParam(name = "start",defaultValue = "0", required = false) String start,
 			@RequestParam(name = "fl" ,defaultValue = "" , required = false) String fl ,

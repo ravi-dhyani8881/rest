@@ -56,7 +56,8 @@ import io.swagger.annotations.ApiOperation;
 @Api(value = "Publishgraph Mangment System" , description = "Service used to perform operation on publishGraph.", tags = "publishGraph")
 @RestController
 @ExposesResourceFor(PublishgraphController.class)
-@RequestMapping("/Publishgraph")
+// @RequestMapping("/Publishgraph")
+// @RequestMapping("/api")
 public class PublishgraphController {
 	
 	@Autowired
@@ -68,7 +69,7 @@ public class PublishgraphController {
     String url=SolrUrls.PUBLISHGRAPH_URL;
     
 		
-	@ApiOperation(value = "Service used to add Publishgraph")
+	@ApiOperation(value = "Service used to create Publishgraph")
 	@StandardApiResponses
 	@RequestMapping(value="/publishGraph" , method=RequestMethod.POST)
 	@ApiResponses(value = {
@@ -76,7 +77,7 @@ public class PublishgraphController {
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = PublishGraph.class)))
         })
-	public ResponseEntity<?>   addPublishgraph(@RequestBody  PublishGraph publishGraph
+	public ResponseEntity<?>   createPublishgraph(@RequestBody  PublishGraph publishGraph
  , HttpServletResponse response, HttpServletRequest request,
 			@RequestHeader(name="X-API-Key", required=true) String apiKeyx ,
 			@RequestHeader(name="X-USER-ID", required=true) String userId) {
@@ -186,7 +187,7 @@ public ResponseEntity<?> updatepublishGraph(
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = PublishGraphResponse.class)))
         })
-	public ModelMap  advanceSearch(@RequestParam(name = "query", required = true) String query,
+	public ModelMap  searchPublishgraph(@RequestParam(name = "query", required = true) String query,
 			@RequestParam(name = "rows",  defaultValue = "8", required = false) String rows ,
 			@RequestParam(name = "start",defaultValue = "0", required = false) String start,
 			@RequestParam(name = "fl" ,defaultValue = "" , required = false) String fl ,

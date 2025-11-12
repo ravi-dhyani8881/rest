@@ -56,7 +56,8 @@ import io.swagger.annotations.ApiOperation;
 @Api(value = "Suborganization Mangment System" , description = "Service used to perform operation on subOrganization.", tags = "subOrganization")
 @RestController
 @ExposesResourceFor(SuborganizationController.class)
-@RequestMapping("/Suborganization")
+// @RequestMapping("/Suborganization")
+// @RequestMapping("/api")
 public class SuborganizationController {
 	
 	@Autowired
@@ -68,7 +69,7 @@ public class SuborganizationController {
     String url=SolrUrls.SUBORGANIZATION_URL;
     
 		
-	@ApiOperation(value = "Service used to add Suborganization")
+	@ApiOperation(value = "Service used to create Suborganization")
 	@StandardApiResponses
 	@RequestMapping(value="/subOrganization" , method=RequestMethod.POST)
 	@ApiResponses(value = {
@@ -76,7 +77,7 @@ public class SuborganizationController {
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = SubOrganization.class)))
         })
-	public ResponseEntity<?>   addSuborganization(@RequestBody  SubOrganization subOrganization
+	public ResponseEntity<?>   createSuborganization(@RequestBody  SubOrganization subOrganization
  , HttpServletResponse response, HttpServletRequest request,
 			@RequestHeader(name="X-API-Key", required=true) String apiKeyx ,
 			@RequestHeader(name="X-USER-ID", required=true) String userId) {
@@ -186,7 +187,7 @@ public ResponseEntity<?> updatesubOrganization(
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = SubOrganizationResponse.class)))
         })
-	public ModelMap  advanceSearch(@RequestParam(name = "query", required = true) String query,
+	public ModelMap  searchSuborganization(@RequestParam(name = "query", required = true) String query,
 			@RequestParam(name = "rows",  defaultValue = "8", required = false) String rows ,
 			@RequestParam(name = "start",defaultValue = "0", required = false) String start,
 			@RequestParam(name = "fl" ,defaultValue = "" , required = false) String fl ,

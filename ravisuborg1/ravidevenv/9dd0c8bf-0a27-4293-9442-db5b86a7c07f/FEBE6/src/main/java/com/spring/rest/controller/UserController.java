@@ -56,7 +56,8 @@ import io.swagger.annotations.ApiOperation;
 @Api(value = "User Mangment System" , description = "Service used to perform operation on user.", tags = "user")
 @RestController
 @ExposesResourceFor(UserController.class)
-@RequestMapping("/User")
+// @RequestMapping("/User")
+// @RequestMapping("/api")
 public class UserController {
 	
 	@Autowired
@@ -68,7 +69,7 @@ public class UserController {
     String url=SolrUrls.USER_URL;
     
 		
-	@ApiOperation(value = "Service used to add User")
+	@ApiOperation(value = "Service used to create User")
 	@StandardApiResponses
 	@RequestMapping(value="/user" , method=RequestMethod.POST)
 	@ApiResponses(value = {
@@ -76,7 +77,7 @@ public class UserController {
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = User.class)))
         })
-	public ResponseEntity<?>   addUser(@RequestBody  User user
+	public ResponseEntity<?>   createUser(@RequestBody  User user
  , HttpServletResponse response, HttpServletRequest request,
 			@RequestHeader(name="X-API-Key", required=true) String apiKeyx ,
 			@RequestHeader(name="X-USER-ID", required=true) String userId) {
@@ -186,7 +187,7 @@ public ResponseEntity<?> updateuser(
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = UserResponse.class)))
         })
-	public ModelMap  advanceSearch(@RequestParam(name = "query", required = true) String query,
+	public ModelMap  searchUser(@RequestParam(name = "query", required = true) String query,
 			@RequestParam(name = "rows",  defaultValue = "8", required = false) String rows ,
 			@RequestParam(name = "start",defaultValue = "0", required = false) String start,
 			@RequestParam(name = "fl" ,defaultValue = "" , required = false) String fl ,

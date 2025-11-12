@@ -56,7 +56,8 @@ import io.swagger.annotations.ApiOperation;
 @Api(value = "Apikey Mangment System" , description = "Service used to perform operation on apiKey.", tags = "apiKey")
 @RestController
 @ExposesResourceFor(ApikeyController.class)
-@RequestMapping("/Apikey")
+// @RequestMapping("/Apikey")
+// @RequestMapping("/api")
 public class ApikeyController {
 	
 	@Autowired
@@ -68,7 +69,7 @@ public class ApikeyController {
     String url=SolrUrls.APIKEY_URL;
     
 		
-	@ApiOperation(value = "Service used to add Apikey")
+	@ApiOperation(value = "Service used to create Apikey")
 	@StandardApiResponses
 	@RequestMapping(value="/apiKey" , method=RequestMethod.POST)
 	@ApiResponses(value = {
@@ -76,7 +77,7 @@ public class ApikeyController {
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = ApiKey.class)))
         })
-	public ResponseEntity<?>   addApikey(@RequestBody  ApiKey apiKey
+	public ResponseEntity<?>   createApikey(@RequestBody  ApiKey apiKey
  , HttpServletResponse response, HttpServletRequest request,
 			@RequestHeader(name="X-API-Key", required=true) String apiKeyx ,
 			@RequestHeader(name="X-USER-ID", required=true) String userId) {
@@ -186,7 +187,7 @@ public ResponseEntity<?> updateapiKey(
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = ApiKeyResponse.class)))
         })
-	public ModelMap  advanceSearch(@RequestParam(name = "query", required = true) String query,
+	public ModelMap  searchApikey(@RequestParam(name = "query", required = true) String query,
 			@RequestParam(name = "rows",  defaultValue = "8", required = false) String rows ,
 			@RequestParam(name = "start",defaultValue = "0", required = false) String start,
 			@RequestParam(name = "fl" ,defaultValue = "" , required = false) String fl ,

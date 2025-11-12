@@ -56,7 +56,8 @@ import io.swagger.annotations.ApiOperation;
 @Api(value = "Graphdeployments Mangment System" , description = "Service used to perform operation on graphDeployments.", tags = "graphDeployments")
 @RestController
 @ExposesResourceFor(GraphdeploymentsController.class)
-@RequestMapping("/Graphdeployments")
+// @RequestMapping("/Graphdeployments")
+// @RequestMapping("/api")
 public class GraphdeploymentsController {
 	
 	@Autowired
@@ -68,7 +69,7 @@ public class GraphdeploymentsController {
     String url=SolrUrls.GRAPHDEPLOYMENTS_URL;
     
 		
-	@ApiOperation(value = "Service used to add Graphdeployments")
+	@ApiOperation(value = "Service used to create Graphdeployments")
 	@StandardApiResponses
 	@RequestMapping(value="/graphDeployments" , method=RequestMethod.POST)
 	@ApiResponses(value = {
@@ -76,7 +77,7 @@ public class GraphdeploymentsController {
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = GraphDeployments.class)))
         })
-	public ResponseEntity<?>   addGraphdeployments(@RequestBody  GraphDeployments graphDeployments
+	public ResponseEntity<?>   createGraphdeployments(@RequestBody  GraphDeployments graphDeployments
  , HttpServletResponse response, HttpServletRequest request,
 			@RequestHeader(name="X-API-Key", required=true) String apiKeyx ,
 			@RequestHeader(name="X-USER-ID", required=true) String userId) {
@@ -186,7 +187,7 @@ public ResponseEntity<?> updategraphDeployments(
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = GraphDeploymentsResponse.class)))
         })
-	public ModelMap  advanceSearch(@RequestParam(name = "query", required = true) String query,
+	public ModelMap  searchGraphdeployments(@RequestParam(name = "query", required = true) String query,
 			@RequestParam(name = "rows",  defaultValue = "8", required = false) String rows ,
 			@RequestParam(name = "start",defaultValue = "0", required = false) String start,
 			@RequestParam(name = "fl" ,defaultValue = "" , required = false) String fl ,

@@ -56,7 +56,8 @@ import io.swagger.annotations.ApiOperation;
 @Api(value = "Publishrest Mangment System" , description = "Service used to perform operation on publishRest.", tags = "publishRest")
 @RestController
 @ExposesResourceFor(PublishrestController.class)
-@RequestMapping("/Publishrest")
+// @RequestMapping("/Publishrest")
+// @RequestMapping("/api")
 public class PublishrestController {
 	
 	@Autowired
@@ -68,7 +69,7 @@ public class PublishrestController {
     String url=SolrUrls.PUBLISHREST_URL;
     
 		
-	@ApiOperation(value = "Service used to add Publishrest")
+	@ApiOperation(value = "Service used to create Publishrest")
 	@StandardApiResponses
 	@RequestMapping(value="/publishRest" , method=RequestMethod.POST)
 	@ApiResponses(value = {
@@ -76,7 +77,7 @@ public class PublishrestController {
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = PublishRest.class)))
         })
-	public ResponseEntity<?>   addPublishrest(@RequestBody  PublishRest publishRest
+	public ResponseEntity<?>   createPublishrest(@RequestBody  PublishRest publishRest
  , HttpServletResponse response, HttpServletRequest request,
 			@RequestHeader(name="X-API-Key", required=true) String apiKeyx ,
 			@RequestHeader(name="X-USER-ID", required=true) String userId) {
@@ -186,7 +187,7 @@ public ResponseEntity<?> updatepublishRest(
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = PublishRestResponse.class)))
         })
-	public ModelMap  advanceSearch(@RequestParam(name = "query", required = true) String query,
+	public ModelMap  searchPublishrest(@RequestParam(name = "query", required = true) String query,
 			@RequestParam(name = "rows",  defaultValue = "8", required = false) String rows ,
 			@RequestParam(name = "start",defaultValue = "0", required = false) String start,
 			@RequestParam(name = "fl" ,defaultValue = "" , required = false) String fl ,

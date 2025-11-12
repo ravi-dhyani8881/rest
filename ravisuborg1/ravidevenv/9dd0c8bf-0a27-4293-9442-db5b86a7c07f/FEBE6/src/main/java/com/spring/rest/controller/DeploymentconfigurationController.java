@@ -56,7 +56,8 @@ import io.swagger.annotations.ApiOperation;
 @Api(value = "Deploymentconfiguration Mangment System" , description = "Service used to perform operation on deploymentConfiguration.", tags = "deploymentConfiguration")
 @RestController
 @ExposesResourceFor(DeploymentconfigurationController.class)
-@RequestMapping("/Deploymentconfiguration")
+// @RequestMapping("/Deploymentconfiguration")
+// @RequestMapping("/api")
 public class DeploymentconfigurationController {
 	
 	@Autowired
@@ -68,7 +69,7 @@ public class DeploymentconfigurationController {
     String url=SolrUrls.DEPLOYMENTCONFIGURATION_URL;
     
 		
-	@ApiOperation(value = "Service used to add Deploymentconfiguration")
+	@ApiOperation(value = "Service used to create Deploymentconfiguration")
 	@StandardApiResponses
 	@RequestMapping(value="/deploymentConfiguration" , method=RequestMethod.POST)
 	@ApiResponses(value = {
@@ -76,7 +77,7 @@ public class DeploymentconfigurationController {
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = DeploymentConfiguration.class)))
         })
-	public ResponseEntity<?>   addDeploymentconfiguration(@RequestBody  DeploymentConfiguration deploymentConfiguration
+	public ResponseEntity<?>   createDeploymentconfiguration(@RequestBody  DeploymentConfiguration deploymentConfiguration
  , HttpServletResponse response, HttpServletRequest request,
 			@RequestHeader(name="X-API-Key", required=true) String apiKeyx ,
 			@RequestHeader(name="X-USER-ID", required=true) String userId) {
@@ -186,7 +187,7 @@ public ResponseEntity<?> updatedeploymentConfiguration(
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = DeploymentConfigurationResponse.class)))
         })
-	public ModelMap  advanceSearch(@RequestParam(name = "query", required = true) String query,
+	public ModelMap  searchDeploymentconfiguration(@RequestParam(name = "query", required = true) String query,
 			@RequestParam(name = "rows",  defaultValue = "8", required = false) String rows ,
 			@RequestParam(name = "start",defaultValue = "0", required = false) String start,
 			@RequestParam(name = "fl" ,defaultValue = "" , required = false) String fl ,
