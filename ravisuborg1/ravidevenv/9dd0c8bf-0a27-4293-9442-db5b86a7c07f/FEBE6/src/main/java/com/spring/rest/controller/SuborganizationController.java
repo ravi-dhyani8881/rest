@@ -385,7 +385,7 @@ public ResponseEntity<?> deleteSuborganizationByQuery(
 	}
 
 	@Hidden
-	@GetMapping("/findByQuery")
+	// @GetMapping("/findByQuery")
 	public  ResponseEntity<ResponseMessage>  advanceSearch(@RequestParam(name = "query", required = true) String query,
 			@RequestParam(name = "rows",  defaultValue = "8", required = false) String rows ,
 			@RequestParam(name = "start",defaultValue = "0", required = false) String start,
