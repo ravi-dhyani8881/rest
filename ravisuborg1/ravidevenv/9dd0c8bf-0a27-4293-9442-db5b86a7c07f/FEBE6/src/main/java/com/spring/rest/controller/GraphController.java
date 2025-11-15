@@ -3,10 +3,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Base64;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.FacetField;
@@ -37,7 +39,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.spring.rest.model.Graph;
 import com.spring.rest.apiresponse.GraphResponse;
-
+import com.main.external.exception.user.UserException;
 import com.spring.rest.custom.ErrorResponse;
 import com.spring.rest.custom.StandardApiResponses;
 import com.spring.rest.service.CommonDocumentService;
