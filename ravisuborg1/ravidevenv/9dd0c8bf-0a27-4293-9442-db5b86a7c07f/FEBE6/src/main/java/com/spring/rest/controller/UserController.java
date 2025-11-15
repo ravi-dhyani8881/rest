@@ -473,6 +473,12 @@ public ResponseEntity<?> deleteUserByQuery(
         return facetFieldDTO;
     }
 	
+
+    // Special methods for User controller
+    @GetMapping("/profile")
+    public ResponseEntity<?> getProfile() {
+        return ResponseEntity.ok("User Profile");
+    }
 	
 	
 }

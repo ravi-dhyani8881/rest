@@ -473,6 +473,7 @@ public ResponseEntity<?> deleteConfigurationByQuery(
         return facetFieldDTO;
     }
 	
+
 	
 	
 }
