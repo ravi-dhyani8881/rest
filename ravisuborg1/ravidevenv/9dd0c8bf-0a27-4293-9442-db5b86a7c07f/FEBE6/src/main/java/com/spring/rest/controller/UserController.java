@@ -754,7 +754,6 @@ public ResponseEntity<?> deleteUserByQuery(
 	
 	}
 
-
 	
 	
 }
