@@ -648,7 +648,7 @@ public ResponseEntity<?> deleteUserByQuery(
 			solrDocument.put("userStatus", "A");
 			solrDocument.put("userActivationKey", "Activated");
 			
-			commonDocumentService.updateDocumentByTemplate(solrDocument, url) ;
+			commonDocumentService.updateDocumentAndExceptionByTemplate(solrDocument, url) ;
 		//	model.addAttribute("userId",userId);
 			response.setStatus(HttpServletResponse.SC_OK);
 		//	model.addAttribute("Message", new ResponseMessage("User activated Sucesfully.",  HttpServletResponse.SC_OK,null,null,null,null,"activated"));					
@@ -732,7 +732,7 @@ public ResponseEntity<?> deleteUserByQuery(
 			solrDocument.put("userStatus", "A");
 			solrDocument.put("userActivationKey", "Activated");
 			
-			commonDocumentService.updateDocumentByTemplate(solrDocument, url) ;
+			commonDocumentService.updateDocumentAndExceptionByTemplate(solrDocument, url) ;
 		//	model.addAttribute("userId",userId);
 			response.setStatus(HttpServletResponse.SC_OK);
 		//	model.addAttribute("Message", new ResponseMessage("User activated Sucesfully.",  HttpServletResponse.SC_OK,null,null,null,null,"activated"));					
