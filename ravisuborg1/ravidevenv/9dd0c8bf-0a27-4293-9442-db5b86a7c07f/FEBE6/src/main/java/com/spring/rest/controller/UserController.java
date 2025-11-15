@@ -477,15 +477,21 @@ public ResponseEntity<?> deleteUserByQuery(
 	
 
     // Special methods for User controller
+ 
+    // Special methods for User controller
+	@ApiOperation(value = "Service used to SignUp User")
+	@StandardApiResponses
     @PostMapping("/userSignUp")
-	public ModelMap addNew(@RequestBody Map<String, Object> payload, HttpServletResponse response) {
+	public ModelMap addNew(@RequestBody  User user, HttpServletResponse response) {
 		ModelMap model = new ModelMap();
 		String userId=Utility.getUniqueId();		
 		
+		    Map<String, Object> payload= new HashMap<String, Object>();
 			payload.put("ID", userId);
 			String userActivationKey=(String)payload.get("userActivationKey")!=null ? (String)payload.get("userActivationKey") : Utility.getUniqueId();
 			payload.put("userActivationKey", userActivationKey);
 			
+			user.setID(Utility.getUniqueId());
 
 			if (emailExists((String)payload.get("email"))) {
 				//throw new Exception();
@@ -496,7 +502,7 @@ public ResponseEntity<?> deleteUserByQuery(
 				throw new UserException("There is an account with that email address: "  + payload.get("email"), r);
 	        }
 
-			Object apiResponse = commonDocumentService.addDocumentByTemplate(payload, url);
+			Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate(payload, url);
 			
 			
 			if(apiResponse instanceof Exception )
@@ -517,7 +523,6 @@ public ResponseEntity<?> deleteUserByQuery(
 			
 		return model;
 	}
-
    
 	@PostMapping("/user-authentication")
 	public ModelMap userAuth( @RequestBody @Valid User user, HttpServletResponse response, @RequestHeader Map<String, String> headers) {
