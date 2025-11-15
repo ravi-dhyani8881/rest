@@ -38,6 +38,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.spring.rest.model.ApiKey;
+import com.spring.rest.model.UserAuth;
 import com.spring.rest.apiresponse.ApiKeyResponse;
 import com.main.external.exception.user.UserException;
 import com.spring.rest.custom.ErrorResponse;

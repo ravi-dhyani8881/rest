@@ -38,6 +38,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.spring.rest.model.User;
+import com.spring.rest.model.UserAuth;
 import com.spring.rest.apiresponse.UserResponse;
 import com.main.external.exception.user.UserException;
 import com.spring.rest.custom.ErrorResponse;
@@ -525,7 +526,7 @@ public ResponseEntity<?> deleteUserByQuery(
 	}
    
 	@PostMapping("/user-authentication")
-	public ModelMap userAuth( @RequestBody @Valid User user, HttpServletResponse response, @RequestHeader Map<String, String> headers) {
+	public ModelMap userAuth( @RequestBody @Valid UserAuth userAuth, HttpServletResponse response, @RequestHeader Map<String, String> headers) {
 		// Example payload in body
 //		{
 //		"reviewComments":"Hello",
@@ -546,7 +547,7 @@ public ResponseEntity<?> deleteUserByQuery(
 		String userId=null;
 		
 		Map<String, String[]> searchCriteria=new HashMap<>(); 
-		searchCriteria.put("q", new String[] { "((email:"+user.getUsername()+") && ( email:"+user.getUsername()+" && password:"+user.getPassword()+"))" } );
+		searchCriteria.put("q", new String[] { "((email:"+userAuth.getUsername()+") && ( email:"+userAuth.getUsername()+" && password:"+userAuth.getPassword()+"))" } );
 		searchCriteria.put("fl",  new String[] { "userStatus,ID" } );
 		
 		
@@ -584,7 +585,6 @@ public ResponseEntity<?> deleteUserByQuery(
 		}
 		return model;	
 	}
-	
 	
 
 		//Activate user one created by Me on 30/05/2021
