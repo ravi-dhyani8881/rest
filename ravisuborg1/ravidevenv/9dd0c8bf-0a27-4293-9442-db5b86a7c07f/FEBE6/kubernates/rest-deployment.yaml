@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rest-app-
+  namespace: 85c8a741-63c7-438b-8abe-9fe23efa41e5
+  labels:
+    app: rest-app-
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rest-app-
+  template:
+    metadata:
+      labels:
+        app: rest-app-
+    spec:
+      containers:
+      - name: rest
+        image: ravi8881/85c8a741-63c7-438b-8abe-9fe23efa41e5-ravisuborg1-ravidevenv-9dd0c8bf-0a27-4293-9442-db5b86a7c07f-rest:17.0.0
+        ports:
+        - containerPort: 8080
