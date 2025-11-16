@@ -41,6 +41,7 @@ import com.spring.rest.model.User;
 import com.spring.rest.model.UserAuth;
 import com.spring.rest.apiresponse.UserResponse;
 import com.main.external.exception.user.UserException;
+import com.spring.rest.apiresponse.UserAuthResponse;
 import com.spring.rest.custom.ErrorResponse;
 import com.spring.rest.custom.StandardApiResponses;
 import com.spring.rest.service.CommonDocumentService;
@@ -526,66 +527,63 @@ public ResponseEntity<?> deleteUserByQuery(
 	}
    
 	@PostMapping("/user-authentication")
-	public ModelMap userAuth( @RequestBody @Valid UserAuth userAuth, HttpServletResponse response, @RequestHeader Map<String, String> headers) {
-		// Example payload in body
-//		{
-//		"reviewComments":"Hello",
-//		"reviewRatting":"1",
-//		"reviewUserId":"1",
-//		"reviewContentId":"1"
-//		}
-//	
-		
-		headers.forEach((key, value) -> {
-		//	System.out.println("----------->"+key+"----------->"+value);
-	       
-	    });
-		
-		
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201", description = "API use for user authentication", content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserAuthResponse.class))) })
+	@StandardApiResponses
+	public ModelMap userAuth(@RequestBody @Valid UserAuth userAuth, HttpServletResponse response,
+			@RequestHeader(name = "X-API-Key", required = true) String apiKeyx,
+			@RequestHeader(name = "X-USER-ID", required = true) String userId) {
+
 		ModelMap model = new ModelMap();
-		//payload.containsKey("reviewUserId");
-		String userId=null;
-		
-		Map<String, String[]> searchCriteria=new HashMap<>(); 
-		searchCriteria.put("q", new String[] { "((email:"+userAuth.getUsername()+") && ( email:"+userAuth.getUsername()+" && password:"+userAuth.getPassword()+"))" } );
-		searchCriteria.put("fl",  new String[] { "userStatus,ID" } );
-		
-		
-		QueryResponse apiResponse =commonDocumentService.advanceSearchDocumentByTemplate(searchCriteria, url);
-		
-		((QueryResponse) apiResponse).getResults().forEach((C)-> {
-		
-			if(C.get("userStatus").equals("I")){		
-			//	model.addAttribute("Message", new ResponseMessage("User is inactive. Please activate user account.", 403,null,null,null,null,"INACTIVE"));
-				model.addAttribute("Message", new ResponseMessage.Builder("User is inactive. Please activate user account.", 403)
-																 .withResponseType("INACTIVE")										
-																 .build());	
-														
+
+		int validationStatus = validationService.validateApiKey(apiKeyx, userId);
+		if (validationStatus == 401) {
+
+			model.addAttribute("Message",
+					new ResponseMessage.Builder("Invalid API key", 401).withResponseType("unauthorized").build());
+		}
+		if (validationStatus == 500) {
+			return model.addAttribute("Message", new ResponseMessage.Builder("API validation service unavailable", 500)
+					.withResponseType("internal_error").build());
+		}
+		Map<String, String[]> searchCriteria = new HashMap<>();
+		searchCriteria.put("q", new String[] { "((email:" + userAuth.getUsername() + ") && ( email:"
+				+ userAuth.getUsername() + " && password:" + userAuth.getPassword() + "))" });
+		searchCriteria.put("fl", new String[] { "userStatus,ID" });
+
+		QueryResponse apiResponse = commonDocumentService.advanceSearchDocumentByTemplate(searchCriteria, url);
+
+		((QueryResponse) apiResponse).getResults().forEach((C) -> {
+
+			if (C.get("userStatus").equals("I")) {
+				// model.addAttribute("Message", new ResponseMessage("User is inactive. Please
+				// activate user account.", 403,null,null,null,null,"INACTIVE"));
+				model.addAttribute("Message",
+						new ResponseMessage.Builder("User is inactive. Please activate user account.", 403)
+								.withResponseType("INACTIVE").build());
+
 				response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-				
-		}else {
-			response.setStatus(HttpServletResponse.SC_OK);
-		//	model.addAttribute("Message", new ResponseMessage("User authenticated sucesfully.", HttpServletResponse.SC_OK,null,null,null,null,"AUTHENTICATED"));					
-			model.addAttribute("Message", new ResponseMessage.Builder("User authenticated sucesfully.", HttpServletResponse.SC_OK)
-															 .withID(C.get("ID").toString())
-															 .withResponseType("AUTHENTICATED")										
-															 .build());		
-		}
+
+			} else {
+				response.setStatus(HttpServletResponse.SC_OK);
+				model.addAttribute("Message",
+						new ResponseMessage.Builder("User authenticated sucesfully.", HttpServletResponse.SC_OK)
+								.withID(C.get("ID").toString()).withResponseType("AUTHENTICATED").build());
 			}
-		
-				);
-		if(apiResponse.getResults().size()==0) {
-		
-		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-	//	model.addAttribute("Message", new ResponseMessage("User / password incorrect", HttpServletResponse.SC_UNAUTHORIZED,null,null,null,null,"UNAUTHORIZED"));
-	
-		model.addAttribute("Message", new ResponseMessage.Builder("User / password incorrect", HttpServletResponse.SC_UNAUTHORIZED)
-				 .withResponseType("UNAUTHORIZED")										
-				 .build());	
 		}
-		return model;	
+
+		);
+		if (apiResponse.getResults().size() == 0) {
+
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+					model.addAttribute("Message",
+					new ResponseMessage.Builder("User / password incorrect", HttpServletResponse.SC_UNAUTHORIZED)
+							.withResponseType("UNAUTHORIZED").build());
+		}
+		return model;
 	}
-	
+
+
 
 		//Activate user one created by Me on 30/05/2021
 //		{
