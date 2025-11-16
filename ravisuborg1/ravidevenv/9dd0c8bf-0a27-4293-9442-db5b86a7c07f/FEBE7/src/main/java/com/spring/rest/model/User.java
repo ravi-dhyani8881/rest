@@ -1,0 +1,138 @@
+package com.spring.rest.model;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+
+@Data // Generates getters, setters, toString, equals, hashCode
+@NoArgsConstructor // Generates a no-argument constructor (required by Jackson for deserialization)
+@AllArgsConstructor // Generates a constructor with all fields
+@JsonInclude(JsonInclude.Include.NON_NULL) 
+public class User implements Serializable {
+
+
+    private String id;
+    private String email;
+    private String firstName;
+    private String middleName;
+    private String lastName;
+    private String address;
+    private String company;
+    private String role;
+    private String passwordHash;
+    private String passwordSalt;
+    private String createdAt;
+    private String updatedAt;
+
+
+/*
+
+    @Id
+    private String id;
+    private String email;
+    private String firstName;
+    private String middleName;
+    private String lastName;
+    private String address;
+    private String company;
+    private String role;
+    private String passwordHash;
+    private String passwordSalt;
+    private String createdAt;
+    private String updatedAt;
+
+*/
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId( String id) {
+        this.id = id;
+    }
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail( String email) {
+        this.email = email;
+    }
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName( String firstName) {
+        this.firstName = firstName;
+    }
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName( String middleName) {
+        this.middleName = middleName;
+    }
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName( String lastName) {
+        this.lastName = lastName;
+    }
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress( String address) {
+        this.address = address;
+    }
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany( String company) {
+        this.company = company;
+    }
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole( String role) {
+        this.role = role;
+    }
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash( String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+    public String getPasswordSalt() {
+        return passwordSalt;
+    }
+
+    public void setPasswordSalt( String passwordSalt) {
+        this.passwordSalt = passwordSalt;
+    }
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt( String createdAt) {
+        this.createdAt = createdAt;
+    }
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt( String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+}
