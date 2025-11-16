@@ -19,31 +19,34 @@ import lombok.NoArgsConstructor;
 public class ApiKey implements Serializable {
 
 
-    private String iD;
+    private String id;
     private String userId;
     private String apiKey;
     private String status;
-    private String addedDate;
-    private String lastUpdate;
+    private String projectId;
+    private String createdAt;
+    private String updatedAt;
 
 
 /*
 
-    private String iD;
+    @Id
+    private String id;
     private String userId;
     private String apiKey;
     private String status;
-    private String addedDate;
-    private String lastUpdate;
+    private String projectId;
+    private String createdAt;
+    private String updatedAt;
 
 */
 
-    public String getID() {
-        return iD;
+    public String getId() {
+        return id;
     }
 
-    public void setID( String iD) {
-        this.iD = iD;
+    public void setId( String id) {
+        this.id = id;
     }
     public String getUserId() {
         return userId;
@@ -66,18 +69,25 @@ public class ApiKey implements Serializable {
     public void setStatus( String status) {
         this.status = status;
     }
-    public String getAddedDate() {
-        return addedDate;
+    public String getProjectId() {
+        return projectId;
     }
 
-    public void setAddedDate( String addedDate) {
-        this.addedDate = addedDate;
+    public void setProjectId( String projectId) {
+        this.projectId = projectId;
     }
-    public String getLastUpdate() {
-        return lastUpdate;
+    public String getCreatedAt() {
+        return createdAt;
     }
 
-    public void setLastUpdate( String lastUpdate) {
-        this.lastUpdate = lastUpdate;
+    public void setCreatedAt( String createdAt) {
+        this.createdAt = createdAt;
+    }
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt( String updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

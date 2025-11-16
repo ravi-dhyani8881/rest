@@ -16,12 +16,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor // Generates a no-argument constructor (required by Jackson for deserialization)
 @AllArgsConstructor // Generates a constructor with all fields
 @JsonInclude(JsonInclude.Include.NON_NULL) 
-public class DeploymentConfiguration implements Serializable {
+public class ChatHistory implements Serializable {
 
 
     private String id;
-    private String configurationId;
-    private String replicaCount;
+    private String userId;
+    private String messages;
     private String createdAt;
     private String updatedAt;
 
@@ -30,8 +30,8 @@ public class DeploymentConfiguration implements Serializable {
 
     @Id
     private String id;
-    private String configurationId;
-    private String replicaCount;
+    private String userId;
+    private String messages;
     private String createdAt;
     private String updatedAt;
 
@@ -44,19 +44,19 @@ public class DeploymentConfiguration implements Serializable {
     public void setId( String id) {
         this.id = id;
     }
-    public String getConfigurationId() {
-        return configurationId;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setConfigurationId( String configurationId) {
-        this.configurationId = configurationId;
+    public void setUserId( String userId) {
+        this.userId = userId;
     }
-    public String getReplicaCount() {
-        return replicaCount;
+    public String getMessages() {
+        return messages;
     }
 
-    public void setReplicaCount( String replicaCount) {
-        this.replicaCount = replicaCount;
+    public void setMessages( String messages) {
+        this.messages = messages;
     }
     public String getCreatedAt() {
         return createdAt;

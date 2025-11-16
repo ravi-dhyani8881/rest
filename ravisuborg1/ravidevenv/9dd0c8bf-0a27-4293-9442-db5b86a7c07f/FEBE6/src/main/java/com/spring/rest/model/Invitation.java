@@ -16,12 +16,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor // Generates a no-argument constructor (required by Jackson for deserialization)
 @AllArgsConstructor // Generates a constructor with all fields
 @JsonInclude(JsonInclude.Include.NON_NULL) 
-public class DeploymentConfiguration implements Serializable {
+public class Invitation implements Serializable {
 
 
     private String id;
-    private String configurationId;
-    private String replicaCount;
+    private String email;
+    private String orgId;
+    private String role;
+    private String token;
     private String createdAt;
     private String updatedAt;
 
@@ -30,8 +32,10 @@ public class DeploymentConfiguration implements Serializable {
 
     @Id
     private String id;
-    private String configurationId;
-    private String replicaCount;
+    private String email;
+    private String orgId;
+    private String role;
+    private String token;
     private String createdAt;
     private String updatedAt;
 
@@ -44,19 +48,33 @@ public class DeploymentConfiguration implements Serializable {
     public void setId( String id) {
         this.id = id;
     }
-    public String getConfigurationId() {
-        return configurationId;
+    public String getEmail() {
+        return email;
     }
 
-    public void setConfigurationId( String configurationId) {
-        this.configurationId = configurationId;
+    public void setEmail( String email) {
+        this.email = email;
     }
-    public String getReplicaCount() {
-        return replicaCount;
+    public String getOrgId() {
+        return orgId;
     }
 
-    public void setReplicaCount( String replicaCount) {
-        this.replicaCount = replicaCount;
+    public void setOrgId( String orgId) {
+        this.orgId = orgId;
+    }
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole( String role) {
+        this.role = role;
+    }
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken( String token) {
+        this.token = token;
     }
     public String getCreatedAt() {
         return createdAt;

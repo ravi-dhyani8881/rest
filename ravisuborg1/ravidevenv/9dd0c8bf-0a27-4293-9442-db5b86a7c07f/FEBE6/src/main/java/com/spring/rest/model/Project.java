@@ -16,12 +16,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor // Generates a no-argument constructor (required by Jackson for deserialization)
 @AllArgsConstructor // Generates a constructor with all fields
 @JsonInclude(JsonInclude.Include.NON_NULL) 
-public class DeploymentConfiguration implements Serializable {
+public class Project implements Serializable {
 
 
     private String id;
-    private String configurationId;
-    private String replicaCount;
+    private String name;
+    private String description;
+    private String orgId;
+    private String subOrgId;
+    private String environmentId;
     private String createdAt;
     private String updatedAt;
 
@@ -30,8 +33,11 @@ public class DeploymentConfiguration implements Serializable {
 
     @Id
     private String id;
-    private String configurationId;
-    private String replicaCount;
+    private String name;
+    private String description;
+    private String orgId;
+    private String subOrgId;
+    private String environmentId;
     private String createdAt;
     private String updatedAt;
 
@@ -44,19 +50,40 @@ public class DeploymentConfiguration implements Serializable {
     public void setId( String id) {
         this.id = id;
     }
-    public String getConfigurationId() {
-        return configurationId;
+    public String getName() {
+        return name;
     }
 
-    public void setConfigurationId( String configurationId) {
-        this.configurationId = configurationId;
+    public void setName( String name) {
+        this.name = name;
     }
-    public String getReplicaCount() {
-        return replicaCount;
+    public String getDescription() {
+        return description;
     }
 
-    public void setReplicaCount( String replicaCount) {
-        this.replicaCount = replicaCount;
+    public void setDescription( String description) {
+        this.description = description;
+    }
+    public String getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId( String orgId) {
+        this.orgId = orgId;
+    }
+    public String getSubOrgId() {
+        return subOrgId;
+    }
+
+    public void setSubOrgId( String subOrgId) {
+        this.subOrgId = subOrgId;
+    }
+    public String getEnvironmentId() {
+        return environmentId;
+    }
+
+    public void setEnvironmentId( String environmentId) {
+        this.environmentId = environmentId;
     }
     public String getCreatedAt() {
         return createdAt;

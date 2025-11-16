@@ -37,9 +37,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.spring.rest.model.Configuration;
+import com.spring.rest.model.Deployment;
 import com.spring.rest.model.UserAuth;
-import com.spring.rest.apiresponse.ConfigurationResponse;
+import com.spring.rest.apiresponse.DeploymentResponse;
 import com.main.external.exception.user.UserException;
 import com.spring.rest.apiresponse.UserAuthResponse;
 import com.spring.rest.custom.ErrorResponse;
@@ -57,12 +57,12 @@ import io.swagger.annotations.ApiOperation;
 
 // version for 17.0.0
 
-@Api(value = "Configuration Mangment System" , description = "Service used to perform operation on configuration.", tags = "configuration")
+@Api(value = "Deployment Mangment System" , description = "Service used to perform operation on deployment.", tags = "deployment")
 @RestController
-@ExposesResourceFor(ConfigurationController.class)
-// @RequestMapping("/Configuration")
+@ExposesResourceFor(DeploymentController.class)
+// @RequestMapping("/Deployment")
 @RequestMapping("/api")
-public class ConfigurationController {
+public class DeploymentController {
 	
 	@Autowired
 	CommonDocumentService commonDocumentService;
@@ -70,18 +70,18 @@ public class ConfigurationController {
 	@Autowired
 	ValidationService validationService;
 	
-    String url=SolrUrls.CONFIGURATION_URL;
+    String url=SolrUrls.DEPLOYMENT_URL;
     
 		
-	@ApiOperation(value = "Service used to create Configuration")
+	@ApiOperation(value = "Service used to create Deployment")
 	@StandardApiResponses
-	@RequestMapping(value="/configuration" , method=RequestMethod.POST)
+	@RequestMapping(value="/deployment" , method=RequestMethod.POST)
 	@ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "create a new Configuration",
+            @ApiResponse(responseCode = "201", description = "create a new Deployment",
                          content = @Content(mediaType = "application/json",
-                         schema = @Schema(implementation = Configuration.class)))
+                         schema = @Schema(implementation = Deployment.class)))
         })
-	public ResponseEntity<?>   createConfiguration(@RequestBody  Configuration configuration
+	public ResponseEntity<?>   createDeployment(@RequestBody  Deployment deployment
  , HttpServletResponse response, HttpServletRequest request,
 			@RequestHeader(name="X-API-Key", required=true) String apiKeyx ,
 			@RequestHeader(name="X-USER-ID", required=true) String userId) {
@@ -97,17 +97,17 @@ public class ConfigurationController {
 	                        .body(ErrorResponse.of("internal_error", "API validation service unavailable"));
 	            }
 	            
-				configuration.setID(Utility.getUniqueId());
+				deployment.setID(Utility.getUniqueId());
 	             
 	            // Call service layer
-	            Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate( configuration, url);
+	            Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate( deployment, url);
 	            if (apiResponse instanceof Exception) {
 	                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	                        .body(ErrorResponse.of("internal_error", "Failed to save configuration"));
+	                        .body(ErrorResponse.of("internal_error", "Failed to save deployment"));
 	            }
 	            return ResponseEntity.status(HttpStatus.CREATED)
-	                    .body(new ResponseMessage.Builder("Configuration created successfully", 201)
-	                            .withUserObject(configuration)
+	                    .body(new ResponseMessage.Builder("Deployment created successfully", 201)
+	                            .withUserObject(deployment)
 	                            .build());
 	           }
 	        catch (Exception e) {
@@ -117,17 +117,17 @@ public class ConfigurationController {
 	        }
 	    }
 	
-@ApiOperation(value = "This service used to update Configuration")
+@ApiOperation(value = "This service used to update Deployment")
 @StandardApiResponses	
-@RequestMapping(value="/configuration" , method=RequestMethod.PUT)
-public ResponseEntity<?> updateconfiguration(
-        @RequestBody Configuration configuration,
+@RequestMapping(value="/deployment" , method=RequestMethod.PUT)
+public ResponseEntity<?> updatedeployment(
+        @RequestBody Deployment deployment,
         HttpServletResponse response,
         HttpServletRequest request,
         @RequestHeader(name = "X-API-Key", required = true) String apiKeyx,
         @RequestHeader(name = "X-USER-ID", required = true) String userIdx) {
 
-    String configurationId = null;
+    String deploymentId = null;
 
     try {
         // ✅ Validate API Key
@@ -142,16 +142,16 @@ public ResponseEntity<?> updateconfiguration(
 	            }
 
          // ✅ Check for ID in Customers POJO
-	        if (configuration.getID() == null || configuration.getID().trim().isEmpty()) {
+	        if (deployment.getID() == null || deployment.getID().trim().isEmpty()) {
 	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
 	        }
 
     
-	        configurationId = configuration.getID();
+	        deploymentId = deployment.getID();
             
             // ✅ Query Solr for existing record
-	        Object apiResponse = commonDocumentService.advanceQueryAndExceptionByTemplate("ID:" + configurationId, url);
+	        Object apiResponse = commonDocumentService.advanceQueryAndExceptionByTemplate("ID:" + deploymentId, url);
 
         if (apiResponse instanceof Exception) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -164,12 +164,12 @@ public ResponseEntity<?> updateconfiguration(
                     .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
 		}
        
-        commonDocumentService.updateDocumentAndExceptionByTemplate(configuration, url);
+        commonDocumentService.updateDocumentAndExceptionByTemplate(deployment, url);
 
         // ✅ Success Response
         ResponseMessage successResponse = new ResponseMessage.Builder("Content updated Successfully", 200)
-                .withID(configurationId)
-                .withUserObject(configuration)
+                .withID(deploymentId)
+                .withUserObject(deployment)
                 .withResponseType("updated")
                 .build();
 
@@ -183,15 +183,15 @@ public ResponseEntity<?> updateconfiguration(
 }
 
 	
-	@ApiOperation(value = "This service used to search Configuration by query")
+	@ApiOperation(value = "This service used to search Deployment by query")
 	@StandardApiResponses
-	@RequestMapping(value="/configuration" , method=RequestMethod.GET)
+	@RequestMapping(value="/deployment" , method=RequestMethod.GET)
 	@ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User found",
                          content = @Content(mediaType = "application/json",
-                         schema = @Schema(implementation = ConfigurationResponse.class)))
+                         schema = @Schema(implementation = DeploymentResponse.class)))
         })
-	public ModelMap  searchConfiguration(@RequestParam(name = "query", required = true) String query,
+	public ModelMap  searchDeployment(@RequestParam(name = "query", required = true) String query,
 			@RequestParam(name = "rows",  defaultValue = "8", required = false) String rows ,
 			@RequestParam(name = "start",defaultValue = "0", required = false) String start,
 			@RequestParam(name = "fl" ,defaultValue = "" , required = false) String fl ,
@@ -253,7 +253,7 @@ public ResponseEntity<?> updateconfiguration(
 	
 	@Hidden
 	@ApiOperation(value = "This service used to search content by query")
-	@RequestMapping(value="/searchConfigurationById" , method=RequestMethod.GET)
+	@RequestMapping(value="/searchDeploymentById" , method=RequestMethod.GET)
 	public ModelMap  searchContentById(@RequestParam(name = "Id", required = true) String query,
 			@RequestParam(name = "rows",  defaultValue = "8", required = false) String rows ,
 			@RequestParam(name = "start",defaultValue = "0", required = false) String start,
@@ -316,10 +316,10 @@ public ResponseEntity<?> updateconfiguration(
 		}
 	}
 	
-@ApiOperation(value = "This service delete Configuration by query")
+@ApiOperation(value = "This service delete Deployment by query")
 @StandardApiResponses
-@DeleteMapping("/configuration")
-public ResponseEntity<?> deleteConfigurationByQuery(
+@DeleteMapping("/deployment")
+public ResponseEntity<?> deleteDeploymentByQuery(
         @RequestParam(name = "query") String query,
         @RequestHeader(name = "X-API-Key", required = true) String apiKey,
         @RequestHeader(name = "X-USER-ID", required = true) String userId) {
@@ -353,7 +353,7 @@ public ResponseEntity<?> deleteConfigurationByQuery(
 
         // ✅ Success
         return ResponseEntity.ok(
-                new ResponseMessage.Builder("Configuration deleted successfully with Query", 200)
+                new ResponseMessage.Builder("Deployment deleted successfully with Query", 200)
                         .withQuery(query)
                         .withResponseType("deleted")
                         .build()

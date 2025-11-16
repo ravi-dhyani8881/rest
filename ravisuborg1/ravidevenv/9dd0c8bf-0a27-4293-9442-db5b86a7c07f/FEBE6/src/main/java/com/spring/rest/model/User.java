@@ -19,42 +19,72 @@ import lombok.NoArgsConstructor;
 public class User implements Serializable {
 
 
-    private String iD;
-    private String name;
+    private String id;
+    private String email;
+    private String firstName;
+    private String middleName;
+    private String lastName;
     private String address;
-    private String password;
-    private Date dateOfBirth;
-    private String orgID;
-    private Date createdAt;
-    private Date updatedAt;
+    private String company;
+    private String role;
+    private String passwordHash;
+    private String passwordSalt;
+    private String createdAt;
+    private String updatedAt;
 
 
 /*
 
-    private String iD;
-    private String name;
+    @Id
+    private String id;
+    private String email;
+    private String firstName;
+    private String middleName;
+    private String lastName;
     private String address;
-    private String password;
-    private Date dateOfBirth;
-    private String orgID;
-    private Date createdAt;
-    private Date updatedAt;
+    private String company;
+    private String role;
+    private String passwordHash;
+    private String passwordSalt;
+    private String createdAt;
+    private String updatedAt;
 
 */
 
-    public String getID() {
-        return iD;
+    public String getId() {
+        return id;
     }
 
-    public void setID( String iD) {
-        this.iD = iD;
+    public void setId( String id) {
+        this.id = id;
     }
-    public String getName() {
-        return name;
+    public String getEmail() {
+        return email;
     }
 
-    public void setName( String name) {
-        this.name = name;
+    public void setEmail( String email) {
+        this.email = email;
+    }
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName( String firstName) {
+        this.firstName = firstName;
+    }
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName( String middleName) {
+        this.middleName = middleName;
+    }
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName( String lastName) {
+        this.lastName = lastName;
     }
     public String getAddress() {
         return address;
@@ -63,39 +93,46 @@ public class User implements Serializable {
     public void setAddress( String address) {
         this.address = address;
     }
-    public String getPassword() {
-        return password;
+    public String getCompany() {
+        return company;
     }
 
-    public void setPassword( String password) {
-        this.password = password;
+    public void setCompany( String company) {
+        this.company = company;
     }
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth( Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-    public String getOrgID() {
-        return orgID;
+    public String getRole() {
+        return role;
     }
 
-    public void setOrgID( String orgID) {
-        this.orgID = orgID;
+    public void setRole( String role) {
+        this.role = role;
     }
-    public Date getCreatedAt() {
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash( String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+    public String getPasswordSalt() {
+        return passwordSalt;
+    }
+
+    public void setPasswordSalt( String passwordSalt) {
+        this.passwordSalt = passwordSalt;
+    }
+    public String getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt( Date createdAt) {
+    public void setCreatedAt( String createdAt) {
         this.createdAt = createdAt;
     }
-    public Date getUpdatedAt() {
+    public String getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt( Date updatedAt) {
+    public void setUpdatedAt( String updatedAt) {
         this.updatedAt = updatedAt;
     }
 }

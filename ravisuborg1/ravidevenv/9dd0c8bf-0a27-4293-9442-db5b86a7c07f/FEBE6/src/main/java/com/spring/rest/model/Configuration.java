@@ -19,23 +19,28 @@ import lombok.NoArgsConstructor;
 public class Configuration implements Serializable {
 
 
-    private String iD;
+    private String id;
     private String replicaSize;
+    private String createdAt;
+    private String updatedAt;
 
 
 /*
 
-    private String iD;
+    @Id
+    private String id;
     private String replicaSize;
+    private String createdAt;
+    private String updatedAt;
 
 */
 
-    public String getID() {
-        return iD;
+    public String getId() {
+        return id;
     }
 
-    public void setID( String iD) {
-        this.iD = iD;
+    public void setId( String id) {
+        this.id = id;
     }
     public String getReplicaSize() {
         return replicaSize;
@@ -43,5 +48,19 @@ public class Configuration implements Serializable {
 
     public void setReplicaSize( String replicaSize) {
         this.replicaSize = replicaSize;
+    }
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt( String createdAt) {
+        this.createdAt = createdAt;
+    }
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt( String updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

@@ -16,14 +16,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor // Generates a no-argument constructor (required by Jackson for deserialization)
 @AllArgsConstructor // Generates a constructor with all fields
 @JsonInclude(JsonInclude.Include.NON_NULL) 
-public class Environment implements Serializable {
+public class PublishLog implements Serializable {
 
 
     private String id;
+    private int endpointType;
     private String orgId;
     private String subOrgId;
-    private String name;
-    private String description;
+    private String environmentId;
+    private String json;
+    private String version;
+    private String userId;
     private String createdAt;
     private String updatedAt;
 
@@ -32,10 +35,13 @@ public class Environment implements Serializable {
 
     @Id
     private String id;
+    private int endpointType;
     private String orgId;
     private String subOrgId;
-    private String name;
-    private String description;
+    private String environmentId;
+    private String json;
+    private String version;
+    private String userId;
     private String createdAt;
     private String updatedAt;
 
@@ -47,6 +53,13 @@ public class Environment implements Serializable {
 
     public void setId( String id) {
         this.id = id;
+    }
+    public int getEndpointType() {
+        return endpointType;
+    }
+
+    public void setEndpointType( int endpointType) {
+        this.endpointType = endpointType;
     }
     public String getOrgId() {
         return orgId;
@@ -62,19 +75,33 @@ public class Environment implements Serializable {
     public void setSubOrgId( String subOrgId) {
         this.subOrgId = subOrgId;
     }
-    public String getName() {
-        return name;
+    public String getEnvironmentId() {
+        return environmentId;
     }
 
-    public void setName( String name) {
-        this.name = name;
+    public void setEnvironmentId( String environmentId) {
+        this.environmentId = environmentId;
     }
-    public String getDescription() {
-        return description;
+    public String getJson() {
+        return json;
     }
 
-    public void setDescription( String description) {
-        this.description = description;
+    public void setJson( String json) {
+        this.json = json;
+    }
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion( String version) {
+        this.version = version;
+    }
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId( String userId) {
+        this.userId = userId;
     }
     public String getCreatedAt() {
         return createdAt;

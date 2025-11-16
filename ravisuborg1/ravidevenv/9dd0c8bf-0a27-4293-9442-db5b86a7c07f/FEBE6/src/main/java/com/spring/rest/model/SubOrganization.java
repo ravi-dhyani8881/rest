@@ -19,47 +19,66 @@ import lombok.NoArgsConstructor;
 public class SubOrganization implements Serializable {
 
 
-    private String iD;
-    private String subOrgName;
-    private String orgID;
-    private String subOrgDesc;
+    private String id;
+    private String orgId;
+    private String name;
+    private String description;
+    private String createdAt;
+    private String updatedAt;
 
 
 /*
 
-    private String iD;
-    private String subOrgName;
-    private String orgID;
-    private String subOrgDesc;
+    @Id
+    private String id;
+    private String orgId;
+    private String name;
+    private String description;
+    private String createdAt;
+    private String updatedAt;
 
 */
 
-    public String getID() {
-        return iD;
+    public String getId() {
+        return id;
     }
 
-    public void setID( String iD) {
-        this.iD = iD;
+    public void setId( String id) {
+        this.id = id;
     }
-    public String getSubOrgName() {
-        return subOrgName;
-    }
-
-    public void setSubOrgName( String subOrgName) {
-        this.subOrgName = subOrgName;
-    }
-    public String getOrgID() {
-        return orgID;
+    public String getOrgId() {
+        return orgId;
     }
 
-    public void setOrgID( String orgID) {
-        this.orgID = orgID;
+    public void setOrgId( String orgId) {
+        this.orgId = orgId;
     }
-    public String getSubOrgDesc() {
-        return subOrgDesc;
+    public String getName() {
+        return name;
     }
 
-    public void setSubOrgDesc( String subOrgDesc) {
-        this.subOrgDesc = subOrgDesc;
+    public void setName( String name) {
+        this.name = name;
+    }
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription( String description) {
+        this.description = description;
+    }
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt( String createdAt) {
+        this.createdAt = createdAt;
+    }
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt( String updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

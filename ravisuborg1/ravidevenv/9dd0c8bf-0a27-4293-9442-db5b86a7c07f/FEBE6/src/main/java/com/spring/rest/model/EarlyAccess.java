@@ -16,13 +16,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor // Generates a no-argument constructor (required by Jackson for deserialization)
 @AllArgsConstructor // Generates a constructor with all fields
 @JsonInclude(JsonInclude.Include.NON_NULL) 
-public class Environment implements Serializable {
+public class EarlyAccess implements Serializable {
 
 
     private String id;
-    private String orgId;
-    private String subOrgId;
-    private String name;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String role;
+    private String company;
+    private String companyUrl;
     private String description;
     private String createdAt;
     private String updatedAt;
@@ -32,9 +35,12 @@ public class Environment implements Serializable {
 
     @Id
     private String id;
-    private String orgId;
-    private String subOrgId;
-    private String name;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String role;
+    private String company;
+    private String companyUrl;
     private String description;
     private String createdAt;
     private String updatedAt;
@@ -48,26 +54,47 @@ public class Environment implements Serializable {
     public void setId( String id) {
         this.id = id;
     }
-    public String getOrgId() {
-        return orgId;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setOrgId( String orgId) {
-        this.orgId = orgId;
+    public void setFirstName( String firstName) {
+        this.firstName = firstName;
     }
-    public String getSubOrgId() {
-        return subOrgId;
-    }
-
-    public void setSubOrgId( String subOrgId) {
-        this.subOrgId = subOrgId;
-    }
-    public String getName() {
-        return name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setName( String name) {
-        this.name = name;
+    public void setLastName( String lastName) {
+        this.lastName = lastName;
+    }
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail( String email) {
+        this.email = email;
+    }
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole( String role) {
+        this.role = role;
+    }
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany( String company) {
+        this.company = company;
+    }
+    public String getCompanyUrl() {
+        return companyUrl;
+    }
+
+    public void setCompanyUrl( String companyUrl) {
+        this.companyUrl = companyUrl;
     }
     public String getDescription() {
         return description;

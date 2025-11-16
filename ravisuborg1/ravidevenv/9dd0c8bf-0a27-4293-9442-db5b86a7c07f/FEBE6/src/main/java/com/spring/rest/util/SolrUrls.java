@@ -21,16 +21,19 @@ public interface SolrUrls {
     public static final String USER_URL = baseUrl+"/"+"user";
     public static final String ORGANIZATION_URL = baseUrl+"/"+"organization";
     public static final String SUBORGANIZATION_URL = baseUrl+"/"+"subOrganization";
+    public static final String USERORG_URL = baseUrl+"/"+"userOrg";
+    public static final String INVITATION_URL = baseUrl+"/"+"invitation";
     public static final String ENVIRONMENT_URL = baseUrl+"/"+"environment";
-    public static final String GRAPH_URL = baseUrl+"/"+"graph";
-    public static final String PUBLISHGRAPH_URL = baseUrl+"/"+"publishGraph";
-    public static final String PUBLISHREST_URL = baseUrl+"/"+"publishRest";
+    public static final String PROJECT_URL = baseUrl+"/"+"project";
+    public static final String VERSION_URL = baseUrl+"/"+"version";
+    public static final String CONFIGURATION_URL = baseUrl+"/"+"configuration";
+    public static final String DEPLOYMENTCONFIGURATION_URL = baseUrl+"/"+"deploymentConfiguration";
+    public static final String DEPLOYMENT_URL = baseUrl+"/"+"deployment";
+    public static final String PUBLISHLOG_URL = baseUrl+"/"+"publishLog";
     public static final String APIKEY_URL = baseUrl+"/"+"apiKey";
     public static final String USERSETTING_URL = baseUrl+"/"+"userSetting";
-    public static final String CONFIGURATION_URL = baseUrl+"/"+"Configuration";
-    public static final String GRAPHVERSIONS_URL = baseUrl+"/"+"graphVersions";
-    public static final String GRAPHDEPLOYMENTS_URL = baseUrl+"/"+"graphDeployments";
-    public static final String DEPLOYMENTCONFIGURATION_URL = baseUrl+"/"+"deploymentConfiguration";
+    public static final String CHATHISTORY_URL = baseUrl+"/"+"chatHistory";
+    public static final String EARLYACCESS_URL = baseUrl+"/"+"earlyAccess";
 }
 
 */
@@ -50,15 +53,18 @@ public interface SolrUrls {
     public static final String USER_URL = baseUrl + "/" + "user";
     public static final String ORGANIZATION_URL = baseUrl + "/" + "organization";
     public static final String SUBORGANIZATION_URL = baseUrl + "/" + "subOrganization";
+    public static final String USERORG_URL = baseUrl + "/" + "userOrg";
+    public static final String INVITATION_URL = baseUrl + "/" + "invitation";
     public static final String ENVIRONMENT_URL = baseUrl + "/" + "environment";
-    public static final String GRAPH_URL = baseUrl + "/" + "graph";
-    public static final String PUBLISHGRAPH_URL = baseUrl + "/" + "publishGraph";
-    public static final String PUBLISHREST_URL = baseUrl + "/" + "publishRest";
+    public static final String PROJECT_URL = baseUrl + "/" + "project";
+    public static final String VERSION_URL = baseUrl + "/" + "version";
+    public static final String CONFIGURATION_URL = baseUrl + "/" + "configuration";
+    public static final String DEPLOYMENTCONFIGURATION_URL = baseUrl + "/" + "deploymentConfiguration";
+    public static final String DEPLOYMENT_URL = baseUrl + "/" + "deployment";
+    public static final String PUBLISHLOG_URL = baseUrl + "/" + "publishLog";
     public static final String APIKEY_URL = baseUrl + "/" + "apiKey";
     public static final String USERSETTING_URL = baseUrl + "/" + "userSetting";
-    public static final String CONFIGURATION_URL = baseUrl + "/" + "Configuration";
-    public static final String GRAPHVERSIONS_URL = baseUrl + "/" + "graphVersions";
-    public static final String GRAPHDEPLOYMENTS_URL = baseUrl + "/" + "graphDeployments";
-    public static final String DEPLOYMENTCONFIGURATION_URL = baseUrl + "/" + "deploymentConfiguration";
+    public static final String CHATHISTORY_URL = baseUrl + "/" + "chatHistory";
+    public static final String EARLYACCESS_URL = baseUrl + "/" + "earlyAccess";
 }
 

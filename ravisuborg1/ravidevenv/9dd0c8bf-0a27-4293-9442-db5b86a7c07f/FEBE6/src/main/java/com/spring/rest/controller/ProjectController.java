@@ -37,9 +37,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.spring.rest.model.Configuration;
+import com.spring.rest.model.Project;
 import com.spring.rest.model.UserAuth;
-import com.spring.rest.apiresponse.ConfigurationResponse;
+import com.spring.rest.apiresponse.ProjectResponse;
 import com.main.external.exception.user.UserException;
 import com.spring.rest.apiresponse.UserAuthResponse;
 import com.spring.rest.custom.ErrorResponse;
@@ -57,12 +57,12 @@ import io.swagger.annotations.ApiOperation;
 
 // version for 17.0.0
 
-@Api(value = "Configuration Mangment System" , description = "Service used to perform operation on configuration.", tags = "configuration")
+@Api(value = "Project Mangment System" , description = "Service used to perform operation on project.", tags = "project")
 @RestController
-@ExposesResourceFor(ConfigurationController.class)
-// @RequestMapping("/Configuration")
+@ExposesResourceFor(ProjectController.class)
+// @RequestMapping("/Project")
 @RequestMapping("/api")
-public class ConfigurationController {
+public class ProjectController {
 	
 	@Autowired
 	CommonDocumentService commonDocumentService;
@@ -70,18 +70,18 @@ public class ConfigurationController {
 	@Autowired
 	ValidationService validationService;
 	
-    String url=SolrUrls.CONFIGURATION_URL;
+    String url=SolrUrls.PROJECT_URL;
     
 		
-	@ApiOperation(value = "Service used to create Configuration")
+	@ApiOperation(value = "Service used to create Project")
 	@StandardApiResponses
-	@RequestMapping(value="/configuration" , method=RequestMethod.POST)
+	@RequestMapping(value="/project" , method=RequestMethod.POST)
 	@ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "create a new Configuration",
+            @ApiResponse(responseCode = "201", description = "create a new Project",
                          content = @Content(mediaType = "application/json",
-                         schema = @Schema(implementation = Configuration.class)))
+                         schema = @Schema(implementation = Project.class)))
         })
-	public ResponseEntity<?>   createConfiguration(@RequestBody  Configuration configuration
+	public ResponseEntity<?>   createProject(@RequestBody  Project project
  , HttpServletResponse response, HttpServletRequest request,
 			@RequestHeader(name="X-API-Key", required=true) String apiKeyx ,
 			@RequestHeader(name="X-USER-ID", required=true) String userId) {
@@ -97,17 +97,17 @@ public class ConfigurationController {
 	                        .body(ErrorResponse.of("internal_error", "API validation service unavailable"));
 	            }
 	            
-				configuration.setID(Utility.getUniqueId());
+				project.setID(Utility.getUniqueId());
 	             
 	            // Call service layer
-	            Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate( configuration, url);
+	            Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate( project, url);
 	            if (apiResponse instanceof Exception) {
 	                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	                        .body(ErrorResponse.of("internal_error", "Failed to save configuration"));
+	                        .body(ErrorResponse.of("internal_error", "Failed to save project"));
 	            }
 	            return ResponseEntity.status(HttpStatus.CREATED)
-	                    .body(new ResponseMessage.Builder("Configuration created successfully", 201)
-	                            .withUserObject(configuration)
+	                    .body(new ResponseMessage.Builder("Project created successfully", 201)
+	                            .withUserObject(project)
 	                            .build());
 	           }
 	        catch (Exception e) {
@@ -117,17 +117,17 @@ public class ConfigurationController {
 	        }
 	    }
 	
-@ApiOperation(value = "This service used to update Configuration")
+@ApiOperation(value = "This service used to update Project")
 @StandardApiResponses	
-@RequestMapping(value="/configuration" , method=RequestMethod.PUT)
-public ResponseEntity<?> updateconfiguration(
-        @RequestBody Configuration configuration,
+@RequestMapping(value="/project" , method=RequestMethod.PUT)
+public ResponseEntity<?> updateproject(
+        @RequestBody Project project,
         HttpServletResponse response,
         HttpServletRequest request,
         @RequestHeader(name = "X-API-Key", required = true) String apiKeyx,
         @RequestHeader(name = "X-USER-ID", required = true) String userIdx) {
 
-    String configurationId = null;
+    String projectId = null;
 
     try {
         // ✅ Validate API Key
@@ -142,16 +142,16 @@ public ResponseEntity<?> updateconfiguration(
 	            }
 
          // ✅ Check for ID in Customers POJO
-	        if (configuration.getID() == null || configuration.getID().trim().isEmpty()) {
+	        if (project.getID() == null || project.getID().trim().isEmpty()) {
 	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
 	        }
 
     
-	        configurationId = configuration.getID();
+	        projectId = project.getID();
             
             // ✅ Query Solr for existing record
-	        Object apiResponse = commonDocumentService.advanceQueryAndExceptionByTemplate("ID:" + configurationId, url);
+	        Object apiResponse = commonDocumentService.advanceQueryAndExceptionByTemplate("ID:" + projectId, url);
 
         if (apiResponse instanceof Exception) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -164,12 +164,12 @@ public ResponseEntity<?> updateconfiguration(
                     .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
 		}
        
-        commonDocumentService.updateDocumentAndExceptionByTemplate(configuration, url);
+        commonDocumentService.updateDocumentAndExceptionByTemplate(project, url);
 
         // ✅ Success Response
         ResponseMessage successResponse = new ResponseMessage.Builder("Content updated Successfully", 200)
-                .withID(configurationId)
-                .withUserObject(configuration)
+                .withID(projectId)
+                .withUserObject(project)
                 .withResponseType("updated")
                 .build();
 
@@ -183,15 +183,15 @@ public ResponseEntity<?> updateconfiguration(
 }
 
 	
-	@ApiOperation(value = "This service used to search Configuration by query")
+	@ApiOperation(value = "This service used to search Project by query")
 	@StandardApiResponses
-	@RequestMapping(value="/configuration" , method=RequestMethod.GET)
+	@RequestMapping(value="/project" , method=RequestMethod.GET)
 	@ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User found",
                          content = @Content(mediaType = "application/json",
-                         schema = @Schema(implementation = ConfigurationResponse.class)))
+                         schema = @Schema(implementation = ProjectResponse.class)))
         })
-	public ModelMap  searchConfiguration(@RequestParam(name = "query", required = true) String query,
+	public ModelMap  searchProject(@RequestParam(name = "query", required = true) String query,
 			@RequestParam(name = "rows",  defaultValue = "8", required = false) String rows ,
 			@RequestParam(name = "start",defaultValue = "0", required = false) String start,
 			@RequestParam(name = "fl" ,defaultValue = "" , required = false) String fl ,
@@ -253,7 +253,7 @@ public ResponseEntity<?> updateconfiguration(
 	
 	@Hidden
 	@ApiOperation(value = "This service used to search content by query")
-	@RequestMapping(value="/searchConfigurationById" , method=RequestMethod.GET)
+	@RequestMapping(value="/searchProjectById" , method=RequestMethod.GET)
 	public ModelMap  searchContentById(@RequestParam(name = "Id", required = true) String query,
 			@RequestParam(name = "rows",  defaultValue = "8", required = false) String rows ,
 			@RequestParam(name = "start",defaultValue = "0", required = false) String start,
@@ -316,10 +316,10 @@ public ResponseEntity<?> updateconfiguration(
 		}
 	}
 	
-@ApiOperation(value = "This service delete Configuration by query")
+@ApiOperation(value = "This service delete Project by query")
 @StandardApiResponses
-@DeleteMapping("/configuration")
-public ResponseEntity<?> deleteConfigurationByQuery(
+@DeleteMapping("/project")
+public ResponseEntity<?> deleteProjectByQuery(
         @RequestParam(name = "query") String query,
         @RequestHeader(name = "X-API-Key", required = true) String apiKey,
         @RequestHeader(name = "X-USER-ID", required = true) String userId) {
@@ -353,7 +353,7 @@ public ResponseEntity<?> deleteConfigurationByQuery(
 
         // ✅ Success
         return ResponseEntity.ok(
-                new ResponseMessage.Builder("Configuration deleted successfully with Query", 200)
+                new ResponseMessage.Builder("Project deleted successfully with Query", 200)
                         .withQuery(query)
                         .withResponseType("deleted")
                         .build()

@@ -16,14 +16,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor // Generates a no-argument constructor (required by Jackson for deserialization)
 @AllArgsConstructor // Generates a constructor with all fields
 @JsonInclude(JsonInclude.Include.NON_NULL) 
-public class Environment implements Serializable {
+public class Deployment implements Serializable {
 
 
     private String id;
-    private String orgId;
-    private String subOrgId;
-    private String name;
-    private String description;
+    private String projectId;
+    private String versionId;
+    private String deploymentConfigurationId;
+    private String deployedBy;
+    private String status;
     private String createdAt;
     private String updatedAt;
 
@@ -32,10 +33,11 @@ public class Environment implements Serializable {
 
     @Id
     private String id;
-    private String orgId;
-    private String subOrgId;
-    private String name;
-    private String description;
+    private String projectId;
+    private String versionId;
+    private String deploymentConfigurationId;
+    private String deployedBy;
+    private String status;
     private String createdAt;
     private String updatedAt;
 
@@ -48,33 +50,40 @@ public class Environment implements Serializable {
     public void setId( String id) {
         this.id = id;
     }
-    public String getOrgId() {
-        return orgId;
+    public String getProjectId() {
+        return projectId;
     }
 
-    public void setOrgId( String orgId) {
-        this.orgId = orgId;
+    public void setProjectId( String projectId) {
+        this.projectId = projectId;
     }
-    public String getSubOrgId() {
-        return subOrgId;
-    }
-
-    public void setSubOrgId( String subOrgId) {
-        this.subOrgId = subOrgId;
-    }
-    public String getName() {
-        return name;
+    public String getVersionId() {
+        return versionId;
     }
 
-    public void setName( String name) {
-        this.name = name;
+    public void setVersionId( String versionId) {
+        this.versionId = versionId;
     }
-    public String getDescription() {
-        return description;
+    public String getDeploymentConfigurationId() {
+        return deploymentConfigurationId;
     }
 
-    public void setDescription( String description) {
-        this.description = description;
+    public void setDeploymentConfigurationId( String deploymentConfigurationId) {
+        this.deploymentConfigurationId = deploymentConfigurationId;
+    }
+    public String getDeployedBy() {
+        return deployedBy;
+    }
+
+    public void setDeployedBy( String deployedBy) {
+        this.deployedBy = deployedBy;
+    }
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus( String status) {
+        this.status = status;
     }
     public String getCreatedAt() {
         return createdAt;
