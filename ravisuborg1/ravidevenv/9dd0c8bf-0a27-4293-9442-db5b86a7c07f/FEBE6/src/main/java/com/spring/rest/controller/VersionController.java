@@ -97,7 +97,7 @@ public class VersionController {
 	                        .body(ErrorResponse.of("internal_error", "API validation service unavailable"));
 	            }
 	            
-				version.setID(Utility.getUniqueId());
+				version.setId(Utility.getUniqueId());
 	             
 	            // Call service layer
 	            Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate( version, url);
@@ -142,13 +142,13 @@ public ResponseEntity<?> updateversion(
 	            }
 
          // ✅ Check for ID in Customers POJO
-	        if (version.getID() == null || version.getID().trim().isEmpty()) {
+	        if (version.getId() == null || version.getId().trim().isEmpty()) {
 	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
 	        }
 
     
-	        versionId = version.getID();
+	        versionId = version.getId();
             
             // ✅ Query Solr for existing record
 	        Object apiResponse = commonDocumentService.advanceQueryAndExceptionByTemplate("ID:" + versionId, url);

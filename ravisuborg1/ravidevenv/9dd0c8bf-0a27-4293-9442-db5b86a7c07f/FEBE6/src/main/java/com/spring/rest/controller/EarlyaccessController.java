@@ -97,7 +97,7 @@ public class EarlyaccessController {
 	                        .body(ErrorResponse.of("internal_error", "API validation service unavailable"));
 	            }
 	            
-				earlyAccess.setID(Utility.getUniqueId());
+				earlyAccess.setId(Utility.getUniqueId());
 	             
 	            // Call service layer
 	            Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate( earlyAccess, url);
@@ -142,13 +142,13 @@ public ResponseEntity<?> updateearlyAccess(
 	            }
 
          // ✅ Check for ID in Customers POJO
-	        if (earlyAccess.getID() == null || earlyAccess.getID().trim().isEmpty()) {
+	        if (earlyAccess.getId() == null || earlyAccess.getId().trim().isEmpty()) {
 	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
 	        }
 
     
-	        earlyAccessId = earlyAccess.getID();
+	        earlyAccessId = earlyAccess.getId();
             
             // ✅ Query Solr for existing record
 	        Object apiResponse = commonDocumentService.advanceQueryAndExceptionByTemplate("ID:" + earlyAccessId, url);

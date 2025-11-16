@@ -97,7 +97,7 @@ public class UserorgController {
 	                        .body(ErrorResponse.of("internal_error", "API validation service unavailable"));
 	            }
 	            
-				userOrg.setID(Utility.getUniqueId());
+				userOrg.setId(Utility.getUniqueId());
 	             
 	            // Call service layer
 	            Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate( userOrg, url);
@@ -142,13 +142,13 @@ public ResponseEntity<?> updateuserOrg(
 	            }
 
          // ✅ Check for ID in Customers POJO
-	        if (userOrg.getID() == null || userOrg.getID().trim().isEmpty()) {
+	        if (userOrg.getId() == null || userOrg.getId().trim().isEmpty()) {
 	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
 	        }
 
     
-	        userOrgId = userOrg.getID();
+	        userOrgId = userOrg.getId();
             
             // ✅ Query Solr for existing record
 	        Object apiResponse = commonDocumentService.advanceQueryAndExceptionByTemplate("ID:" + userOrgId, url);

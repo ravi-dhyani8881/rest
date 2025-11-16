@@ -97,7 +97,7 @@ public class OrganizationController {
 	                        .body(ErrorResponse.of("internal_error", "API validation service unavailable"));
 	            }
 	            
-				organization.setID(Utility.getUniqueId());
+				organization.setId(Utility.getUniqueId());
 	             
 	            // Call service layer
 	            Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate( organization, url);
@@ -142,13 +142,13 @@ public ResponseEntity<?> updateorganization(
 	            }
 
          // ✅ Check for ID in Customers POJO
-	        if (organization.getID() == null || organization.getID().trim().isEmpty()) {
+	        if (organization.getId() == null || organization.getId().trim().isEmpty()) {
 	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
 	        }
 
     
-	        organizationId = organization.getID();
+	        organizationId = organization.getId();
             
             // ✅ Query Solr for existing record
 	        Object apiResponse = commonDocumentService.advanceQueryAndExceptionByTemplate("ID:" + organizationId, url);

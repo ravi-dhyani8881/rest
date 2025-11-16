@@ -97,7 +97,7 @@ public class ChathistoryController {
 	                        .body(ErrorResponse.of("internal_error", "API validation service unavailable"));
 	            }
 	            
-				chatHistory.setID(Utility.getUniqueId());
+				chatHistory.setId(Utility.getUniqueId());
 	             
 	            // Call service layer
 	            Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate( chatHistory, url);
@@ -142,13 +142,13 @@ public ResponseEntity<?> updatechatHistory(
 	            }
 
          // ✅ Check for ID in Customers POJO
-	        if (chatHistory.getID() == null || chatHistory.getID().trim().isEmpty()) {
+	        if (chatHistory.getId() == null || chatHistory.getId().trim().isEmpty()) {
 	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
 	        }
 
     
-	        chatHistoryId = chatHistory.getID();
+	        chatHistoryId = chatHistory.getId();
             
             // ✅ Query Solr for existing record
 	        Object apiResponse = commonDocumentService.advanceQueryAndExceptionByTemplate("ID:" + chatHistoryId, url);

@@ -97,7 +97,7 @@ public class PublishlogController {
 	                        .body(ErrorResponse.of("internal_error", "API validation service unavailable"));
 	            }
 	            
-				publishLog.setID(Utility.getUniqueId());
+				publishLog.setId(Utility.getUniqueId());
 	             
 	            // Call service layer
 	            Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate( publishLog, url);
@@ -142,13 +142,13 @@ public ResponseEntity<?> updatepublishLog(
 	            }
 
          // ✅ Check for ID in Customers POJO
-	        if (publishLog.getID() == null || publishLog.getID().trim().isEmpty()) {
+	        if (publishLog.getId() == null || publishLog.getId().trim().isEmpty()) {
 	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
 	        }
 
     
-	        publishLogId = publishLog.getID();
+	        publishLogId = publishLog.getId();
             
             // ✅ Query Solr for existing record
 	        Object apiResponse = commonDocumentService.advanceQueryAndExceptionByTemplate("ID:" + publishLogId, url);

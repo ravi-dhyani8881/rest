@@ -97,7 +97,7 @@ public class EnvironmentController {
 	                        .body(ErrorResponse.of("internal_error", "API validation service unavailable"));
 	            }
 	            
-				environment.setID(Utility.getUniqueId());
+				environment.setId(Utility.getUniqueId());
 	             
 	            // Call service layer
 	            Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate( environment, url);
@@ -142,13 +142,13 @@ public ResponseEntity<?> updateenvironment(
 	            }
 
          // ✅ Check for ID in Customers POJO
-	        if (environment.getID() == null || environment.getID().trim().isEmpty()) {
+	        if (environment.getId() == null || environment.getId().trim().isEmpty()) {
 	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
 	        }
 
     
-	        environmentId = environment.getID();
+	        environmentId = environment.getId();
             
             // ✅ Query Solr for existing record
 	        Object apiResponse = commonDocumentService.advanceQueryAndExceptionByTemplate("ID:" + environmentId, url);
