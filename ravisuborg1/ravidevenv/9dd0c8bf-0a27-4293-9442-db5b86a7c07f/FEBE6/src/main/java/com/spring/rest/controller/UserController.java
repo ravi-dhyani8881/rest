@@ -481,50 +481,97 @@ public ResponseEntity<?> deleteUserByQuery(
     // Special methods for User controller
  
     // Special methods for User controller
-	@ApiOperation(value = "Service used to SignUp User")
-	@StandardApiResponses
-    @PostMapping("/userSignUp")
-	public ModelMap addNew(@RequestBody  User user, HttpServletResponse response) {
-		ModelMap model = new ModelMap();
-		String userId=Utility.getUniqueId();		
-		
-		    Map<String, Object> payload= new HashMap<String, Object>();
-			payload.put("ID", userId);
-			String userActivationKey=(String)payload.get("userActivationKey")!=null ? (String)payload.get("userActivationKey") : Utility.getUniqueId();
-			payload.put("userActivationKey", userActivationKey);
-			
-			user.setId(Utility.getUniqueId());
+	@ApiResponses(value = {
+	@ApiResponse(
+	        responseCode = "201",
+	        description = "User created successfully",
+	        content = @Content(
+	            mediaType = "application/json",
+	            schema = @Schema(oneOf = { ResponseMessage.class, UserSignUpExample.class })
+	        )
+	    ),
+	    @ApiResponse(
+	        responseCode = "400",
+	        description = "Validation failed",
+	        content = @Content(schema = @Schema(implementation = ResponseMessage.class))
+	    ),
+	    @ApiResponse(
+	        responseCode = "409",
+	        description = "Email already exists",
+	        content = @Content(schema = @Schema(implementation = ResponseMessage.class))
+	    ),
+	    @ApiResponse(
+	        responseCode = "500",
+	        description = "Server error",
+	        content = @Content(schema = @Schema(implementation = ResponseMessage.class))
+	    )})
+	@PostMapping("/userSignUp")
+	public ResponseEntity<?> userSignUp(@Valid @RequestBody User user) {
 
-			if (emailExists((String)payload.get("email"))) {
-				//throw new Exception();
-				Exception r = new RuntimeException("Email Exist");
-				
-			//	throw new CustomException4xx("There is an account with that email address: "  + payload.get("email"), r);
-				
-				throw new UserException("There is an account with that email address: "  + payload.get("email"), r);
+	    try {
+	        // ============================================================
+	        // 1️⃣ Validate Email Exists
+	        // ============================================================
+	        if (emailExists(user.getEmail())) {
+	            return ResponseEntity.status(HttpStatus.CONFLICT)
+	                    .body(new ResponseMessage.Builder("Email already exists", 409)
+	                            .withResponseType("duplicate")
+	                            .build());
 	        }
 
-			Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate(payload, url);
-			
-			
-			if(apiResponse instanceof Exception )
-			{
-				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			//	return model.addAttribute("Message", new ResponseMessage("Server down Internal server error", HttpServletResponse.SC_INTERNAL_SERVER_ERROR));
-				return model.addAttribute("Message", new ResponseMessage.Builder("Server down Internal server error", 500).build());
-			}
-			response.setStatus(HttpServletResponse.SC_CREATED);
-		//	model.addAttribute("Message", new ResponseMessage("User added Sucesfully. Please activate through email activation code.", HttpServletResponse.SC_CREATED,null,null,userId,null,"created"));					
-			
-			
-			 model.addAttribute("Message", new ResponseMessage.Builder("User added Sucesfully. Please activate through email activation code.", HttpServletResponse.SC_CREATED)
-					.withID(userId)
-					.withActivationCode(userActivationKey)
-					.withResponseType("created")
-					.build());
-			
-		return model;
+	        // ============================================================
+	        // 2️⃣ Generate IDs (system-generated)
+	        // ============================================================
+	        String userId = Utility.getUniqueId();
+	        String activationCode = Utility.getUniqueId();
+
+	   //     user.setId(userId);
+
+	        Map<String, Object> payload = new HashMap<>();
+	        payload.put("ID", userId);
+	        payload.put("email", user.getEmail());
+	        payload.put("firstName", user.getFirstName());
+	        payload.put("middleName", user.getMiddleName());
+	        payload.put("lastName", user.getLastName());
+	        payload.put("address", user.getAddress());
+	        payload.put("company", user.getCompany());
+	        payload.put("role", user.getRole());
+	        payload.put("userActivationKey", activationCode);
+
+	        // ============================================================
+	        // 3️⃣ Persist into Solr
+	        // ============================================================
+	        Object apiResponse = commonDocumentService
+	                .addDocumentAndExceptionByTemplate(payload, url);
+
+	        if (apiResponse instanceof Exception) {
+	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                    .body(new ResponseMessage.Builder("Server error", 500).build());
+	        }
+
+	        // ============================================================
+	        // 4️⃣ SUCCESS RESPONSE
+	        // ============================================================
+	        ResponseMessage response = new ResponseMessage.Builder(
+	                "User registered successfully. Please activate using email verification code.",
+	                HttpStatus.CREATED.value())
+	                .withID(userId)
+	                .withActivationCode(activationCode)
+	                .withResponseType("created")
+	                .build();
+
+	        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+
+	    } catch (Exception ex) {
+
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                .body(new ResponseMessage.Builder("Unexpected error", 500)
+	                        .withResponseType("error")
+	                        .build());
+	    }
 	}
+
+
    
 	@PostMapping("/user-authentication")
 	@ApiResponses(value = {
