@@ -41,6 +41,7 @@ import com.spring.rest.model.EarlyAccess;
 import com.spring.rest.model.UserAuth;
 import com.spring.rest.apiresponse.EarlyAccessResponse;
 import com.main.external.exception.user.UserException;
+import com.spring.rest.apiresponse.UserSignUpExample;
 import com.spring.rest.apiresponse.UserAuthResponse;
 import com.spring.rest.custom.ErrorResponse;
 import com.spring.rest.custom.StandardApiResponses;

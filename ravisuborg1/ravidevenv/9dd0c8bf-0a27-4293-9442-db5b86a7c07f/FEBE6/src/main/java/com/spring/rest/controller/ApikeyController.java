@@ -41,6 +41,7 @@ import com.spring.rest.model.ApiKey;
 import com.spring.rest.model.UserAuth;
 import com.spring.rest.apiresponse.ApiKeyResponse;
 import com.main.external.exception.user.UserException;
+import com.spring.rest.apiresponse.UserSignUpExample;
 import com.spring.rest.apiresponse.UserAuthResponse;
 import com.spring.rest.custom.ErrorResponse;
 import com.spring.rest.custom.StandardApiResponses;
