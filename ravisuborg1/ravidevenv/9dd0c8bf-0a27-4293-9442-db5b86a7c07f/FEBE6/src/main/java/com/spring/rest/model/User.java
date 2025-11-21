@@ -31,6 +31,7 @@ public class User implements Serializable {
     private String passwordSalt;
     private String createdAt;
     private String updatedAt;
+    private String userActivationKey;
 
 
 /*
@@ -48,6 +49,7 @@ public class User implements Serializable {
     private String passwordSalt;
     private String createdAt;
     private String updatedAt;
+    private String userActivationKey;
 
 */
 
@@ -134,5 +136,12 @@ public class User implements Serializable {
 
     public void setUpdatedAt( String updatedAt) {
         this.updatedAt = updatedAt;
+    }
+    public String getUserActivationKey() {
+        return userActivationKey;
+    }
+
+    public void setUserActivationKey( String userActivationKey) {
+        this.userActivationKey = userActivationKey;
     }
 }
