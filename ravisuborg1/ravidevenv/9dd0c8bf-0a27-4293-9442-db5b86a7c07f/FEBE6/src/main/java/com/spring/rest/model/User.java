@@ -28,7 +28,7 @@ public class User implements Serializable {
     private String address;
     private String company;
     private String role;
-    private String passwordHash;
+    private String password;
     private String passwordSalt;
     private String createdAt;
     private String updatedAt;
@@ -47,7 +47,7 @@ public class User implements Serializable {
     private String address;
     private String company;
     private String role;
-    private String passwordHash;
+    private String password;
     private String passwordSalt;
     private String createdAt;
     private String updatedAt;
@@ -118,12 +118,12 @@ public class User implements Serializable {
     public void setRole( String role) {
         this.role = role;
     }
-    public String getPasswordHash() {
-        return passwordHash;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPasswordHash( String passwordHash) {
-        this.passwordHash = passwordHash;
+    public void setPassword( String password) {
+        this.password = password;
     }
     public String getPasswordSalt() {
         return passwordSalt;
