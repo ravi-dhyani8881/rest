@@ -538,7 +538,7 @@ public ResponseEntity<?> deleteUserByQuery(
 	        payload.put("company", user.getCompany());
 	        payload.put("role", user.getRole());
 	        payload.put("userActivationKey", activationCode);
-
+			payload.put("password", user.getPassword());
 	        // ============================================================
 	        // 3️⃣ Persist into Solr
 	        // ============================================================
