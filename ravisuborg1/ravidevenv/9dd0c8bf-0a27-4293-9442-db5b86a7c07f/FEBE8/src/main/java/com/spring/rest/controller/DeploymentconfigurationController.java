@@ -102,7 +102,7 @@ public class DeploymentconfigurationController {
 	                        .body(ErrorResponse.of("internal_error", "API validation service unavailable"));
 	            }
 	            
-				deploymentConfiguration.setId(Utility.getUniqueId());
+				deploymentConfiguration.setID(Utility.getUniqueId());
 	             
 	            // Call service layer
 	            Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate( deploymentConfiguration, url);
@@ -147,13 +147,13 @@ public ResponseEntity<?> updatedeploymentConfiguration(
 	            }
 
          // ✅ Check for ID in Customers POJO
-	        if (deploymentConfiguration.getId() == null || deploymentConfiguration.getId().trim().isEmpty()) {
+	        if (deploymentConfiguration.getID() == null || deploymentConfiguration.getID().trim().isEmpty()) {
 	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
 	        }
 
     
-	        deploymentConfigurationId = deploymentConfiguration.getId();
+	        deploymentConfigurationId = deploymentConfiguration.getID();
             
             // ✅ Query Solr for existing record
 	        Object apiResponse = commonDocumentService.advanceQueryAndExceptionByTemplate("ID:" + deploymentConfigurationId, url);

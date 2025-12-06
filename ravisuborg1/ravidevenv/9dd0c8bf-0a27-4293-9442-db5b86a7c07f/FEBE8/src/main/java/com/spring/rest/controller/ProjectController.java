@@ -102,7 +102,7 @@ public class ProjectController {
 	                        .body(ErrorResponse.of("internal_error", "API validation service unavailable"));
 	            }
 	            
-				project.setId(Utility.getUniqueId());
+				project.setID(Utility.getUniqueId());
 	             
 	            // Call service layer
 	            Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate( project, url);
@@ -147,13 +147,13 @@ public ResponseEntity<?> updateproject(
 	            }
 
          // ✅ Check for ID in Customers POJO
-	        if (project.getId() == null || project.getId().trim().isEmpty()) {
+	        if (project.getID() == null || project.getID().trim().isEmpty()) {
 	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
 	        }
 
     
-	        projectId = project.getId();
+	        projectId = project.getID();
             
             // ✅ Query Solr for existing record
 	        Object apiResponse = commonDocumentService.advanceQueryAndExceptionByTemplate("ID:" + projectId, url);

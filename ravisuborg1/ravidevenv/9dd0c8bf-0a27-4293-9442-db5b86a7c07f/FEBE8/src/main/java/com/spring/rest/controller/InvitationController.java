@@ -102,7 +102,7 @@ public class InvitationController {
 	                        .body(ErrorResponse.of("internal_error", "API validation service unavailable"));
 	            }
 	            
-				invitation.setId(Utility.getUniqueId());
+				invitation.setID(Utility.getUniqueId());
 	             
 	            // Call service layer
 	            Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate( invitation, url);
@@ -147,13 +147,13 @@ public ResponseEntity<?> updateinvitation(
 	            }
 
          // ✅ Check for ID in Customers POJO
-	        if (invitation.getId() == null || invitation.getId().trim().isEmpty()) {
+	        if (invitation.getID() == null || invitation.getID().trim().isEmpty()) {
 	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
 	        }
 
     
-	        invitationId = invitation.getId();
+	        invitationId = invitation.getID();
             
             // ✅ Query Solr for existing record
 	        Object apiResponse = commonDocumentService.advanceQueryAndExceptionByTemplate("ID:" + invitationId, url);

@@ -102,7 +102,7 @@ public class ApikeyController {
 	                        .body(ErrorResponse.of("internal_error", "API validation service unavailable"));
 	            }
 	            
-				apiKey.setId(Utility.getUniqueId());
+				apiKey.setID(Utility.getUniqueId());
 	             
 	            // Call service layer
 	            Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate( apiKey, url);
@@ -147,13 +147,13 @@ public ResponseEntity<?> updateapiKey(
 	            }
 
          // ✅ Check for ID in Customers POJO
-	        if (apiKey.getId() == null || apiKey.getId().trim().isEmpty()) {
+	        if (apiKey.getID() == null || apiKey.getID().trim().isEmpty()) {
 	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
 	        }
 
     
-	        apiKeyId = apiKey.getId();
+	        apiKeyId = apiKey.getID();
             
             // ✅ Query Solr for existing record
 	        Object apiResponse = commonDocumentService.advanceQueryAndExceptionByTemplate("ID:" + apiKeyId, url);
