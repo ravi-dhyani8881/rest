@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 public class Invitation implements Serializable {
 
 
-    private String id;
+    private String iD;
     private String email;
     private String orgId;
     private String role;
@@ -31,7 +31,7 @@ public class Invitation implements Serializable {
 /*
 
     @Id
-    private String id;
+    private String iD;
     private String email;
     private String orgId;
     private String role;
@@ -41,12 +41,12 @@ public class Invitation implements Serializable {
 
 */
 
-    public String getId() {
-        return id;
+    public String getID() {
+        return iD;
     }
 
-    public void setId( String id) {
-        this.id = id;
+    public void setID( String iD) {
+        this.iD = iD;
     }
     public String getEmail() {
         return email;

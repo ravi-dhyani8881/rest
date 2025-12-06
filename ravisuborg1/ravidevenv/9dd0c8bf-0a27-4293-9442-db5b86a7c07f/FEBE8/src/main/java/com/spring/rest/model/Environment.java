@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 public class Environment implements Serializable {
 
 
-    private String id;
+    private String iD;
     private String orgId;
     private String subOrgId;
     private String name;
@@ -31,7 +31,7 @@ public class Environment implements Serializable {
 /*
 
     @Id
-    private String id;
+    private String iD;
     private String orgId;
     private String subOrgId;
     private String name;
@@ -41,12 +41,12 @@ public class Environment implements Serializable {
 
 */
 
-    public String getId() {
-        return id;
+    public String getID() {
+        return iD;
     }
 
-    public void setId( String id) {
-        this.id = id;
+    public void setID( String iD) {
+        this.iD = iD;
     }
     public String getOrgId() {
         return orgId;

@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 public class DeploymentConfiguration implements Serializable {
 
 
-    private String id;
+    private String iD;
     private String configurationId;
     private String replicaCount;
     private String createdAt;
@@ -29,7 +29,7 @@ public class DeploymentConfiguration implements Serializable {
 /*
 
     @Id
-    private String id;
+    private String iD;
     private String configurationId;
     private String replicaCount;
     private String createdAt;
@@ -37,12 +37,12 @@ public class DeploymentConfiguration implements Serializable {
 
 */
 
-    public String getId() {
-        return id;
+    public String getID() {
+        return iD;
     }
 
-    public void setId( String id) {
-        this.id = id;
+    public void setID( String iD) {
+        this.iD = iD;
     }
     public String getConfigurationId() {
         return configurationId;
