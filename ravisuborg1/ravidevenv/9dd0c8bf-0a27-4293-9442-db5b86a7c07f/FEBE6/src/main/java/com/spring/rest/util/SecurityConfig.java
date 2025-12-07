@@ -1,5 +1,4 @@
 package com.spring.rest.util;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,8 +22,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
                 .antMatchers(
                         "/api/user-authentication/**",
-                           "/api/activate-user/**",
-                        "/api/userSignUp/**"
+                        "/api/activate-user/**",
+                        "/api/activate-user-new/**",
+                        "/api/userSignUp/**",
+                        "/swagger-ui/swagger-ui.css",
+                        "/v3/api-docs/swagger-config",
+                        "/swagger-ui/**",
+                        "/v3/api-docs/**",
+                        "/swagger-ui/**",
+                        "/v3/api-docs/**",
+                        "/swagger-resources/**",
+                        "/webjars/**",
+                        "/swagger-ui.html",
+                        "/v3/api-docs/**",
+                        "/swagger-ui/**",
+                        "/swagger-ui.html",
+                        "/swagger-resources/**",
+                        "/webjars/**",
+                        "/v2/api-docs"
                 ).permitAll()
                 .anyRequest().authenticated()
             .and()
