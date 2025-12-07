@@ -87,20 +87,10 @@ public class OrganizationController {
                          schema = @Schema(implementation = Organization.class)))
         })
 	public ResponseEntity<?>   createOrganization(@RequestBody  Organization organization
- , HttpServletResponse response, HttpServletRequest request,
-			@RequestHeader(name="X-API-Key", required=true) String apiKeyx ,
-			@RequestHeader(name="X-USER-ID", required=true) String userId) {
+ , HttpServletResponse response, HttpServletRequest request) {
 		
 	       try {
-	            // ✅ Validate API key
-	            int validationStatus = validationService.validateApiKey(apiKeyx, userId);
-	            if (validationStatus == 401) {
-	                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-	                        .body(ErrorResponse.of("unauthorized", "Invalid API key"));
-	            } else if (validationStatus == 500) {
-	                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	                        .body(ErrorResponse.of("internal_error", "API validation service unavailable"));
-	            }
+	          
 	            
 				organization.setID(Utility.getUniqueId());
 	             
@@ -128,23 +118,12 @@ public class OrganizationController {
 public ResponseEntity<?> updateorganization(
         @RequestBody Organization organization,
         HttpServletResponse response,
-        HttpServletRequest request,
-        @RequestHeader(name = "X-API-Key", required = true) String apiKeyx,
-        @RequestHeader(name = "X-USER-ID", required = true) String userIdx) {
+        HttpServletRequest request) {
 
     String organizationId = null;
 
     try {
-        // ✅ Validate API Key
-        int validationStatus = validationService.validateApiKey(apiKeyx, userIdx);
-
-         if (validationStatus == 401) {
-	                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-	                        .body(ErrorResponse.of("unauthorized", "Invalid API key"));
-	            } else if (validationStatus == 500) {
-	                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	                        .body(ErrorResponse.of("internal_error", "API validation service unavailable"));
-	            }
+       
 
          // ✅ Check for ID in Customers POJO
 	        if (organization.getID() == null || organization.getID().trim().isEmpty()) {
@@ -310,21 +289,10 @@ public ResponseEntity<?> updateorganization(
 @StandardApiResponses
 @DeleteMapping("/organization")
 public ResponseEntity<?> deleteOrganizationByQuery(
-        @RequestParam(name = "query") String query,
-        @RequestHeader(name = "X-API-Key", required = true) String apiKey,
-        @RequestHeader(name = "X-USER-ID", required = true) String userId) {
+        @RequestParam(name = "query") String query) {
 
     try {
-        // ✅ Validate API Key
-        int validationStatus = validationService.validateApiKey(apiKey, userId);
-
-        if (validationStatus == 500) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseMessage.Builder("Server down Internal server error", 500).build());
-        } else if (validationStatus == 401) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ResponseMessage.Builder("Invalid API Key", 401).build());
-        }
+       
 
         // ✅ Delete Operation
         Object apiResponse = commonDocumentService.deleteDocumentAndExceptionByTemplate(query, url);

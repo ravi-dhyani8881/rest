@@ -87,20 +87,10 @@ public class UserController {
                          schema = @Schema(implementation = User.class)))
         })
 	public ResponseEntity<?>   createUser(@RequestBody  User user
- , HttpServletResponse response, HttpServletRequest request,
-			@RequestHeader(name="X-API-Key", required=true) String apiKeyx ,
-			@RequestHeader(name="X-USER-ID", required=true) String userId) {
+ , HttpServletResponse response, HttpServletRequest request) {
 		
 	       try {
-	            // ✅ Validate API key
-	            int validationStatus = validationService.validateApiKey(apiKeyx, userId);
-	            if (validationStatus == 401) {
-	                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-	                        .body(ErrorResponse.of("unauthorized", "Invalid API key"));
-	            } else if (validationStatus == 500) {
-	                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	                        .body(ErrorResponse.of("internal_error", "API validation service unavailable"));
-	            }
+	          
 	            
 				user.setID(Utility.getUniqueId());
 	             
@@ -128,23 +118,12 @@ public class UserController {
 public ResponseEntity<?> updateuser(
         @RequestBody User user,
         HttpServletResponse response,
-        HttpServletRequest request,
-        @RequestHeader(name = "X-API-Key", required = true) String apiKeyx,
-        @RequestHeader(name = "X-USER-ID", required = true) String userIdx) {
+        HttpServletRequest request) {
 
     String userId = null;
 
     try {
-        // ✅ Validate API Key
-        int validationStatus = validationService.validateApiKey(apiKeyx, userIdx);
-
-         if (validationStatus == 401) {
-	                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-	                        .body(ErrorResponse.of("unauthorized", "Invalid API key"));
-	            } else if (validationStatus == 500) {
-	                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	                        .body(ErrorResponse.of("internal_error", "API validation service unavailable"));
-	            }
+       
 
          // ✅ Check for ID in Customers POJO
 	        if (user.getID() == null || user.getID().trim().isEmpty()) {
@@ -310,21 +289,10 @@ public ResponseEntity<?> updateuser(
 @StandardApiResponses
 @DeleteMapping("/user")
 public ResponseEntity<?> deleteUserByQuery(
-        @RequestParam(name = "query") String query,
-        @RequestHeader(name = "X-API-Key", required = true) String apiKey,
-        @RequestHeader(name = "X-USER-ID", required = true) String userId) {
+        @RequestParam(name = "query") String query) {
 
     try {
-        // ✅ Validate API Key
-        int validationStatus = validationService.validateApiKey(apiKey, userId);
-
-        if (validationStatus == 500) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseMessage.Builder("Server down Internal server error", 500).build());
-        } else if (validationStatus == 401) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ResponseMessage.Builder("Invalid API Key", 401).build());
-        }
+       
 
         // ✅ Delete Operation
         Object apiResponse = commonDocumentService.deleteDocumentAndExceptionByTemplate(query, url);
@@ -567,22 +535,9 @@ public ResponseEntity<?> deleteUserByQuery(
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "201", description = "API use for user authentication", content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserAuthResponse.class))) })
 	@StandardApiResponses
-	public ModelMap userAuth(@RequestBody @Valid UserAuth userAuth, HttpServletResponse response,
-			@RequestHeader(name = "X-API-Key", required = true) String apiKeyx,
-			@RequestHeader(name = "X-USER-ID", required = true) String userId) {
+	public ModelMap userAuth(@RequestBody @Valid UserAuth userAuth, HttpServletResponse response) {
 
 		ModelMap model = new ModelMap();
-
-		int validationStatus = validationService.validateApiKey(apiKeyx, userId);
-		if (validationStatus == 401) {
-
-			model.addAttribute("Message",
-					new ResponseMessage.Builder("Invalid API key", 401).withResponseType("unauthorized").build());
-		}
-		if (validationStatus == 500) {
-			return model.addAttribute("Message", new ResponseMessage.Builder("API validation service unavailable", 500)
-					.withResponseType("internal_error").build());
-		}
 		Map<String, String[]> searchCriteria = new HashMap<>();
 		searchCriteria.put("q", new String[] { "((email:" + userAuth.getUsername() + ") && ( email:"
 				+ userAuth.getUsername() + " && password:" + userAuth.getPassword() + "))" });
