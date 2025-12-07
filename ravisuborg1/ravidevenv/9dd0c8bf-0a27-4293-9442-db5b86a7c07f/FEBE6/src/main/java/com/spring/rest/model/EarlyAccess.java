@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 public class EarlyAccess implements Serializable {
 
 
-    private String id;
+    private String iD;
     private String firstName;
     private String lastName;
     private String email;
@@ -34,7 +34,7 @@ public class EarlyAccess implements Serializable {
 /*
 
     @Id
-    private String id;
+    private String iD;
     private String firstName;
     private String lastName;
     private String email;
@@ -47,12 +47,12 @@ public class EarlyAccess implements Serializable {
 
 */
 
-    public String getId() {
-        return id;
+    public String getID() {
+        return iD;
     }
 
-    public void setId( String id) {
-        this.id = id;
+    public void setID( String iD) {
+        this.iD = iD;
     }
     public String getFirstName() {
         return firstName;

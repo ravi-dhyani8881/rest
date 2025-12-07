@@ -43,6 +43,7 @@ import com.spring.rest.apiresponse.ChatHistoryResponse;
 import com.main.external.exception.user.UserException;
 import com.spring.rest.apiresponse.UserSignUpExample;
 import com.spring.rest.apiresponse.UserAuthResponse;
+import com.spring.rest.util.JwtUtil;
 import com.spring.rest.custom.ErrorResponse;
 import com.spring.rest.custom.StandardApiResponses;
 import com.spring.rest.service.CommonDocumentService;
@@ -70,6 +71,9 @@ public class ChathistoryController {
 	
 	@Autowired
 	ValidationService validationService;
+
+	@Autowired
+	JwtUtil	jwtUtil;
 	
     String url=SolrUrls.CHATHISTORY_URL;
     
@@ -98,7 +102,7 @@ public class ChathistoryController {
 	                        .body(ErrorResponse.of("internal_error", "API validation service unavailable"));
 	            }
 	            
-				chatHistory.setId(Utility.getUniqueId());
+				chatHistory.setID(Utility.getUniqueId());
 	             
 	            // Call service layer
 	            Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate( chatHistory, url);
@@ -143,13 +147,13 @@ public ResponseEntity<?> updatechatHistory(
 	            }
 
          // ✅ Check for ID in Customers POJO
-	        if (chatHistory.getId() == null || chatHistory.getId().trim().isEmpty()) {
+	        if (chatHistory.getID() == null || chatHistory.getID().trim().isEmpty()) {
 	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
 	        }
 
     
-	        chatHistoryId = chatHistory.getId();
+	        chatHistoryId = chatHistory.getID();
             
             // ✅ Query Solr for existing record
 	        Object apiResponse = commonDocumentService.advanceQueryAndExceptionByTemplate("ID:" + chatHistoryId, url);
@@ -199,26 +203,12 @@ public ResponseEntity<?> updatechatHistory(
 			@RequestParam(name = "fq" ,defaultValue = "" , required = false) String[] fq ,
 			//default value asc|desc
 			@RequestParam(name = "sort" ,defaultValue = "" , required = false) String sort,
-			@RequestHeader(name="X-API-Key", required=true) String apiKey ,
-			@RequestHeader(name="X-USER-ID", required=true) String userId,
-		
+			
 			HttpServletRequest request, HttpServletResponse response
 			) {
 		ModelMap model=new ModelMap();
 		Object apiResponse=null;
 		
-		if(validationService.validateApiKey(apiKey, userId) == 500 )
-			{	
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-		//	return model.addAttribute("Message", new ResponseMessage("Server down Internal server error", 500));
-			return model.addAttribute("Message", new ResponseMessage.Builder("Server down Internal server error", 500).build());
-			 
-		}else if(validationService.validateApiKey(apiKey, userId) == 401) {
-			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-		//	 return model.addAttribute("Message", new ResponseMessage("Invalid Api Key", 401));
-			return model.addAttribute("Message", new ResponseMessage.Builder("Invalid Api Key", 401).build());
-			
-		}else {
 	//		query=Utility.getQuery(query, userId);
 			Map<String, String[]> searchCriteria=new HashMap<>(); 
 			searchCriteria.put("q", new String[] { query });
@@ -248,7 +238,6 @@ public ResponseEntity<?> updatechatHistory(
 				
 				    model.addAttribute("pagination",pagination);
 				return model.addAttribute("data",((QueryResponse) apiResponse).getResults());
-			}
 		}
 	}
 	

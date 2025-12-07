@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 public class Version implements Serializable {
 
 
-    private String id;
+    private String iD;
     private String projectId;
     private String name;
     private String description;
@@ -37,7 +37,7 @@ public class Version implements Serializable {
 /*
 
     @Id
-    private String id;
+    private String iD;
     private String projectId;
     private String name;
     private String description;
@@ -53,12 +53,12 @@ public class Version implements Serializable {
 
 */
 
-    public String getId() {
-        return id;
+    public String getID() {
+        return iD;
     }
 
-    public void setId( String id) {
-        this.id = id;
+    public void setID( String iD) {
+        this.iD = iD;
     }
     public String getProjectId() {
         return projectId;

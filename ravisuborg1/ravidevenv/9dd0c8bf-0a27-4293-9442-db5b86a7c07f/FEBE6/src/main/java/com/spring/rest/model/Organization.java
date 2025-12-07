@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 public class Organization implements Serializable {
 
 
-    private String id;
+    private String iD;
     private String name;
     private String description;
     private String createdAt;
@@ -29,7 +29,7 @@ public class Organization implements Serializable {
 /*
 
     @Id
-    private String id;
+    private String iD;
     private String name;
     private String description;
     private String createdAt;
@@ -37,12 +37,12 @@ public class Organization implements Serializable {
 
 */
 
-    public String getId() {
-        return id;
+    public String getID() {
+        return iD;
     }
 
-    public void setId( String id) {
-        this.id = id;
+    public void setID( String iD) {
+        this.iD = iD;
     }
     public String getName() {
         return name;

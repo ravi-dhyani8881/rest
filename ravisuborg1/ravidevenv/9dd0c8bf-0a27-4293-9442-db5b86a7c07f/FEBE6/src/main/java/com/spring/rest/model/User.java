@@ -19,9 +19,8 @@ import lombok.NoArgsConstructor;
 public class User implements Serializable {
 
 
-    private String id;
+    private String iD;
     private String email;
-    private String userStatus;
     private String firstName;
     private String middleName;
     private String lastName;
@@ -33,14 +32,14 @@ public class User implements Serializable {
     private String createdAt;
     private String updatedAt;
     private String userActivationKey;
+    private String userStatus;
 
 
 /*
 
     @Id
-    private String id;
+    private String iD;
     private String email;
-    private String userStatus;
     private String firstName;
     private String middleName;
     private String lastName;
@@ -52,15 +51,16 @@ public class User implements Serializable {
     private String createdAt;
     private String updatedAt;
     private String userActivationKey;
+    private String userStatus;
 
 */
 
-    public String getId() {
-        return id;
+    public String getID() {
+        return iD;
     }
 
-    public void setId( String id) {
-        this.id = id;
+    public void setID( String iD) {
+        this.iD = iD;
     }
     public String getEmail() {
         return email;
@@ -68,13 +68,6 @@ public class User implements Serializable {
 
     public void setEmail( String email) {
         this.email = email;
-    }
-    public String getUserStatus() {
-        return userStatus;
-    }
-
-    public void setUserStatus( String userStatus) {
-        this.userStatus = userStatus;
     }
     public String getFirstName() {
         return firstName;
@@ -152,5 +145,12 @@ public class User implements Serializable {
 
     public void setUserActivationKey( String userActivationKey) {
         this.userActivationKey = userActivationKey;
+    }
+    public String getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus( String userStatus) {
+        this.userStatus = userStatus;
     }
 }

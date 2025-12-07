@@ -43,6 +43,7 @@ import com.spring.rest.apiresponse.UserResponse;
 import com.main.external.exception.user.UserException;
 import com.spring.rest.apiresponse.UserSignUpExample;
 import com.spring.rest.apiresponse.UserAuthResponse;
+import com.spring.rest.util.JwtUtil;
 import com.spring.rest.custom.ErrorResponse;
 import com.spring.rest.custom.StandardApiResponses;
 import com.spring.rest.service.CommonDocumentService;
@@ -70,6 +71,9 @@ public class UserController {
 	
 	@Autowired
 	ValidationService validationService;
+
+	@Autowired
+	JwtUtil	jwtUtil;
 	
     String url=SolrUrls.USER_URL;
     
@@ -98,7 +102,7 @@ public class UserController {
 	                        .body(ErrorResponse.of("internal_error", "API validation service unavailable"));
 	            }
 	            
-				user.setId(Utility.getUniqueId());
+				user.setID(Utility.getUniqueId());
 	             
 	            // Call service layer
 	            Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate( user, url);
@@ -143,13 +147,13 @@ public ResponseEntity<?> updateuser(
 	            }
 
          // ✅ Check for ID in Customers POJO
-	        if (user.getId() == null || user.getId().trim().isEmpty()) {
+	        if (user.getID() == null || user.getID().trim().isEmpty()) {
 	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
 	        }
 
     
-	        userId = user.getId();
+	        userId = user.getID();
             
             // ✅ Query Solr for existing record
 	        Object apiResponse = commonDocumentService.advanceQueryAndExceptionByTemplate("ID:" + userId, url);
@@ -199,26 +203,12 @@ public ResponseEntity<?> updateuser(
 			@RequestParam(name = "fq" ,defaultValue = "" , required = false) String[] fq ,
 			//default value asc|desc
 			@RequestParam(name = "sort" ,defaultValue = "" , required = false) String sort,
-			@RequestHeader(name="X-API-Key", required=true) String apiKey ,
-			@RequestHeader(name="X-USER-ID", required=true) String userId,
-		
+			
 			HttpServletRequest request, HttpServletResponse response
 			) {
 		ModelMap model=new ModelMap();
 		Object apiResponse=null;
 		
-		if(validationService.validateApiKey(apiKey, userId) == 500 )
-			{	
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-		//	return model.addAttribute("Message", new ResponseMessage("Server down Internal server error", 500));
-			return model.addAttribute("Message", new ResponseMessage.Builder("Server down Internal server error", 500).build());
-			 
-		}else if(validationService.validateApiKey(apiKey, userId) == 401) {
-			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-		//	 return model.addAttribute("Message", new ResponseMessage("Invalid Api Key", 401));
-			return model.addAttribute("Message", new ResponseMessage.Builder("Invalid Api Key", 401).build());
-			
-		}else {
 	//		query=Utility.getQuery(query, userId);
 			Map<String, String[]> searchCriteria=new HashMap<>(); 
 			searchCriteria.put("q", new String[] { query });
@@ -248,7 +238,6 @@ public ResponseEntity<?> updateuser(
 				
 				    model.addAttribute("pagination",pagination);
 				return model.addAttribute("data",((QueryResponse) apiResponse).getResults());
-			}
 		}
 	}
 	
@@ -614,6 +603,12 @@ public ResponseEntity<?> deleteUserByQuery(
 
 			} else {
 				response.setStatus(HttpServletResponse.SC_OK);
+				String email = userAuth.getUsername();
+			    String solrUserId = C.get("ID").toString();
+
+			    String jwt = jwtUtil.generateToken(solrUserId, email);
+
+			    model.addAttribute("token", jwt);
 				model.addAttribute("Message",
 						new ResponseMessage.Builder("User authenticated sucesfully.", HttpServletResponse.SC_OK)
 								.withID(C.get("ID").toString()).withResponseType("AUTHENTICATED").build());
