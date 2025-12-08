@@ -19,13 +19,21 @@ import lombok.NoArgsConstructor;
 public class Invitation implements Serializable {
 
 
+    @JsonProperty("ID")
     private String iD;
+
     private String email;
+
     private String orgId;
+
     private String role;
+
     private String token;
+
     private String createdAt;
+
     private String updatedAt;
+
 
 
 /*
@@ -41,13 +49,16 @@ public class Invitation implements Serializable {
 
 */
 
+    @JsonProperty("ID")
     public String getID() {
         return iD;
     }
 
+    @JsonProperty("ID")
     public void setID( String iD) {
         this.iD = iD;
     }
+
     public String getEmail() {
         return email;
     }
@@ -55,6 +66,7 @@ public class Invitation implements Serializable {
     public void setEmail( String email) {
         this.email = email;
     }
+
     public String getOrgId() {
         return orgId;
     }
@@ -62,6 +74,7 @@ public class Invitation implements Serializable {
     public void setOrgId( String orgId) {
         this.orgId = orgId;
     }
+
     public String getRole() {
         return role;
     }
@@ -69,6 +82,7 @@ public class Invitation implements Serializable {
     public void setRole( String role) {
         this.role = role;
     }
+
     public String getToken() {
         return token;
     }
@@ -76,6 +90,7 @@ public class Invitation implements Serializable {
     public void setToken( String token) {
         this.token = token;
     }
+
     public String getCreatedAt() {
         return createdAt;
     }
@@ -83,6 +98,7 @@ public class Invitation implements Serializable {
     public void setCreatedAt( String createdAt) {
         this.createdAt = createdAt;
     }
+
     public String getUpdatedAt() {
         return updatedAt;
     }
@@ -90,4 +106,3 @@ public class Invitation implements Serializable {
     public void setUpdatedAt( String updatedAt) {
         this.updatedAt = updatedAt;
     }
-}

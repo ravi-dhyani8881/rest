@@ -19,14 +19,23 @@ import lombok.NoArgsConstructor;
 public class Deployment implements Serializable {
 
 
+    @JsonProperty("ID")
     private String iD;
+
     private String projectId;
+
     private String versionId;
+
     private String deploymentConfigurationId;
+
     private String deployedBy;
+
     private String status;
+
     private String createdAt;
+
     private String updatedAt;
+
 
 
 /*
@@ -43,13 +52,16 @@ public class Deployment implements Serializable {
 
 */
 
+    @JsonProperty("ID")
     public String getID() {
         return iD;
     }
 
+    @JsonProperty("ID")
     public void setID( String iD) {
         this.iD = iD;
     }
+
     public String getProjectId() {
         return projectId;
     }
@@ -57,6 +69,7 @@ public class Deployment implements Serializable {
     public void setProjectId( String projectId) {
         this.projectId = projectId;
     }
+
     public String getVersionId() {
         return versionId;
     }
@@ -64,6 +77,7 @@ public class Deployment implements Serializable {
     public void setVersionId( String versionId) {
         this.versionId = versionId;
     }
+
     public String getDeploymentConfigurationId() {
         return deploymentConfigurationId;
     }
@@ -71,6 +85,7 @@ public class Deployment implements Serializable {
     public void setDeploymentConfigurationId( String deploymentConfigurationId) {
         this.deploymentConfigurationId = deploymentConfigurationId;
     }
+
     public String getDeployedBy() {
         return deployedBy;
     }
@@ -78,6 +93,7 @@ public class Deployment implements Serializable {
     public void setDeployedBy( String deployedBy) {
         this.deployedBy = deployedBy;
     }
+
     public String getStatus() {
         return status;
     }
@@ -85,6 +101,7 @@ public class Deployment implements Serializable {
     public void setStatus( String status) {
         this.status = status;
     }
+
     public String getCreatedAt() {
         return createdAt;
     }
@@ -92,6 +109,7 @@ public class Deployment implements Serializable {
     public void setCreatedAt( String createdAt) {
         this.createdAt = createdAt;
     }
+
     public String getUpdatedAt() {
         return updatedAt;
     }
@@ -99,4 +117,3 @@ public class Deployment implements Serializable {
     public void setUpdatedAt( String updatedAt) {
         this.updatedAt = updatedAt;
     }
-}

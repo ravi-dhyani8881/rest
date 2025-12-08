@@ -19,13 +19,21 @@ import lombok.NoArgsConstructor;
 public class Environment implements Serializable {
 
 
+    @JsonProperty("ID")
     private String iD;
+
     private String orgId;
+
     private String subOrgId;
+
     private String name;
+
     private String description;
+
     private String createdAt;
+
     private String updatedAt;
+
 
 
 /*
@@ -41,13 +49,16 @@ public class Environment implements Serializable {
 
 */
 
+    @JsonProperty("ID")
     public String getID() {
         return iD;
     }
 
+    @JsonProperty("ID")
     public void setID( String iD) {
         this.iD = iD;
     }
+
     public String getOrgId() {
         return orgId;
     }
@@ -55,6 +66,7 @@ public class Environment implements Serializable {
     public void setOrgId( String orgId) {
         this.orgId = orgId;
     }
+
     public String getSubOrgId() {
         return subOrgId;
     }
@@ -62,6 +74,7 @@ public class Environment implements Serializable {
     public void setSubOrgId( String subOrgId) {
         this.subOrgId = subOrgId;
     }
+
     public String getName() {
         return name;
     }
@@ -69,6 +82,7 @@ public class Environment implements Serializable {
     public void setName( String name) {
         this.name = name;
     }
+
     public String getDescription() {
         return description;
     }
@@ -76,6 +90,7 @@ public class Environment implements Serializable {
     public void setDescription( String description) {
         this.description = description;
     }
+
     public String getCreatedAt() {
         return createdAt;
     }
@@ -83,6 +98,7 @@ public class Environment implements Serializable {
     public void setCreatedAt( String createdAt) {
         this.createdAt = createdAt;
     }
+
     public String getUpdatedAt() {
         return updatedAt;
     }
@@ -90,4 +106,3 @@ public class Environment implements Serializable {
     public void setUpdatedAt( String updatedAt) {
         this.updatedAt = updatedAt;
     }
-}
