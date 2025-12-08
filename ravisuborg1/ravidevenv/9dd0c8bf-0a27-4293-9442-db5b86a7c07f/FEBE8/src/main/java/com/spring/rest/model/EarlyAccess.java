@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,16 +20,27 @@ import lombok.NoArgsConstructor;
 public class EarlyAccess implements Serializable {
 
 
+    @JsonProperty("ID")
     private String iD;
+
     private String firstName;
+
     private String lastName;
+
     private String email;
+
     private String role;
+
     private String company;
+
     private String companyUrl;
+
     private String description;
+
     private String createdAt;
+
     private String updatedAt;
+
 
 
 /*
@@ -47,13 +59,16 @@ public class EarlyAccess implements Serializable {
 
 */
 
+    @JsonProperty("ID")
     public String getID() {
         return iD;
     }
 
+    @JsonProperty("ID")
     public void setID( String iD) {
         this.iD = iD;
     }
+
     public String getFirstName() {
         return firstName;
     }
@@ -61,6 +76,7 @@ public class EarlyAccess implements Serializable {
     public void setFirstName( String firstName) {
         this.firstName = firstName;
     }
+
     public String getLastName() {
         return lastName;
     }
@@ -68,6 +84,7 @@ public class EarlyAccess implements Serializable {
     public void setLastName( String lastName) {
         this.lastName = lastName;
     }
+
     public String getEmail() {
         return email;
     }
@@ -75,6 +92,7 @@ public class EarlyAccess implements Serializable {
     public void setEmail( String email) {
         this.email = email;
     }
+
     public String getRole() {
         return role;
     }
@@ -82,6 +100,7 @@ public class EarlyAccess implements Serializable {
     public void setRole( String role) {
         this.role = role;
     }
+
     public String getCompany() {
         return company;
     }
@@ -89,6 +108,7 @@ public class EarlyAccess implements Serializable {
     public void setCompany( String company) {
         this.company = company;
     }
+
     public String getCompanyUrl() {
         return companyUrl;
     }
@@ -96,6 +116,7 @@ public class EarlyAccess implements Serializable {
     public void setCompanyUrl( String companyUrl) {
         this.companyUrl = companyUrl;
     }
+
     public String getDescription() {
         return description;
     }
@@ -103,6 +124,7 @@ public class EarlyAccess implements Serializable {
     public void setDescription( String description) {
         this.description = description;
     }
+
     public String getCreatedAt() {
         return createdAt;
     }
@@ -110,6 +132,7 @@ public class EarlyAccess implements Serializable {
     public void setCreatedAt( String createdAt) {
         this.createdAt = createdAt;
     }
+
     public String getUpdatedAt() {
         return updatedAt;
     }

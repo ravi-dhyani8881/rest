@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,12 +20,19 @@ import lombok.NoArgsConstructor;
 public class SubOrganization implements Serializable {
 
 
+    @JsonProperty("ID")
     private String iD;
+
     private String orgId;
+
     private String name;
+
     private String description;
+
     private String createdAt;
+
     private String updatedAt;
+
 
 
 /*
@@ -39,13 +47,16 @@ public class SubOrganization implements Serializable {
 
 */
 
+    @JsonProperty("ID")
     public String getID() {
         return iD;
     }
 
+    @JsonProperty("ID")
     public void setID( String iD) {
         this.iD = iD;
     }
+
     public String getOrgId() {
         return orgId;
     }
@@ -53,6 +64,7 @@ public class SubOrganization implements Serializable {
     public void setOrgId( String orgId) {
         this.orgId = orgId;
     }
+
     public String getName() {
         return name;
     }
@@ -60,6 +72,7 @@ public class SubOrganization implements Serializable {
     public void setName( String name) {
         this.name = name;
     }
+
     public String getDescription() {
         return description;
     }
@@ -67,6 +80,7 @@ public class SubOrganization implements Serializable {
     public void setDescription( String description) {
         this.description = description;
     }
+
     public String getCreatedAt() {
         return createdAt;
     }
@@ -74,6 +88,7 @@ public class SubOrganization implements Serializable {
     public void setCreatedAt( String createdAt) {
         this.createdAt = createdAt;
     }
+
     public String getUpdatedAt() {
         return updatedAt;
     }

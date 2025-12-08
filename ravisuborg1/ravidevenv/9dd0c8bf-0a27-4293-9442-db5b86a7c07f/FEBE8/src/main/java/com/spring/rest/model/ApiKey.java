@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,13 +20,21 @@ import lombok.NoArgsConstructor;
 public class ApiKey implements Serializable {
 
 
+    @JsonProperty("ID")
     private String iD;
+
     private String userId;
+
     private String apiKey;
+
     private String status;
+
     private String projectId;
+
     private String createdAt;
+
     private String updatedAt;
+
 
 
 /*
@@ -41,13 +50,16 @@ public class ApiKey implements Serializable {
 
 */
 
+    @JsonProperty("ID")
     public String getID() {
         return iD;
     }
 
+    @JsonProperty("ID")
     public void setID( String iD) {
         this.iD = iD;
     }
+
     public String getUserId() {
         return userId;
     }
@@ -55,6 +67,7 @@ public class ApiKey implements Serializable {
     public void setUserId( String userId) {
         this.userId = userId;
     }
+
     public String getApiKey() {
         return apiKey;
     }
@@ -62,6 +75,7 @@ public class ApiKey implements Serializable {
     public void setApiKey( String apiKey) {
         this.apiKey = apiKey;
     }
+
     public String getStatus() {
         return status;
     }
@@ -69,6 +83,7 @@ public class ApiKey implements Serializable {
     public void setStatus( String status) {
         this.status = status;
     }
+
     public String getProjectId() {
         return projectId;
     }
@@ -76,6 +91,7 @@ public class ApiKey implements Serializable {
     public void setProjectId( String projectId) {
         this.projectId = projectId;
     }
+
     public String getCreatedAt() {
         return createdAt;
     }
@@ -83,6 +99,7 @@ public class ApiKey implements Serializable {
     public void setCreatedAt( String createdAt) {
         this.createdAt = createdAt;
     }
+
     public String getUpdatedAt() {
         return updatedAt;
     }
