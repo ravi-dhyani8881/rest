@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -73,3 +74,4 @@ public class Configuration implements Serializable {
     public void setUpdatedAt( String updatedAt) {
         this.updatedAt = updatedAt;
     }
+}

@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -183,3 +184,4 @@ public class User implements Serializable {
     public void setUserStatus( String userStatus) {
         this.userStatus = userStatus;
     }
+}
