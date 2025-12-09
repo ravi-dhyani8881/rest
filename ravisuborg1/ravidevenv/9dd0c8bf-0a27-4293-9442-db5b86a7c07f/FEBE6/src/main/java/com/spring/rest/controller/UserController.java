@@ -38,6 +38,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.spring.rest.model.User;
+import com.spring.rest.modelrequests.UserRequest;
 import com.spring.rest.model.UserAuth;
 import com.spring.rest.apiresponse.UserResponse;
 import com.main.external.exception.user.UserException;
@@ -86,7 +87,7 @@ public class UserController {
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = User.class)))
         })
-	public ResponseEntity<?>   createUser(@RequestBody  User user
+	public ResponseEntity<?>   createUser(@RequestBody  UserRequest userRequest
  , HttpServletResponse response, HttpServletRequest request) {
 		
 	       try {

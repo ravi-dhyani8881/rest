@@ -38,6 +38,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.spring.rest.model.SubOrganization;
+import com.spring.rest.modelrequests.SubOrganizationRequest;
 import com.spring.rest.model.UserAuth;
 import com.spring.rest.apiresponse.SubOrganizationResponse;
 import com.main.external.exception.user.UserException;
@@ -86,7 +87,7 @@ public class SuborganizationController {
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = SubOrganization.class)))
         })
-	public ResponseEntity<?>   createSuborganization(@RequestBody  SubOrganization subOrganization
+	public ResponseEntity<?>   createSuborganization(@RequestBody  SubOrganizationRequest subOrganizationRequest
  , HttpServletResponse response, HttpServletRequest request) {
 		
 	       try {

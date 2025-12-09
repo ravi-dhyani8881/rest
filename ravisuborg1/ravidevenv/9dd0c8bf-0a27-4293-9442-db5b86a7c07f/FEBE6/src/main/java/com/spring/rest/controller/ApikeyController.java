@@ -38,6 +38,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.spring.rest.model.ApiKey;
+import com.spring.rest.modelrequests.ApiKeyRequest;
 import com.spring.rest.model.UserAuth;
 import com.spring.rest.apiresponse.ApiKeyResponse;
 import com.main.external.exception.user.UserException;
@@ -86,7 +87,7 @@ public class ApikeyController {
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = ApiKey.class)))
         })
-	public ResponseEntity<?>   createApikey(@RequestBody  ApiKey apiKey
+	public ResponseEntity<?>   createApikey(@RequestBody  ApiKeyRequest apiKeyRequest
  , HttpServletResponse response, HttpServletRequest request) {
 		
 	       try {

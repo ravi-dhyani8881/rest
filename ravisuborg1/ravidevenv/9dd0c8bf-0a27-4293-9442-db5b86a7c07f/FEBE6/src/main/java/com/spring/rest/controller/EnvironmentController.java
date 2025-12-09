@@ -38,6 +38,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.spring.rest.model.Environment;
+import com.spring.rest.modelrequests.EnvironmentRequest;
 import com.spring.rest.model.UserAuth;
 import com.spring.rest.apiresponse.EnvironmentResponse;
 import com.main.external.exception.user.UserException;
@@ -86,7 +87,7 @@ public class EnvironmentController {
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = Environment.class)))
         })
-	public ResponseEntity<?>   createEnvironment(@RequestBody  Environment environment
+	public ResponseEntity<?>   createEnvironment(@RequestBody  EnvironmentRequest environmentRequest
  , HttpServletResponse response, HttpServletRequest request) {
 		
 	       try {

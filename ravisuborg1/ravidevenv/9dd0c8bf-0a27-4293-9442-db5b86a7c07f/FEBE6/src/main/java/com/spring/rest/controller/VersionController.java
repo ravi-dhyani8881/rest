@@ -38,6 +38,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.spring.rest.model.Version;
+import com.spring.rest.modelrequests.VersionRequest;
 import com.spring.rest.model.UserAuth;
 import com.spring.rest.apiresponse.VersionResponse;
 import com.main.external.exception.user.UserException;
@@ -86,7 +87,7 @@ public class VersionController {
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = Version.class)))
         })
-	public ResponseEntity<?>   createVersion(@RequestBody  Version version
+	public ResponseEntity<?>   createVersion(@RequestBody  VersionRequest versionRequest
  , HttpServletResponse response, HttpServletRequest request) {
 		
 	       try {

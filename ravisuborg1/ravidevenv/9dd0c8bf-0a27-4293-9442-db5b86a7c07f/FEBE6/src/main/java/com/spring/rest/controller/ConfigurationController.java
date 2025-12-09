@@ -38,6 +38,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.spring.rest.model.Configuration;
+import com.spring.rest.modelrequests.ConfigurationRequest;
 import com.spring.rest.model.UserAuth;
 import com.spring.rest.apiresponse.ConfigurationResponse;
 import com.main.external.exception.user.UserException;
@@ -86,7 +87,7 @@ public class ConfigurationController {
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = Configuration.class)))
         })
-	public ResponseEntity<?>   createConfiguration(@RequestBody  Configuration configuration
+	public ResponseEntity<?>   createConfiguration(@RequestBody  ConfigurationRequest configurationRequest
  , HttpServletResponse response, HttpServletRequest request) {
 		
 	       try {

@@ -38,6 +38,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.spring.rest.model.PublishLog;
+import com.spring.rest.modelrequests.PublishLogRequest;
 import com.spring.rest.model.UserAuth;
 import com.spring.rest.apiresponse.PublishLogResponse;
 import com.main.external.exception.user.UserException;
@@ -86,7 +87,7 @@ public class PublishlogController {
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = PublishLog.class)))
         })
-	public ResponseEntity<?>   createPublishlog(@RequestBody  PublishLog publishLog
+	public ResponseEntity<?>   createPublishlog(@RequestBody  PublishLogRequest publishLogRequest
  , HttpServletResponse response, HttpServletRequest request) {
 		
 	       try {

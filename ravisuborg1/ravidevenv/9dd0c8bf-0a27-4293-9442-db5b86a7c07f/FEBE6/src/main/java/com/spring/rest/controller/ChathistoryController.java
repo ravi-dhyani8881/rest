@@ -38,6 +38,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.spring.rest.model.ChatHistory;
+import com.spring.rest.modelrequests.ChatHistoryRequest;
 import com.spring.rest.model.UserAuth;
 import com.spring.rest.apiresponse.ChatHistoryResponse;
 import com.main.external.exception.user.UserException;
@@ -86,7 +87,7 @@ public class ChathistoryController {
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = ChatHistory.class)))
         })
-	public ResponseEntity<?>   createChathistory(@RequestBody  ChatHistory chatHistory
+	public ResponseEntity<?>   createChathistory(@RequestBody  ChatHistoryRequest chatHistoryRequest
  , HttpServletResponse response, HttpServletRequest request) {
 		
 	       try {

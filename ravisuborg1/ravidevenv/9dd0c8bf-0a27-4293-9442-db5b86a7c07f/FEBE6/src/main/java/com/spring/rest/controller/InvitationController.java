@@ -38,6 +38,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.spring.rest.model.Invitation;
+import com.spring.rest.modelrequests.InvitationRequest;
 import com.spring.rest.model.UserAuth;
 import com.spring.rest.apiresponse.InvitationResponse;
 import com.main.external.exception.user.UserException;
@@ -86,7 +87,7 @@ public class InvitationController {
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = Invitation.class)))
         })
-	public ResponseEntity<?>   createInvitation(@RequestBody  Invitation invitation
+	public ResponseEntity<?>   createInvitation(@RequestBody  InvitationRequest invitationRequest
  , HttpServletResponse response, HttpServletRequest request) {
 		
 	       try {

@@ -38,6 +38,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.spring.rest.model.UserOrg;
+import com.spring.rest.modelrequests.UserOrgRequest;
 import com.spring.rest.model.UserAuth;
 import com.spring.rest.apiresponse.UserOrgResponse;
 import com.main.external.exception.user.UserException;
@@ -86,7 +87,7 @@ public class UserorgController {
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = UserOrg.class)))
         })
-	public ResponseEntity<?>   createUserorg(@RequestBody  UserOrg userOrg
+	public ResponseEntity<?>   createUserorg(@RequestBody  UserOrgRequest userOrgRequest
  , HttpServletResponse response, HttpServletRequest request) {
 		
 	       try {

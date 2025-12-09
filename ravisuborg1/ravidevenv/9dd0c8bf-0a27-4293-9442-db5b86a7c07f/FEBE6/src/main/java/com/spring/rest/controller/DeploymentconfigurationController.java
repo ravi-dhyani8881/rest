@@ -38,6 +38,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.spring.rest.model.DeploymentConfiguration;
+import com.spring.rest.modelrequests.DeploymentConfigurationRequest;
 import com.spring.rest.model.UserAuth;
 import com.spring.rest.apiresponse.DeploymentConfigurationResponse;
 import com.main.external.exception.user.UserException;
@@ -86,7 +87,7 @@ public class DeploymentconfigurationController {
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = DeploymentConfiguration.class)))
         })
-	public ResponseEntity<?>   createDeploymentconfiguration(@RequestBody  DeploymentConfiguration deploymentConfiguration
+	public ResponseEntity<?>   createDeploymentconfiguration(@RequestBody  DeploymentConfigurationRequest deploymentConfigurationRequest
  , HttpServletResponse response, HttpServletRequest request) {
 		
 	       try {

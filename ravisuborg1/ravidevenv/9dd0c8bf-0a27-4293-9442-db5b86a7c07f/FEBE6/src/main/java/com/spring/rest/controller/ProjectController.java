@@ -38,6 +38,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.spring.rest.model.Project;
+import com.spring.rest.modelrequests.ProjectRequest;
 import com.spring.rest.model.UserAuth;
 import com.spring.rest.apiresponse.ProjectResponse;
 import com.main.external.exception.user.UserException;
@@ -86,7 +87,7 @@ public class ProjectController {
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = Project.class)))
         })
-	public ResponseEntity<?>   createProject(@RequestBody  Project project
+	public ResponseEntity<?>   createProject(@RequestBody  ProjectRequest projectRequest
  , HttpServletResponse response, HttpServletRequest request) {
 		
 	       try {

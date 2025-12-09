@@ -38,6 +38,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.spring.rest.model.Organization;
+import com.spring.rest.modelrequests.OrganizationRequest;
 import com.spring.rest.model.UserAuth;
 import com.spring.rest.apiresponse.OrganizationResponse;
 import com.main.external.exception.user.UserException;
@@ -86,7 +87,7 @@ public class OrganizationController {
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = Organization.class)))
         })
-	public ResponseEntity<?>   createOrganization(@RequestBody  Organization organization
+	public ResponseEntity<?>   createOrganization(@RequestBody  OrganizationRequest organizationRequest
  , HttpServletResponse response, HttpServletRequest request) {
 		
 	       try {
