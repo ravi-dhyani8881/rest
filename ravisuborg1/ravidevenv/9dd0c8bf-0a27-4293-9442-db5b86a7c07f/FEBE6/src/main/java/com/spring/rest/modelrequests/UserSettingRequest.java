@@ -9,14 +9,15 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserSettingRequest {
+public class Request {
 
-    private String iD;
+
     private String orgId;
+
     private String subOrgId;
+
     private String environmentId;
+
     private String userId;
-    private String createdAt;
-    private String updatedAt;
 
 }

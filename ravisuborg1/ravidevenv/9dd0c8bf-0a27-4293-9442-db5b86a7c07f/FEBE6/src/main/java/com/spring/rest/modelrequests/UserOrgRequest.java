@@ -9,12 +9,11 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserOrgRequest {
+public class Request {
 
-    private String iD;
+
     private String userId;
+
     private String orgId;
-    private String createdAt;
-    private String updatedAt;
 
 }

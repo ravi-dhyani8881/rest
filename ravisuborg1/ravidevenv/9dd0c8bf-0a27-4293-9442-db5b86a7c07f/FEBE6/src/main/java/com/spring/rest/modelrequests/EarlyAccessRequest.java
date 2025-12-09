@@ -9,17 +9,21 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class EarlyAccessRequest {
+public class Request {
 
-    private String iD;
+
     private String firstName;
+
     private String lastName;
+
     private String email;
+
     private String role;
+
     private String company;
+
     private String companyUrl;
+
     private String description;
-    private String createdAt;
-    private String updatedAt;
 
 }

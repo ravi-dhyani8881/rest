@@ -9,11 +9,9 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ConfigurationRequest {
+public class Request {
 
-    private String iD;
+
     private String replicaSize;
-    private String createdAt;
-    private String updatedAt;
 
 }

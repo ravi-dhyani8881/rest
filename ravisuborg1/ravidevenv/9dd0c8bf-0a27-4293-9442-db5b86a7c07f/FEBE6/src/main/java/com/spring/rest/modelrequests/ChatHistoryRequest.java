@@ -9,12 +9,11 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ChatHistoryRequest {
+public class Request {
 
-    private String iD;
+
     private String userId;
+
     private String messages;
-    private String createdAt;
-    private String updatedAt;
 
 }

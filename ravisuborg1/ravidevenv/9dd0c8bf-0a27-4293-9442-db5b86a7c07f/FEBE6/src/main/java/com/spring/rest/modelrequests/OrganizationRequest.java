@@ -9,12 +9,11 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class OrganizationRequest {
+public class Request {
 
-    private String iD;
+
     private String name;
+
     private String description;
-    private String createdAt;
-    private String updatedAt;
 
 }

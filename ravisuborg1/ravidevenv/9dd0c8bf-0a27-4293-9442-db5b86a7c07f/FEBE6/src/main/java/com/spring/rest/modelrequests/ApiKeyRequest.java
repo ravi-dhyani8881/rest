@@ -9,14 +9,15 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ApiKeyRequest {
+public class Request {
 
-    private String iD;
+
     private String userId;
+
     private String apiKey;
+
     private String status;
+
     private String projectId;
-    private String createdAt;
-    private String updatedAt;
 
 }

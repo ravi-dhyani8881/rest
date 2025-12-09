@@ -9,17 +9,21 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class PublishLogRequest {
+public class Request {
 
-    private String iD;
+
     private int endpointType;
+
     private String orgId;
+
     private String subOrgId;
+
     private String environmentId;
+
     private String json;
+
     private String version;
+
     private String userId;
-    private String createdAt;
-    private String updatedAt;
 
 }

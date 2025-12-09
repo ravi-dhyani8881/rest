@@ -9,14 +9,15 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class InvitationRequest {
+public class Request {
 
-    private String iD;
+
     private String email;
+
     private String orgId;
+
     private String role;
+
     private String token;
-    private String createdAt;
-    private String updatedAt;
 
 }

@@ -9,20 +9,27 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class VersionRequest {
+public class Request {
 
-    private String iD;
+
     private String projectId;
+
     private String name;
+
     private String description;
+
     private String schemaJson;
+
     private int status;
+
     private String notes;
+
     private String domain;
+
     private String graphQlUrl;
+
     private String restUrl;
+
     private String createdBy;
-    private String createdAt;
-    private String updatedAt;
 
 }

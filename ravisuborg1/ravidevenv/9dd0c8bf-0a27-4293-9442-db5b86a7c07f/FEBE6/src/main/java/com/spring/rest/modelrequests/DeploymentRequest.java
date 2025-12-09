@@ -9,15 +9,17 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DeploymentRequest {
+public class Request {
 
-    private String iD;
+
     private String projectId;
+
     private String versionId;
+
     private String deploymentConfigurationId;
+
     private String deployedBy;
+
     private String status;
-    private String createdAt;
-    private String updatedAt;
 
 }
