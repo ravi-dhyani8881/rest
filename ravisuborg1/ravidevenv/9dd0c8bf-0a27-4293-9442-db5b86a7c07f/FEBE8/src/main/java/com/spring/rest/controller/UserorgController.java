@@ -38,6 +38,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.spring.rest.model.UserOrg;
+import com.spring.rest.modelrequests.UserOrgRequest;
 import com.spring.rest.model.UserAuth;
 import com.spring.rest.apiresponse.UserOrgResponse;
 import com.main.external.exception.user.UserException;
@@ -45,6 +46,7 @@ import com.spring.rest.apiresponse.UserSignUpExample;
 import com.spring.rest.apiresponse.UserAuthResponse;
 import com.spring.rest.util.JwtUtil;
 import com.spring.rest.custom.ErrorResponse;
+import com.spring.rest.util.ModelMapperUtil;
 import com.spring.rest.custom.StandardApiResponses;
 import com.spring.rest.service.CommonDocumentService;
 import com.spring.rest.util.FacetFieldDTO;
@@ -86,14 +88,17 @@ public class UserorgController {
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = UserOrg.class)))
         })
-	public ResponseEntity<?>   createUserorg(@RequestBody  UserOrg userOrg
+	public ResponseEntity<?>   createUserorg(@RequestBody  UserOrgRequest userOrgRequest
  , HttpServletResponse response, HttpServletRequest request) {
 		
 	       try {
 	          
 	            
-				userOrg.setID(Utility.getUniqueId());
-	             
+			//	userOrg.setID(Utility.getUniqueId());
+	          
+			
+	    	   UserOrg userOrg = ModelMapperUtil.mapCreateRequestToModel(userOrgRequest,  UserOrg.class);
+
 	            // Call service layer
 	            Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate( userOrg, url);
 	            if (apiResponse instanceof Exception) {

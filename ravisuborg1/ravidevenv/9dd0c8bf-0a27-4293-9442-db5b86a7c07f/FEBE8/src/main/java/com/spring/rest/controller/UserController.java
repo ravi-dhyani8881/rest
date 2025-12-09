@@ -38,6 +38,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.spring.rest.model.User;
+import com.spring.rest.modelrequests.UserRequest;
 import com.spring.rest.model.UserAuth;
 import com.spring.rest.apiresponse.UserResponse;
 import com.main.external.exception.user.UserException;
@@ -45,6 +46,7 @@ import com.spring.rest.apiresponse.UserSignUpExample;
 import com.spring.rest.apiresponse.UserAuthResponse;
 import com.spring.rest.util.JwtUtil;
 import com.spring.rest.custom.ErrorResponse;
+import com.spring.rest.util.ModelMapperUtil;
 import com.spring.rest.custom.StandardApiResponses;
 import com.spring.rest.service.CommonDocumentService;
 import com.spring.rest.util.FacetFieldDTO;
@@ -86,14 +88,17 @@ public class UserController {
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = User.class)))
         })
-	public ResponseEntity<?>   createUser(@RequestBody  User user
+	public ResponseEntity<?>   createUser(@RequestBody  UserRequest userRequest
  , HttpServletResponse response, HttpServletRequest request) {
 		
 	       try {
 	          
 	            
-				user.setID(Utility.getUniqueId());
-	             
+			//	user.setID(Utility.getUniqueId());
+	          
+			
+	    	   User user = ModelMapperUtil.mapCreateRequestToModel(userRequest,  User.class);
+
 	            // Call service layer
 	            Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate( user, url);
 	            if (apiResponse instanceof Exception) {

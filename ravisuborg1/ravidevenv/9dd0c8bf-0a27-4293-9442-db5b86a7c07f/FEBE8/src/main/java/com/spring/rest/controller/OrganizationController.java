@@ -38,6 +38,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.spring.rest.model.Organization;
+import com.spring.rest.modelrequests.OrganizationRequest;
 import com.spring.rest.model.UserAuth;
 import com.spring.rest.apiresponse.OrganizationResponse;
 import com.main.external.exception.user.UserException;
@@ -45,6 +46,7 @@ import com.spring.rest.apiresponse.UserSignUpExample;
 import com.spring.rest.apiresponse.UserAuthResponse;
 import com.spring.rest.util.JwtUtil;
 import com.spring.rest.custom.ErrorResponse;
+import com.spring.rest.util.ModelMapperUtil;
 import com.spring.rest.custom.StandardApiResponses;
 import com.spring.rest.service.CommonDocumentService;
 import com.spring.rest.util.FacetFieldDTO;
@@ -86,14 +88,17 @@ public class OrganizationController {
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = Organization.class)))
         })
-	public ResponseEntity<?>   createOrganization(@RequestBody  Organization organization
+	public ResponseEntity<?>   createOrganization(@RequestBody  OrganizationRequest organizationRequest
  , HttpServletResponse response, HttpServletRequest request) {
 		
 	       try {
 	          
 	            
-				organization.setID(Utility.getUniqueId());
-	             
+			//	organization.setID(Utility.getUniqueId());
+	          
+			
+	    	   Organization organization = ModelMapperUtil.mapCreateRequestToModel(organizationRequest,  Organization.class);
+
 	            // Call service layer
 	            Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate( organization, url);
 	            if (apiResponse instanceof Exception) {

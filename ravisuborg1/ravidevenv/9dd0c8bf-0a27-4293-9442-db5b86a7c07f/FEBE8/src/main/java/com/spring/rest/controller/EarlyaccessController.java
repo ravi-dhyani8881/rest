@@ -38,6 +38,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.spring.rest.model.EarlyAccess;
+import com.spring.rest.modelrequests.EarlyAccessRequest;
 import com.spring.rest.model.UserAuth;
 import com.spring.rest.apiresponse.EarlyAccessResponse;
 import com.main.external.exception.user.UserException;
@@ -45,6 +46,7 @@ import com.spring.rest.apiresponse.UserSignUpExample;
 import com.spring.rest.apiresponse.UserAuthResponse;
 import com.spring.rest.util.JwtUtil;
 import com.spring.rest.custom.ErrorResponse;
+import com.spring.rest.util.ModelMapperUtil;
 import com.spring.rest.custom.StandardApiResponses;
 import com.spring.rest.service.CommonDocumentService;
 import com.spring.rest.util.FacetFieldDTO;
@@ -86,14 +88,17 @@ public class EarlyaccessController {
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = EarlyAccess.class)))
         })
-	public ResponseEntity<?>   createEarlyaccess(@RequestBody  EarlyAccess earlyAccess
+	public ResponseEntity<?>   createEarlyaccess(@RequestBody  EarlyAccessRequest earlyAccessRequest
  , HttpServletResponse response, HttpServletRequest request) {
 		
 	       try {
 	          
 	            
-				earlyAccess.setID(Utility.getUniqueId());
-	             
+			//	earlyAccess.setID(Utility.getUniqueId());
+	          
+			
+	    	   EarlyAccess earlyAccess = ModelMapperUtil.mapCreateRequestToModel(earlyAccessRequest,  EarlyAccess.class);
+
 	            // Call service layer
 	            Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate( earlyAccess, url);
 	            if (apiResponse instanceof Exception) {

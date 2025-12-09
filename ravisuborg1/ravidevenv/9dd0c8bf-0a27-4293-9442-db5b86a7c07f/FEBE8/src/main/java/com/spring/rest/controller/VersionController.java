@@ -38,6 +38,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.spring.rest.model.Version;
+import com.spring.rest.modelrequests.VersionRequest;
 import com.spring.rest.model.UserAuth;
 import com.spring.rest.apiresponse.VersionResponse;
 import com.main.external.exception.user.UserException;
@@ -45,6 +46,7 @@ import com.spring.rest.apiresponse.UserSignUpExample;
 import com.spring.rest.apiresponse.UserAuthResponse;
 import com.spring.rest.util.JwtUtil;
 import com.spring.rest.custom.ErrorResponse;
+import com.spring.rest.util.ModelMapperUtil;
 import com.spring.rest.custom.StandardApiResponses;
 import com.spring.rest.service.CommonDocumentService;
 import com.spring.rest.util.FacetFieldDTO;
@@ -86,14 +88,17 @@ public class VersionController {
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = Version.class)))
         })
-	public ResponseEntity<?>   createVersion(@RequestBody  Version version
+	public ResponseEntity<?>   createVersion(@RequestBody  VersionRequest versionRequest
  , HttpServletResponse response, HttpServletRequest request) {
 		
 	       try {
 	          
 	            
-				version.setID(Utility.getUniqueId());
-	             
+			//	version.setID(Utility.getUniqueId());
+	          
+			
+	    	   Version version = ModelMapperUtil.mapCreateRequestToModel(versionRequest,  Version.class);
+
 	            // Call service layer
 	            Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate( version, url);
 	            if (apiResponse instanceof Exception) {

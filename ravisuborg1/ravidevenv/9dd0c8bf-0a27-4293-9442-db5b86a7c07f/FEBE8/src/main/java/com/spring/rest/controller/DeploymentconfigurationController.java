@@ -38,6 +38,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.spring.rest.model.DeploymentConfiguration;
+import com.spring.rest.modelrequests.DeploymentConfigurationRequest;
 import com.spring.rest.model.UserAuth;
 import com.spring.rest.apiresponse.DeploymentConfigurationResponse;
 import com.main.external.exception.user.UserException;
@@ -45,6 +46,7 @@ import com.spring.rest.apiresponse.UserSignUpExample;
 import com.spring.rest.apiresponse.UserAuthResponse;
 import com.spring.rest.util.JwtUtil;
 import com.spring.rest.custom.ErrorResponse;
+import com.spring.rest.util.ModelMapperUtil;
 import com.spring.rest.custom.StandardApiResponses;
 import com.spring.rest.service.CommonDocumentService;
 import com.spring.rest.util.FacetFieldDTO;
@@ -86,14 +88,17 @@ public class DeploymentconfigurationController {
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = DeploymentConfiguration.class)))
         })
-	public ResponseEntity<?>   createDeploymentconfiguration(@RequestBody  DeploymentConfiguration deploymentConfiguration
+	public ResponseEntity<?>   createDeploymentconfiguration(@RequestBody  DeploymentConfigurationRequest deploymentConfigurationRequest
  , HttpServletResponse response, HttpServletRequest request) {
 		
 	       try {
 	          
 	            
-				deploymentConfiguration.setID(Utility.getUniqueId());
-	             
+			//	deploymentConfiguration.setID(Utility.getUniqueId());
+	          
+			
+	    	   DeploymentConfiguration deploymentConfiguration = ModelMapperUtil.mapCreateRequestToModel(deploymentConfigurationRequest,  DeploymentConfiguration.class);
+
 	            // Call service layer
 	            Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate( deploymentConfiguration, url);
 	            if (apiResponse instanceof Exception) {

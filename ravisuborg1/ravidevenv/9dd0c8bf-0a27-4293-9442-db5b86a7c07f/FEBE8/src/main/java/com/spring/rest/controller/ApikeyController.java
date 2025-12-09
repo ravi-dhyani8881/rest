@@ -38,6 +38,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.spring.rest.model.ApiKey;
+import com.spring.rest.modelrequests.ApiKeyRequest;
 import com.spring.rest.model.UserAuth;
 import com.spring.rest.apiresponse.ApiKeyResponse;
 import com.main.external.exception.user.UserException;
@@ -45,6 +46,7 @@ import com.spring.rest.apiresponse.UserSignUpExample;
 import com.spring.rest.apiresponse.UserAuthResponse;
 import com.spring.rest.util.JwtUtil;
 import com.spring.rest.custom.ErrorResponse;
+import com.spring.rest.util.ModelMapperUtil;
 import com.spring.rest.custom.StandardApiResponses;
 import com.spring.rest.service.CommonDocumentService;
 import com.spring.rest.util.FacetFieldDTO;
@@ -86,14 +88,17 @@ public class ApikeyController {
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = ApiKey.class)))
         })
-	public ResponseEntity<?>   createApikey(@RequestBody  ApiKey apiKey
+	public ResponseEntity<?>   createApikey(@RequestBody  ApiKeyRequest apiKeyRequest
  , HttpServletResponse response, HttpServletRequest request) {
 		
 	       try {
 	          
 	            
-				apiKey.setID(Utility.getUniqueId());
-	             
+			//	apiKey.setID(Utility.getUniqueId());
+	          
+			
+	    	   ApiKey apiKey = ModelMapperUtil.mapCreateRequestToModel(apiKeyRequest,  ApiKey.class);
+
 	            // Call service layer
 	            Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate( apiKey, url);
 	            if (apiResponse instanceof Exception) {

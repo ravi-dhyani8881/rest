@@ -38,6 +38,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.spring.rest.model.Invitation;
+import com.spring.rest.modelrequests.InvitationRequest;
 import com.spring.rest.model.UserAuth;
 import com.spring.rest.apiresponse.InvitationResponse;
 import com.main.external.exception.user.UserException;
@@ -45,6 +46,7 @@ import com.spring.rest.apiresponse.UserSignUpExample;
 import com.spring.rest.apiresponse.UserAuthResponse;
 import com.spring.rest.util.JwtUtil;
 import com.spring.rest.custom.ErrorResponse;
+import com.spring.rest.util.ModelMapperUtil;
 import com.spring.rest.custom.StandardApiResponses;
 import com.spring.rest.service.CommonDocumentService;
 import com.spring.rest.util.FacetFieldDTO;
@@ -86,14 +88,17 @@ public class InvitationController {
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = Invitation.class)))
         })
-	public ResponseEntity<?>   createInvitation(@RequestBody  Invitation invitation
+	public ResponseEntity<?>   createInvitation(@RequestBody  InvitationRequest invitationRequest
  , HttpServletResponse response, HttpServletRequest request) {
 		
 	       try {
 	          
 	            
-				invitation.setID(Utility.getUniqueId());
-	             
+			//	invitation.setID(Utility.getUniqueId());
+	          
+			
+	    	   Invitation invitation = ModelMapperUtil.mapCreateRequestToModel(invitationRequest,  Invitation.class);
+
 	            // Call service layer
 	            Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate( invitation, url);
 	            if (apiResponse instanceof Exception) {
