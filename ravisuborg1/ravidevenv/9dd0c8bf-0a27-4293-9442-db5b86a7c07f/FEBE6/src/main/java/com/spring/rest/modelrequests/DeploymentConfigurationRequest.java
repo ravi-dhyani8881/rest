@@ -12,51 +12,34 @@ import lombok.AllArgsConstructor;
 public class DeploymentConfigurationRequest {
 
 
+    // --- Fields ---
+
     private String configurationId;
+
 
     private String replicaCount;
 
 
-    @JsonProperty("ID")
-    public String getID() {
-        return iD;
-    }
+    // --- Getters & Setters ---
 
-    @JsonProperty("ID")
-    public void setID( String iD) {
-        this.iD = iD;
-    }
 
     public String getConfigurationId() {
         return configurationId;
     }
 
-    public void setConfigurationId( String configurationId) {
+    public void setConfigurationId(String configurationId) {
         this.configurationId = configurationId;
     }
+
+
 
     public String getReplicaCount() {
         return replicaCount;
     }
 
-    public void setReplicaCount( String replicaCount) {
+    public void setReplicaCount(String replicaCount) {
         this.replicaCount = replicaCount;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt( String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt( String updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 
 }
