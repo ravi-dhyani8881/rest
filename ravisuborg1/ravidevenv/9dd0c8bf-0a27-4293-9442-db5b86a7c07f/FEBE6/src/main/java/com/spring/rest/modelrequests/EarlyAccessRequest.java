@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class EarlyAccessRequestRequest {
+public class EarlyAccessRequest {
 
 
     private String firstName;
