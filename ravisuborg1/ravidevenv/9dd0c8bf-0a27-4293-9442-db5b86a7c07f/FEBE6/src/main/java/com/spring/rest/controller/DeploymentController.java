@@ -46,6 +46,7 @@ import com.spring.rest.apiresponse.UserSignUpExample;
 import com.spring.rest.apiresponse.UserAuthResponse;
 import com.spring.rest.util.JwtUtil;
 import com.spring.rest.custom.ErrorResponse;
+import com.spring.rest.util.ModelMapperUtil;
 import com.spring.rest.custom.StandardApiResponses;
 import com.spring.rest.service.CommonDocumentService;
 import com.spring.rest.util.FacetFieldDTO;
@@ -93,8 +94,11 @@ public class DeploymentController {
 	       try {
 	          
 	            
-				deployment.setID(Utility.getUniqueId());
-	             
+			//	deployment.setID(Utility.getUniqueId());
+	          
+			
+	    	   Deployment deployment = ModelMapperUtil.mapCreateRequestToModel(deploymentRequest,  Deployment.class);
+
 	            // Call service layer
 	            Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate( deployment, url);
 	            if (apiResponse instanceof Exception) {

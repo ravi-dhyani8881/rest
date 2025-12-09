@@ -46,6 +46,7 @@ import com.spring.rest.apiresponse.UserSignUpExample;
 import com.spring.rest.apiresponse.UserAuthResponse;
 import com.spring.rest.util.JwtUtil;
 import com.spring.rest.custom.ErrorResponse;
+import com.spring.rest.util.ModelMapperUtil;
 import com.spring.rest.custom.StandardApiResponses;
 import com.spring.rest.service.CommonDocumentService;
 import com.spring.rest.util.FacetFieldDTO;
@@ -93,8 +94,11 @@ public class UsersettingController {
 	       try {
 	          
 	            
-				userSetting.setID(Utility.getUniqueId());
-	             
+			//	userSetting.setID(Utility.getUniqueId());
+	          
+			
+	    	   UserSetting userSetting = ModelMapperUtil.mapCreateRequestToModel(userSettingRequest,  UserSetting.class);
+
 	            // Call service layer
 	            Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate( userSetting, url);
 	            if (apiResponse instanceof Exception) {
