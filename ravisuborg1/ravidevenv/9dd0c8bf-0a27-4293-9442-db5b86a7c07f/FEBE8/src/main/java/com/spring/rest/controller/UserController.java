@@ -568,10 +568,10 @@ public ResponseEntity<?> deleteUserByQuery(
 
 			    String jwt = jwtUtil.generateToken(solrUserId, email);
 
-			    model.addAttribute("token", jwt);
-				model.addAttribute("Message",
+			  
+				model.addAttribute("data",
 						new ResponseMessage.Builder("User authenticated sucesfully.", HttpServletResponse.SC_OK)
-								.withID(C.get("ID").toString()).withResponseType("AUTHENTICATED").build());
+								.withID(C.get("ID").toString()).withToken(jwt).withResponseType("AUTHENTICATED").build());
 			}
 		}
 
