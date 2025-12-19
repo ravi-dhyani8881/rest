@@ -467,19 +467,21 @@ public ResponseEntity<?> deleteUserByQuery(
 	        responseCode = "500",
 	        description = "Server error",
 	        content = @Content(schema = @Schema(implementation = ResponseMessage.class))
-	    )})
+	    )})			
 	@PostMapping("/userSignUp")
-	public ResponseEntity<?> userSignUp(@Valid @RequestBody User user) {
-
+	public ModelMap  userSignUp(@Valid @RequestBody User user) {
+		ModelMap model = new ModelMap();
+		
+		
 	    try {
 	        // ============================================================
 	        // 1️⃣ Validate Email Exists
 	        // ============================================================
 	        if (emailExists(user.getEmail())) {
-	            return ResponseEntity.status(HttpStatus.CONFLICT)
-	                    .body(new ResponseMessage.Builder("Email already exists", 409)
-	                            .withResponseType("duplicate")
-	                            .build());
+	        	
+	        	return model.addAttribute("data",
+						new ResponseMessage.Builder("Email already exists", 409)
+								.withResponseType("duplicate").build());
 	        }
 
 	        // ============================================================
@@ -508,33 +510,25 @@ public ResponseEntity<?> deleteUserByQuery(
 	                .addDocumentAndExceptionByTemplate(payload, url);
 
 	        if (apiResponse instanceof Exception) {
-	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	                    .body(new ResponseMessage.Builder("Server error", 500).build());
+	        	return model.addAttribute("data",
+						new ResponseMessage.Builder("Server error", 500)
+								.withResponseType("error").build());
 	        }
 
 	        // ============================================================
 	        // 4️⃣ SUCCESS RESPONSE
 	        // ============================================================
-	        ResponseMessage response = new ResponseMessage.Builder(
-	                "User registered successfully. Please activate using email verification code.",
-	                HttpStatus.CREATED.value())
-	                .withID(userId)
-	                .withActivationCode(activationCode)
-	                .withResponseType("created")
-	                .build();
-
-	        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-
+	        
+	    	model.addAttribute("data",
+					new ResponseMessage.Builder("User registered successfully. Please activate using email verification code.", HttpStatus.CREATED.value())
+							.withID(userId).withActivationCode(activationCode).withResponseType("created").build());
+	        return model;
 	    } catch (Exception ex) {
-
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	                .body(new ResponseMessage.Builder("Unexpected error", 500)
-	                        .withResponseType("error")
-	                        .build());
+	    	return model.addAttribute("data",
+					new ResponseMessage.Builder("Unexpected error", 500)
+							.withResponseType("error").build());
 	    }
 	}
-
-
    
 	@PostMapping("/user-authentication")
 	@ApiResponses(value = {
