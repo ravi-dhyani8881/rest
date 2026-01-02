@@ -21,7 +21,7 @@ public class Campaigns implements Serializable {
 
 
     @JsonProperty("ID")
-    private String id;
+    private String iD;
 
     private String key;
 
@@ -38,7 +38,7 @@ public class Campaigns implements Serializable {
 
 /*
 
-    private String id;
+    private String iD;
     private String key;
     private String name;
     private String description;
@@ -49,13 +49,13 @@ public class Campaigns implements Serializable {
 */
 
     @JsonProperty("ID")
-    public String getId() {
-        return id;
+    public String getID() {
+        return iD;
     }
 
     @JsonProperty("ID")
-    public void setId( String id) {
-        this.id = id;
+    public void setID( String iD) {
+        this.iD = iD;
     }
 
     public String getKey() {

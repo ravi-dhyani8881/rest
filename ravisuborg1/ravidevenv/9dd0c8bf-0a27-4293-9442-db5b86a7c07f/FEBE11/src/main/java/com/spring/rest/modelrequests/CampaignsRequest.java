@@ -14,9 +14,6 @@ public class CampaignsRequest {
 
     // --- Fields ---
 
-    private String id;
-
-
     private String key;
 
 
@@ -30,16 +27,6 @@ public class CampaignsRequest {
 
 
     // --- Getters & Setters ---
-
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
 
 
     public String getKey() {
