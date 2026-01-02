@@ -32,6 +32,9 @@ public class DeploymentConfiguration implements Serializable {
     private String updatedAt;
 
 
+	public DeploymentConfiguration () {
+	super();
+    }
 
 /*
 

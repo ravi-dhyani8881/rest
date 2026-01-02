@@ -739,6 +739,32 @@ public ResponseEntity<?> deleteUserByQuery(
 		} 
 
 
+		@ApiOperation(value = "This service used to get User details by based on token")
+	@StandardApiResponses
+	@RequestMapping(value="/me" , method=RequestMethod.GET)
+	@ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User found",
+                         content = @Content(mediaType = "application/json",
+                         schema = @Schema(implementation = User.class)))
+        })
+	public ModelMap  getUserDetailsByToken(
+			
+			@RequestHeader("Authorization") String authHeader,
+			HttpServletRequest request, HttpServletResponse response
+			) {
+		ModelMap model=new ModelMap();
+		String token = authHeader.substring(7);
+		User user =null;
+		try {
+			 user = jwtUtil.getUserDetailsFromToken(token);
+		}catch (Exception e) {
+			return model.addAttribute("data",
+					new ResponseMessage.Builder("Server error", 500)
+							.withResponseType("error").build());
+		}
+		return model.addAttribute("data",user);
+		}
+
 
 	private boolean emailExists(String email) {
 		Map<String, String[]> searchCriteria=new HashMap<>(); 

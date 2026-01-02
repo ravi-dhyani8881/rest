@@ -36,6 +36,9 @@ public class UserSetting implements Serializable {
     private String updatedAt;
 
 
+	public UserSetting () {
+	super();
+    }
 
 /*
 

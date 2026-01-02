@@ -32,6 +32,9 @@ public class UserOrg implements Serializable {
     private String updatedAt;
 
 
+	public UserOrg () {
+	super();
+    }
 
 /*
 

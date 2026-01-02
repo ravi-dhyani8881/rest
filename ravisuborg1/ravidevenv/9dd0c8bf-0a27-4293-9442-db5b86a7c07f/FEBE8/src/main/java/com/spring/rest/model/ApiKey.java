@@ -36,6 +36,9 @@ public class ApiKey implements Serializable {
     private String updatedAt;
 
 
+	public ApiKey () {
+	super();
+    }
 
 /*
 

@@ -34,6 +34,9 @@ public class SubOrganization implements Serializable {
     private String updatedAt;
 
 
+	public SubOrganization () {
+	super();
+    }
 
 /*
 

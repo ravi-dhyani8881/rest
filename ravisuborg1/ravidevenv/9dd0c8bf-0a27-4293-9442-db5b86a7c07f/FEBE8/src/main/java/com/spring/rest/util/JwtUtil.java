@@ -39,4 +39,20 @@ public class JwtUtil {
                 .parseClaimsJws(token)
                 .getBody();
     }
+
+     public User getUserDetailsFromToken(String token) {
+        try {
+            Claims claims = extractAllClaims(token);
+
+            User user = new User();
+            user.setID(claims.get("userId", String.class));
+            user.setEmail(claims.get("email", String.class));
+            
+            return user;
+
+        } catch (JwtException | IllegalArgumentException e) {
+            throw new RuntimeException("Invalid or expired JWT token");
+        }
+    }
+
 }

@@ -38,6 +38,9 @@ public class Project implements Serializable {
     private String updatedAt;
 
 
+	public Project () {
+	super();
+    }
 
 /*
 

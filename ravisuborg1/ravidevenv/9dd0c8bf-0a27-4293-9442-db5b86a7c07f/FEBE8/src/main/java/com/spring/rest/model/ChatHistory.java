@@ -32,6 +32,9 @@ public class ChatHistory implements Serializable {
     private String updatedAt;
 
 
+	public ChatHistory () {
+	super();
+    }
 
 /*
 
