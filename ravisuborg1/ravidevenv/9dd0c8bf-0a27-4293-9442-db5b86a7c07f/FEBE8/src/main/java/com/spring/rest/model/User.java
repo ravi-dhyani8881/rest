@@ -50,10 +50,6 @@ public class User implements Serializable {
     private String userStatus;
 
 
-	public User () {
-	super();
-    }
-
 /*
 
     @Id

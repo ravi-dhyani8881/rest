@@ -30,10 +30,6 @@ public class Configuration implements Serializable {
     private String updatedAt;
 
 
-	public Configuration () {
-	super();
-    }
-
 /*
 
     @Id

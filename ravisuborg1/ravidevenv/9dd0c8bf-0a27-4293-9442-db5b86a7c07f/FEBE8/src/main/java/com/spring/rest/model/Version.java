@@ -48,10 +48,6 @@ public class Version implements Serializable {
     private String updatedAt;
 
 
-	public Version () {
-	super();
-    }
-
 /*
 
     @Id

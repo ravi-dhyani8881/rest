@@ -52,10 +52,6 @@ public class Campaign_submissions implements Serializable {
     private String updatedAt;
 
 
-	public Campaign_submissions () {
-	super();
-    }
-
 /*
 
     @Id

@@ -42,10 +42,6 @@ public class PublishLog implements Serializable {
     private String updatedAt;
 
 
-	public PublishLog () {
-	super();
-    }
-
 /*
 
     @Id

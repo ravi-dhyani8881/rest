@@ -36,10 +36,6 @@ public class Campaigns implements Serializable {
     private String updatedAt;
 
 
-	public Campaigns () {
-	super();
-    }
-
 /*
 
     private String id;

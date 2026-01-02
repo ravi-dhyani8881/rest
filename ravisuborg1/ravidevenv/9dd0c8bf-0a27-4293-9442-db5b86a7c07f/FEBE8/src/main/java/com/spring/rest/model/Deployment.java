@@ -38,10 +38,6 @@ public class Deployment implements Serializable {
     private String updatedAt;
 
 
-	public Deployment () {
-	super();
-    }
-
 /*
 
     @Id

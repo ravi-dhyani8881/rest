@@ -36,10 +36,6 @@ public class Environment implements Serializable {
     private String updatedAt;
 
 
-	public Environment () {
-	super();
-    }
-
 /*
 
     @Id

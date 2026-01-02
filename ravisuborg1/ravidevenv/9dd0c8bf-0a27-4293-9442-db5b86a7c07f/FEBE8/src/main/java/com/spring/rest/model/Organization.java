@@ -32,10 +32,6 @@ public class Organization implements Serializable {
     private String updatedAt;
 
 
-	public Organization () {
-	super();
-    }
-
 /*
 
     @Id
