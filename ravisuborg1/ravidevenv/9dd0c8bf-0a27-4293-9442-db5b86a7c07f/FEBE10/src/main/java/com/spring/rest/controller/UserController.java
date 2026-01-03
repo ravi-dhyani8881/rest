@@ -467,19 +467,21 @@ public ResponseEntity<?> deleteUserByQuery(
 	        responseCode = "500",
 	        description = "Server error",
 	        content = @Content(schema = @Schema(implementation = ResponseMessage.class))
-	    )})
+	    )})			
 	@PostMapping("/userSignUp")
-	public ResponseEntity<?> userSignUp(@Valid @RequestBody User user) {
-
+	public ModelMap  userSignUp(@Valid @RequestBody User user) {
+		ModelMap model = new ModelMap();
+		
+		
 	    try {
 	        // ============================================================
 	        // 1️⃣ Validate Email Exists
 	        // ============================================================
 	        if (emailExists(user.getEmail())) {
-	            return ResponseEntity.status(HttpStatus.CONFLICT)
-	                    .body(new ResponseMessage.Builder("Email already exists", 409)
-	                            .withResponseType("duplicate")
-	                            .build());
+	        	
+	        	return model.addAttribute("data",
+						new ResponseMessage.Builder("Email already exists", 409)
+								.withResponseType("duplicate").build());
 	        }
 
 	        // ============================================================
@@ -508,33 +510,25 @@ public ResponseEntity<?> deleteUserByQuery(
 	                .addDocumentAndExceptionByTemplate(payload, url);
 
 	        if (apiResponse instanceof Exception) {
-	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	                    .body(new ResponseMessage.Builder("Server error", 500).build());
+	        	return model.addAttribute("data",
+						new ResponseMessage.Builder("Server error", 500)
+								.withResponseType("error").build());
 	        }
 
 	        // ============================================================
 	        // 4️⃣ SUCCESS RESPONSE
 	        // ============================================================
-	        ResponseMessage response = new ResponseMessage.Builder(
-	                "User registered successfully. Please activate using email verification code.",
-	                HttpStatus.CREATED.value())
-	                .withID(userId)
-	                .withActivationCode(activationCode)
-	                .withResponseType("created")
-	                .build();
-
-	        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-
+	        
+	    	model.addAttribute("data",
+					new ResponseMessage.Builder("User registered successfully. Please activate using email verification code.", HttpStatus.CREATED.value())
+							.withID(userId).withActivationCode(activationCode).withResponseType("created").build());
+	        return model;
 	    } catch (Exception ex) {
-
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	                .body(new ResponseMessage.Builder("Unexpected error", 500)
-	                        .withResponseType("error")
-	                        .build());
+	    	return model.addAttribute("data",
+					new ResponseMessage.Builder("Unexpected error", 500)
+							.withResponseType("error").build());
 	    }
 	}
-
-
    
 	@PostMapping("/user-authentication")
 	@ApiResponses(value = {
@@ -568,10 +562,10 @@ public ResponseEntity<?> deleteUserByQuery(
 
 			    String jwt = jwtUtil.generateToken(solrUserId, email);
 
-			    model.addAttribute("token", jwt);
-				model.addAttribute("Message",
+			  
+				model.addAttribute("data",
 						new ResponseMessage.Builder("User authenticated sucesfully.", HttpServletResponse.SC_OK)
-								.withID(C.get("ID").toString()).withResponseType("AUTHENTICATED").build());
+								.withID(C.get("ID").toString()).withToken(jwt).withResponseType("AUTHENTICATED").build());
 			}
 		}
 
@@ -744,6 +738,32 @@ public ResponseEntity<?> deleteUserByQuery(
 			return model;
 		} 
 
+
+		@ApiOperation(value = "This service used to get User details by based on token")
+	@StandardApiResponses
+	@RequestMapping(value="/me" , method=RequestMethod.GET)
+	@ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User found",
+                         content = @Content(mediaType = "application/json",
+                         schema = @Schema(implementation = User.class)))
+        })
+	public ModelMap  getUserDetailsByToken(
+			
+			@RequestHeader("Authorization") String authHeader,
+			HttpServletRequest request, HttpServletResponse response
+			) {
+		ModelMap model=new ModelMap();
+		String token = authHeader.substring(7);
+		User user =null;
+		try {
+			 user = jwtUtil.getUserDetailsFromToken(token);
+		}catch (Exception e) {
+			return model.addAttribute("data",
+					new ResponseMessage.Builder("Server error", 500)
+							.withResponseType("error").build());
+		}
+		return model.addAttribute("data",user);
+		}
 
 
 	private boolean emailExists(String email) {

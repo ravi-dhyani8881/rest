@@ -27,6 +27,7 @@ public class ResponseMessage {
     private String start;
     private String activationCode;
     private String row;
+    private String token;
 
     @JsonProperty("advanced")
     private List<FacetFieldDTO> dto;
@@ -55,6 +56,7 @@ public class ResponseMessage {
         this.dto = builder.dto;
         this.fieldErrors = builder.fieldErrors; // Initialize the new field
         this.userObject = builder.userObject; 
+        this.token = builder.token;
     }
 
     // ✅ Builder Pattern
@@ -73,8 +75,8 @@ public class ResponseMessage {
         private List<FacetFieldDTO> dto;
           // --- NEW FIELD FOR BUILDER ---
         private List<FieldErrorDetail> fieldErrors;
-        
         private Object userObject;
+        private String token;
         
         @JsonProperty("response")
         public Object getUserObject() { return userObject; }
@@ -93,6 +95,7 @@ public class ResponseMessage {
         public Builder withCreatedDate(Date createdDate) { this.createdDate = createdDate; return this; }
         public Builder withStart(String start) { this.start = start; return this; }
         public Builder withRow(String row) { this.row = row; return this; }
+        public Builder withToken(String token) { this.token = token; return this; }
         public Builder withActivationCode(String activationCode) { this.activationCode = activationCode; return this; }
         public Builder withDto(List<FacetFieldDTO> dto) { this.dto = dto; return this; }
 
@@ -123,6 +126,7 @@ public class ResponseMessage {
     public Date getCreatedDate() { return createdDate; }
     public String getStart() { return start; }
     public String getRow() { return row; }
+    public String getToken() { return token; }
     public String getActivationCode() { return activationCode; }
     public List<FacetFieldDTO> getDto() { return dto; }
     public List<FieldErrorDetail> getFieldErrors() { return fieldErrors; } // New getter

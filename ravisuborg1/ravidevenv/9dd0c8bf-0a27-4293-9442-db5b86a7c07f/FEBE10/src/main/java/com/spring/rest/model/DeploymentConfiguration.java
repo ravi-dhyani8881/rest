@@ -32,7 +32,6 @@ public class DeploymentConfiguration implements Serializable {
     private String updatedAt;
 
 
-
 /*
 
     @Id

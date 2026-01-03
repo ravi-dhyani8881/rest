@@ -36,7 +36,6 @@ public class Invitation implements Serializable {
     private String updatedAt;
 
 
-
 /*
 
     @Id

@@ -42,7 +42,6 @@ public class EarlyAccess implements Serializable {
     private String updatedAt;
 
 
-
 /*
 
     @Id
