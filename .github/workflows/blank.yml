@@ -70,7 +70,7 @@ jobs:
     - name: Build and Install Local Maven Library
       run: |
         cd maven-library-skeleton-master
-        mvn clean install -DskipTests
+        mvn clean install -DskipTests -X
     
     # - name: Build Main Project
     #  run: |
@@ -120,7 +120,7 @@ jobs:
       run: java -version
 
     - name: Build with Maven
-      run: mvn clean install
+      run: mvn clean install -X
       working-directory: ${{ env.WORKING_DIR }}
 
 
