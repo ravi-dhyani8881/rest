@@ -70,7 +70,7 @@ jobs:
     - name: Build and Install Local Maven Library
       run: |
         cd maven-library-skeleton-master
-        mvn clean install -DskipTests
+        mvn clean install -X -DskipTests
     
     # - name: Build Main Project
     #  run: |
