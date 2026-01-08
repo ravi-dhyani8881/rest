@@ -34,7 +34,7 @@ public interface SolrUrls {
     public static final String USERSETTING_URL = baseUrl+"/"+"userSetting";
     public static final String CHATHISTORY_URL = baseUrl+"/"+"chatHistory";
     public static final String EARLYACCESS_URL = baseUrl+"/"+"earlyAccess";
-    public static final String CAMPAIGN_SUBMISSIONS_URL = baseUrl+"/"+"campaign_submissions";
+    public static final String CAMPAIGNSUBMISSIONS_URL = baseUrl+"/"+"campaignSubmissions";
     public static final String CAMPAIGNS_URL = baseUrl+"/"+"campaigns";
 }
 
@@ -68,7 +68,7 @@ public interface SolrUrls {
     public static final String USERSETTING_URL = baseUrl + "/" + "userSetting";
     public static final String CHATHISTORY_URL = baseUrl + "/" + "chatHistory";
     public static final String EARLYACCESS_URL = baseUrl + "/" + "earlyAccess";
-    public static final String CAMPAIGN_SUBMISSIONS_URL = baseUrl + "/" + "campaign_submissions";
+    public static final String CAMPAIGNSUBMISSIONS_URL = baseUrl + "/" + "campaignSubmissions";
     public static final String CAMPAIGNS_URL = baseUrl + "/" + "campaigns";
 }
 
