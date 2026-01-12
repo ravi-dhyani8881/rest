@@ -17,21 +17,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor // Generates a no-argument constructor (required by Jackson for deserialization)
 @AllArgsConstructor // Generates a constructor with all fields
 @JsonInclude(JsonInclude.Include.NON_NULL) 
-public class Project implements Serializable {
+public class Campaigns implements Serializable {
 
 
     @JsonProperty("ID")
     private String iD;
 
+    private String key;
+
     private String name;
 
     private String description;
 
-    private String orgId;
-
-    private String subOrgId;
-
-    private String environmentId;
+    private String status;
 
     private String createdAt;
 
@@ -40,13 +38,11 @@ public class Project implements Serializable {
 
 /*
 
-    @Id
     private String iD;
+    private String key;
     private String name;
     private String description;
-    private String orgId;
-    private String subOrgId;
-    private String environmentId;
+    private String status;
     private String createdAt;
     private String updatedAt;
 
@@ -60,6 +56,14 @@ public class Project implements Serializable {
     @JsonProperty("ID")
     public void setID( String iD) {
         this.iD = iD;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey( String key) {
+        this.key = key;
     }
 
     public String getName() {
@@ -78,28 +82,12 @@ public class Project implements Serializable {
         this.description = description;
     }
 
-    public String getOrgId() {
-        return orgId;
+    public String getStatus() {
+        return status;
     }
 
-    public void setOrgId( String orgId) {
-        this.orgId = orgId;
-    }
-
-    public String getSubOrgId() {
-        return subOrgId;
-    }
-
-    public void setSubOrgId( String subOrgId) {
-        this.subOrgId = subOrgId;
-    }
-
-    public String getEnvironmentId() {
-        return environmentId;
-    }
-
-    public void setEnvironmentId( String environmentId) {
-        this.environmentId = environmentId;
+    public void setStatus( String status) {
+        this.status = status;
     }
 
     public String getCreatedAt() {

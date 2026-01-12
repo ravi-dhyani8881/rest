@@ -30,7 +30,6 @@ public class Configuration implements Serializable {
     private String updatedAt;
 
 
-
 /*
 
     @Id

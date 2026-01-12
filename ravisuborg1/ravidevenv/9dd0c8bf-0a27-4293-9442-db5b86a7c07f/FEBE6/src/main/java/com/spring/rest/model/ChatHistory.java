@@ -32,7 +32,6 @@ public class ChatHistory implements Serializable {
     private String updatedAt;
 
 
-
 /*
 
     @Id

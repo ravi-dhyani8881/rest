@@ -36,7 +36,6 @@ public class UserSetting implements Serializable {
     private String updatedAt;
 
 
-
 /*
 
     @Id
