@@ -38,11 +38,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.spring.rest.model.User;
+import com.spring.rest.modelrequests.UserRequest;
 import com.spring.rest.model.UserAuth;
 import com.spring.rest.apiresponse.UserResponse;
 import com.main.external.exception.user.UserException;
+import com.spring.rest.apiresponse.UserSignUpExample;
 import com.spring.rest.apiresponse.UserAuthResponse;
+import com.spring.rest.util.JwtUtil;
 import com.spring.rest.custom.ErrorResponse;
+import com.spring.rest.util.ModelMapperUtil;
 import com.spring.rest.custom.StandardApiResponses;
 import com.spring.rest.service.CommonDocumentService;
 import com.spring.rest.util.FacetFieldDTO;
@@ -55,7 +59,7 @@ import com.spring.rest.validation.ValidationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-// version for 17.0.0
+// version for 18.0.0
 
 @Api(value = "User Mangment System" , description = "Service used to perform operation on user.", tags = "user")
 @RestController
@@ -69,6 +73,9 @@ public class UserController {
 	
 	@Autowired
 	ValidationService validationService;
+
+	@Autowired
+	JwtUtil	jwtUtil;
 	
     String url=SolrUrls.USER_URL;
     
@@ -81,24 +88,17 @@ public class UserController {
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = User.class)))
         })
-	public ResponseEntity<?>   createUser(@RequestBody  User user
- , HttpServletResponse response, HttpServletRequest request,
-			@RequestHeader(name="X-API-Key", required=true) String apiKeyx ,
-			@RequestHeader(name="X-USER-ID", required=true) String userId) {
+	public ResponseEntity<?>   createUser(@RequestBody  UserRequest userRequest
+ , HttpServletResponse response, HttpServletRequest request) {
 		
 	       try {
-	            // ✅ Validate API key
-	            int validationStatus = validationService.validateApiKey(apiKeyx, userId);
-	            if (validationStatus == 401) {
-	                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-	                        .body(ErrorResponse.of("unauthorized", "Invalid API key"));
-	            } else if (validationStatus == 500) {
-	                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	                        .body(ErrorResponse.of("internal_error", "API validation service unavailable"));
-	            }
+	          
 	            
-				user.setId(Utility.getUniqueId());
-	             
+			//	user.setID(Utility.getUniqueId());
+	          
+			
+	    	   User user = ModelMapperUtil.mapCreateRequestToModel(userRequest,  User.class);
+
 	            // Call service layer
 	            Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate( user, url);
 	            if (apiResponse instanceof Exception) {
@@ -123,32 +123,21 @@ public class UserController {
 public ResponseEntity<?> updateuser(
         @RequestBody User user,
         HttpServletResponse response,
-        HttpServletRequest request,
-        @RequestHeader(name = "X-API-Key", required = true) String apiKeyx,
-        @RequestHeader(name = "X-USER-ID", required = true) String userIdx) {
+        HttpServletRequest request) {
 
     String userId = null;
 
     try {
-        // ✅ Validate API Key
-        int validationStatus = validationService.validateApiKey(apiKeyx, userIdx);
-
-         if (validationStatus == 401) {
-	                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-	                        .body(ErrorResponse.of("unauthorized", "Invalid API key"));
-	            } else if (validationStatus == 500) {
-	                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	                        .body(ErrorResponse.of("internal_error", "API validation service unavailable"));
-	            }
+       
 
          // ✅ Check for ID in Customers POJO
-	        if (user.getId() == null || user.getId().trim().isEmpty()) {
+	        if (user.getID() == null || user.getID().trim().isEmpty()) {
 	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
 	        }
 
     
-	        userId = user.getId();
+	        userId = user.getID();
             
             // ✅ Query Solr for existing record
 	        Object apiResponse = commonDocumentService.advanceQueryAndExceptionByTemplate("ID:" + userId, url);
@@ -198,26 +187,16 @@ public ResponseEntity<?> updateuser(
 			@RequestParam(name = "fq" ,defaultValue = "" , required = false) String[] fq ,
 			//default value asc|desc
 			@RequestParam(name = "sort" ,defaultValue = "" , required = false) String sort,
-			@RequestHeader(name="X-API-Key", required=true) String apiKey ,
-			@RequestHeader(name="X-USER-ID", required=true) String userId,
-		
+			
+
+			@RequestParam(name = "advanceField" ,defaultValue = "" , required = false) String[] facetField ,
+			@RequestParam(name = "advanceQuery" ,defaultValue = "" , required = false) String facetQuery ,
+			@RequestParam(name = "advance" ,defaultValue = "false" , required = false) String facet ,
+
 			HttpServletRequest request, HttpServletResponse response
 			) {
 		ModelMap model=new ModelMap();
-		Object apiResponse=null;
-		
-		if(validationService.validateApiKey(apiKey, userId) == 500 )
-			{	
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-		//	return model.addAttribute("Message", new ResponseMessage("Server down Internal server error", 500));
-			return model.addAttribute("Message", new ResponseMessage.Builder("Server down Internal server error", 500).build());
-			 
-		}else if(validationService.validateApiKey(apiKey, userId) == 401) {
-			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-		//	 return model.addAttribute("Message", new ResponseMessage("Invalid Api Key", 401));
-			return model.addAttribute("Message", new ResponseMessage.Builder("Invalid Api Key", 401).build());
-			
-		}else {
+		List<FacetFieldDTO> advance=null;
 	//		query=Utility.getQuery(query, userId);
 			Map<String, String[]> searchCriteria=new HashMap<>(); 
 			searchCriteria.put("q", new String[] { query });
@@ -227,8 +206,20 @@ public ResponseEntity<?> updateuser(
 			searchCriteria.put("fq", fq);
 			searchCriteria.put("sort", new String[] { sort });
 			
-			 apiResponse = commonDocumentService.advanceSearchDocumentByTemplate(searchCriteria, url);
-			 if(apiResponse instanceof Exception )
+			searchCriteria.put("facet", new String[] { facet } );
+			searchCriteria.put("facet.query",  new String[] { facetQuery } );
+			if (facetField != null && facetField.length > 0) {
+			    searchCriteria.put("facet.field", facetField);
+			}
+			
+		    var apiResponse = commonDocumentService.advanceSearchDocumentByTemplate(searchCriteria, url);
+		
+		    List<FacetField> facetFieldsResponse =  ((QueryResponse)apiResponse).getFacetFields();
+				if(facet.equals("true")) {
+		          advance=facetFieldsResponse.stream().map(this::mapToFacetFieldDTO).collect(Collectors.toList());
+		        }
+		
+		  if(apiResponse instanceof Exception )
 			{
 				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			//	return model.addAttribute("Message", new ResponseMessage("Server down Internal server error",500));
@@ -246,8 +237,8 @@ public ResponseEntity<?> updateuser(
 				    pagination.put("offset", start);
 				
 				    model.addAttribute("pagination",pagination);
+					model.addAttribute("advanced",advance);
 				return model.addAttribute("data",((QueryResponse) apiResponse).getResults());
-			}
 		}
 	}
 	
@@ -320,21 +311,10 @@ public ResponseEntity<?> updateuser(
 @StandardApiResponses
 @DeleteMapping("/user")
 public ResponseEntity<?> deleteUserByQuery(
-        @RequestParam(name = "query") String query,
-        @RequestHeader(name = "X-API-Key", required = true) String apiKey,
-        @RequestHeader(name = "X-USER-ID", required = true) String userId) {
+        @RequestParam(name = "query") String query) {
 
     try {
-        // ✅ Validate API Key
-        int validationStatus = validationService.validateApiKey(apiKey, userId);
-
-        if (validationStatus == 500) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseMessage.Builder("Server down Internal server error", 500).build());
-        } else if (validationStatus == 401) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ResponseMessage.Builder("Invalid API Key", 401).build());
-        }
+       
 
         // ✅ Delete Operation
         Object apiResponse = commonDocumentService.deleteDocumentAndExceptionByTemplate(query, url);
@@ -481,71 +461,113 @@ public ResponseEntity<?> deleteUserByQuery(
     // Special methods for User controller
  
     // Special methods for User controller
-	@ApiOperation(value = "Service used to SignUp User")
-	@StandardApiResponses
-    @PostMapping("/userSignUp")
-	public ModelMap addNew(@RequestBody  User user, HttpServletResponse response) {
+	@ApiResponses(value = {
+	@ApiResponse(
+	        responseCode = "201",
+	        description = "User created successfully",
+	        content = @Content(
+	            mediaType = "application/json",
+	            schema = @Schema(oneOf = { ResponseMessage.class, UserSignUpExample.class })
+	        )
+	    ),
+	    @ApiResponse(
+	        responseCode = "400",
+	        description = "Validation failed",
+	        content = @Content(schema = @Schema(implementation = ResponseMessage.class))
+	    ),
+	    @ApiResponse(
+	        responseCode = "409",
+	        description = "Email already exists",
+	        content = @Content(schema = @Schema(implementation = ResponseMessage.class))
+	    ),
+	    @ApiResponse(
+	        responseCode = "500",
+	        description = "Server error",
+	        content = @Content(schema = @Schema(implementation = ResponseMessage.class))
+	    )})			
+	@PostMapping("/userSignUp")
+	public ModelMap  userSignUp(@Valid @RequestBody User user) {
 		ModelMap model = new ModelMap();
-		String userId=Utility.getUniqueId();		
 		
-		    Map<String, Object> payload= new HashMap<String, Object>();
-			payload.put("ID", userId);
-			String userActivationKey=(String)payload.get("userActivationKey")!=null ? (String)payload.get("userActivationKey") : Utility.getUniqueId();
-			payload.put("userActivationKey", userActivationKey);
-			
-			user.setId(Utility.getUniqueId());
-
-			if (emailExists((String)payload.get("email"))) {
-				//throw new Exception();
-				Exception r = new RuntimeException("Email Exist");
-				
-			//	throw new CustomException4xx("There is an account with that email address: "  + payload.get("email"), r);
-				
-				throw new UserException("There is an account with that email address: "  + payload.get("email"), r);
+		
+	    try {
+	        // ============================================================
+	        // 1️⃣ Validate Email Exists
+	        // ============================================================
+	        if (emailExists(user.getEmail())) {
+	        	
+	        	return model.addAttribute("data",
+						new ResponseMessage.Builder("Email already exists", 409)
+								.withResponseType("duplicate").build());
 	        }
 
-			Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate(payload, url);
-			
-			
-			if(apiResponse instanceof Exception )
-			{
-				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			//	return model.addAttribute("Message", new ResponseMessage("Server down Internal server error", HttpServletResponse.SC_INTERNAL_SERVER_ERROR));
-				return model.addAttribute("Message", new ResponseMessage.Builder("Server down Internal server error", 500).build());
-			}
-			response.setStatus(HttpServletResponse.SC_CREATED);
-		//	model.addAttribute("Message", new ResponseMessage("User added Sucesfully. Please activate through email activation code.", HttpServletResponse.SC_CREATED,null,null,userId,null,"created"));					
-			
-			
-			 model.addAttribute("Message", new ResponseMessage.Builder("User added Sucesfully. Please activate through email activation code.", HttpServletResponse.SC_CREATED)
-					.withID(userId)
-					.withActivationCode(userActivationKey)
-					.withResponseType("created")
-					.build());
-			
-		return model;
+	        // ============================================================
+	        // 2️⃣ Generate IDs (system-generated)
+	        // ============================================================
+	        String userId = Utility.getUniqueId();
+	        String activationCode = Utility.getUniqueId();
+
+	   //     user.setId(userId);
+
+	        Map<String, Object> payload = new HashMap<>();
+	        payload.put("ID", userId);
+	        payload.put("email", user.getEmail());
+	        payload.put("firstName", user.getFirstName());
+	        payload.put("middleName", user.getMiddleName());
+	        payload.put("lastName", user.getLastName());
+	        payload.put("address", user.getAddress());
+	        payload.put("company", user.getCompany());
+	        payload.put("role", user.getRole());
+	        payload.put("userActivationKey", activationCode);
+			payload.put("password", user.getPassword());
+	        // ============================================================
+	        // 3️⃣ Persist into Solr
+	        // ============================================================
+	        Object apiResponse = commonDocumentService
+	                .addDocumentAndExceptionByTemplate(payload, url);
+
+	        if (apiResponse instanceof Exception) {
+	        	return model.addAttribute("data",
+						new ResponseMessage.Builder("Server error", 500)
+								.withResponseType("error").build());
+	        }
+
+	        // ============================================================
+	        // 4️⃣ SUCCESS RESPONSE
+	        // ============================================================
+	        
+	    	model.addAttribute("data",
+					new ResponseMessage.Builder("User registered successfully. Please activate using email verification code.", HttpStatus.CREATED.value())
+							.withID(userId).withActivationCode(activationCode).withResponseType("created").build());
+	        return model;
+	    } catch (Exception ex) {
+	    	return model.addAttribute("data",
+					new ResponseMessage.Builder("Unexpected error", 500)
+							.withResponseType("error").build());
+	    }
 	}
    
+
+	private FacetFieldDTO mapToFacetFieldDTO(FacetField facetField) {
+        FacetFieldDTO facetFieldDTO = new FacetFieldDTO();
+        facetFieldDTO.setFieldName(facetField.getName());
+
+        List<FacetValueDTO> valuesDTO = facetField.getValues().stream()
+                .map(count -> new FacetValueDTO(count.getName(), count.getCount()))
+                .collect(Collectors.toList());
+
+        facetFieldDTO.setValues(valuesDTO);
+
+        return facetFieldDTO;
+    }
+
 	@PostMapping("/user-authentication")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "201", description = "API use for user authentication", content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserAuthResponse.class))) })
 	@StandardApiResponses
-	public ModelMap userAuth(@RequestBody @Valid UserAuth userAuth, HttpServletResponse response,
-			@RequestHeader(name = "X-API-Key", required = true) String apiKeyx,
-			@RequestHeader(name = "X-USER-ID", required = true) String userId) {
+	public ModelMap userAuth(@RequestBody @Valid UserAuth userAuth, HttpServletResponse response) {
 
 		ModelMap model = new ModelMap();
-
-		int validationStatus = validationService.validateApiKey(apiKeyx, userId);
-		if (validationStatus == 401) {
-
-			model.addAttribute("Message",
-					new ResponseMessage.Builder("Invalid API key", 401).withResponseType("unauthorized").build());
-		}
-		if (validationStatus == 500) {
-			return model.addAttribute("Message", new ResponseMessage.Builder("API validation service unavailable", 500)
-					.withResponseType("internal_error").build());
-		}
 		Map<String, String[]> searchCriteria = new HashMap<>();
 		searchCriteria.put("q", new String[] { "((email:" + userAuth.getUsername() + ") && ( email:"
 				+ userAuth.getUsername() + " && password:" + userAuth.getPassword() + "))" });
@@ -566,9 +588,15 @@ public ResponseEntity<?> deleteUserByQuery(
 
 			} else {
 				response.setStatus(HttpServletResponse.SC_OK);
-				model.addAttribute("Message",
+				String email = userAuth.getUsername();
+			    String solrUserId = C.get("ID").toString();
+
+			    String jwt = jwtUtil.generateToken(solrUserId, email);
+
+			  
+				model.addAttribute("data",
 						new ResponseMessage.Builder("User authenticated sucesfully.", HttpServletResponse.SC_OK)
-								.withID(C.get("ID").toString()).withResponseType("AUTHENTICATED").build());
+								.withID(C.get("ID").toString()).withToken(jwt).withResponseType("AUTHENTICATED").build());
 			}
 		}
 
@@ -741,6 +769,32 @@ public ResponseEntity<?> deleteUserByQuery(
 			return model;
 		} 
 
+
+		@ApiOperation(value = "This service used to get User details by based on token")
+	@StandardApiResponses
+	@RequestMapping(value="/me" , method=RequestMethod.GET)
+	@ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User found",
+                         content = @Content(mediaType = "application/json",
+                         schema = @Schema(implementation = User.class)))
+        })
+	public ModelMap  getUserDetailsByToken(
+			
+			@RequestHeader("Authorization") String authHeader,
+			HttpServletRequest request, HttpServletResponse response
+			) {
+		ModelMap model=new ModelMap();
+		String token = authHeader.substring(7);
+		User user =null;
+		try {
+			 user = jwtUtil.getUserDetailsFromToken(token);
+		}catch (Exception e) {
+			return model.addAttribute("data",
+					new ResponseMessage.Builder("Server error", 500)
+							.withResponseType("error").build());
+		}
+		return model.addAttribute("data",user);
+		}
 
 
 	private boolean emailExists(String email) {

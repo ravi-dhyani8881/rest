@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,17 +20,22 @@ import lombok.NoArgsConstructor;
 public class UserOrg implements Serializable {
 
 
-    private String id;
+    @JsonProperty("ID")
+    private String iD;
+
     private String userId;
+
     private String orgId;
+
     private String createdAt;
+
     private String updatedAt;
 
 
 /*
 
     @Id
-    private String id;
+    private String iD;
     private String userId;
     private String orgId;
     private String createdAt;
@@ -37,13 +43,16 @@ public class UserOrg implements Serializable {
 
 */
 
-    public String getId() {
-        return id;
+    @JsonProperty("ID")
+    public String getID() {
+        return iD;
     }
 
-    public void setId( String id) {
-        this.id = id;
+    @JsonProperty("ID")
+    public void setID( String iD) {
+        this.iD = iD;
     }
+
     public String getUserId() {
         return userId;
     }
@@ -51,6 +60,7 @@ public class UserOrg implements Serializable {
     public void setUserId( String userId) {
         this.userId = userId;
     }
+
     public String getOrgId() {
         return orgId;
     }
@@ -58,6 +68,7 @@ public class UserOrg implements Serializable {
     public void setOrgId( String orgId) {
         this.orgId = orgId;
     }
+
     public String getCreatedAt() {
         return createdAt;
     }
@@ -65,6 +76,7 @@ public class UserOrg implements Serializable {
     public void setCreatedAt( String createdAt) {
         this.createdAt = createdAt;
     }
+
     public String getUpdatedAt() {
         return updatedAt;
     }

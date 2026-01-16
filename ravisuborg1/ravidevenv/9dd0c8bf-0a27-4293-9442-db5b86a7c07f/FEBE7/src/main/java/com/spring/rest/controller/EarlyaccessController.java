@@ -38,11 +38,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.spring.rest.model.EarlyAccess;
+import com.spring.rest.modelrequests.EarlyAccessRequest;
 import com.spring.rest.model.UserAuth;
 import com.spring.rest.apiresponse.EarlyAccessResponse;
 import com.main.external.exception.user.UserException;
+import com.spring.rest.apiresponse.UserSignUpExample;
 import com.spring.rest.apiresponse.UserAuthResponse;
+import com.spring.rest.util.JwtUtil;
 import com.spring.rest.custom.ErrorResponse;
+import com.spring.rest.util.ModelMapperUtil;
 import com.spring.rest.custom.StandardApiResponses;
 import com.spring.rest.service.CommonDocumentService;
 import com.spring.rest.util.FacetFieldDTO;
@@ -55,7 +59,7 @@ import com.spring.rest.validation.ValidationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-// version for 17.0.0
+// version for 18.0.0
 
 @Api(value = "Earlyaccess Mangment System" , description = "Service used to perform operation on earlyAccess.", tags = "earlyAccess")
 @RestController
@@ -69,6 +73,9 @@ public class EarlyaccessController {
 	
 	@Autowired
 	ValidationService validationService;
+
+	@Autowired
+	JwtUtil	jwtUtil;
 	
     String url=SolrUrls.EARLYACCESS_URL;
     
@@ -81,24 +88,17 @@ public class EarlyaccessController {
                          content = @Content(mediaType = "application/json",
                          schema = @Schema(implementation = EarlyAccess.class)))
         })
-	public ResponseEntity<?>   createEarlyaccess(@RequestBody  EarlyAccess earlyAccess
- , HttpServletResponse response, HttpServletRequest request,
-			@RequestHeader(name="X-API-Key", required=true) String apiKeyx ,
-			@RequestHeader(name="X-USER-ID", required=true) String userId) {
+	public ResponseEntity<?>   createEarlyaccess(@RequestBody  EarlyAccessRequest earlyAccessRequest
+ , HttpServletResponse response, HttpServletRequest request) {
 		
 	       try {
-	            // ✅ Validate API key
-	            int validationStatus = validationService.validateApiKey(apiKeyx, userId);
-	            if (validationStatus == 401) {
-	                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-	                        .body(ErrorResponse.of("unauthorized", "Invalid API key"));
-	            } else if (validationStatus == 500) {
-	                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	                        .body(ErrorResponse.of("internal_error", "API validation service unavailable"));
-	            }
+	          
 	            
-				earlyAccess.setId(Utility.getUniqueId());
-	             
+			//	earlyAccess.setID(Utility.getUniqueId());
+	          
+			
+	    	   EarlyAccess earlyAccess = ModelMapperUtil.mapCreateRequestToModel(earlyAccessRequest,  EarlyAccess.class);
+
 	            // Call service layer
 	            Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate( earlyAccess, url);
 	            if (apiResponse instanceof Exception) {
@@ -123,32 +123,21 @@ public class EarlyaccessController {
 public ResponseEntity<?> updateearlyAccess(
         @RequestBody EarlyAccess earlyAccess,
         HttpServletResponse response,
-        HttpServletRequest request,
-        @RequestHeader(name = "X-API-Key", required = true) String apiKeyx,
-        @RequestHeader(name = "X-USER-ID", required = true) String userIdx) {
+        HttpServletRequest request) {
 
     String earlyAccessId = null;
 
     try {
-        // ✅ Validate API Key
-        int validationStatus = validationService.validateApiKey(apiKeyx, userIdx);
-
-         if (validationStatus == 401) {
-	                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-	                        .body(ErrorResponse.of("unauthorized", "Invalid API key"));
-	            } else if (validationStatus == 500) {
-	                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	                        .body(ErrorResponse.of("internal_error", "API validation service unavailable"));
-	            }
+       
 
          // ✅ Check for ID in Customers POJO
-	        if (earlyAccess.getId() == null || earlyAccess.getId().trim().isEmpty()) {
+	        if (earlyAccess.getID() == null || earlyAccess.getID().trim().isEmpty()) {
 	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
 	        }
 
     
-	        earlyAccessId = earlyAccess.getId();
+	        earlyAccessId = earlyAccess.getID();
             
             // ✅ Query Solr for existing record
 	        Object apiResponse = commonDocumentService.advanceQueryAndExceptionByTemplate("ID:" + earlyAccessId, url);
@@ -198,26 +187,16 @@ public ResponseEntity<?> updateearlyAccess(
 			@RequestParam(name = "fq" ,defaultValue = "" , required = false) String[] fq ,
 			//default value asc|desc
 			@RequestParam(name = "sort" ,defaultValue = "" , required = false) String sort,
-			@RequestHeader(name="X-API-Key", required=true) String apiKey ,
-			@RequestHeader(name="X-USER-ID", required=true) String userId,
-		
+			
+
+			@RequestParam(name = "advanceField" ,defaultValue = "" , required = false) String[] facetField ,
+			@RequestParam(name = "advanceQuery" ,defaultValue = "" , required = false) String facetQuery ,
+			@RequestParam(name = "advance" ,defaultValue = "false" , required = false) String facet ,
+
 			HttpServletRequest request, HttpServletResponse response
 			) {
 		ModelMap model=new ModelMap();
-		Object apiResponse=null;
-		
-		if(validationService.validateApiKey(apiKey, userId) == 500 )
-			{	
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-		//	return model.addAttribute("Message", new ResponseMessage("Server down Internal server error", 500));
-			return model.addAttribute("Message", new ResponseMessage.Builder("Server down Internal server error", 500).build());
-			 
-		}else if(validationService.validateApiKey(apiKey, userId) == 401) {
-			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-		//	 return model.addAttribute("Message", new ResponseMessage("Invalid Api Key", 401));
-			return model.addAttribute("Message", new ResponseMessage.Builder("Invalid Api Key", 401).build());
-			
-		}else {
+		List<FacetFieldDTO> advance=null;
 	//		query=Utility.getQuery(query, userId);
 			Map<String, String[]> searchCriteria=new HashMap<>(); 
 			searchCriteria.put("q", new String[] { query });
@@ -227,8 +206,20 @@ public ResponseEntity<?> updateearlyAccess(
 			searchCriteria.put("fq", fq);
 			searchCriteria.put("sort", new String[] { sort });
 			
-			 apiResponse = commonDocumentService.advanceSearchDocumentByTemplate(searchCriteria, url);
-			 if(apiResponse instanceof Exception )
+			searchCriteria.put("facet", new String[] { facet } );
+			searchCriteria.put("facet.query",  new String[] { facetQuery } );
+			if (facetField != null && facetField.length > 0) {
+			    searchCriteria.put("facet.field", facetField);
+			}
+			
+		    var apiResponse = commonDocumentService.advanceSearchDocumentByTemplate(searchCriteria, url);
+		
+		    List<FacetField> facetFieldsResponse =  ((QueryResponse)apiResponse).getFacetFields();
+				if(facet.equals("true")) {
+		          advance=facetFieldsResponse.stream().map(this::mapToFacetFieldDTO).collect(Collectors.toList());
+		        }
+		
+		  if(apiResponse instanceof Exception )
 			{
 				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			//	return model.addAttribute("Message", new ResponseMessage("Server down Internal server error",500));
@@ -246,8 +237,8 @@ public ResponseEntity<?> updateearlyAccess(
 				    pagination.put("offset", start);
 				
 				    model.addAttribute("pagination",pagination);
+					model.addAttribute("advanced",advance);
 				return model.addAttribute("data",((QueryResponse) apiResponse).getResults());
-			}
 		}
 	}
 	
@@ -320,21 +311,10 @@ public ResponseEntity<?> updateearlyAccess(
 @StandardApiResponses
 @DeleteMapping("/earlyAccess")
 public ResponseEntity<?> deleteEarlyaccessByQuery(
-        @RequestParam(name = "query") String query,
-        @RequestHeader(name = "X-API-Key", required = true) String apiKey,
-        @RequestHeader(name = "X-USER-ID", required = true) String userId) {
+        @RequestParam(name = "query") String query) {
 
     try {
-        // ✅ Validate API Key
-        int validationStatus = validationService.validateApiKey(apiKey, userId);
-
-        if (validationStatus == 500) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseMessage.Builder("Server down Internal server error", 500).build());
-        } else if (validationStatus == 401) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ResponseMessage.Builder("Invalid API Key", 401).build());
-        }
+       
 
         // ✅ Delete Operation
         Object apiResponse = commonDocumentService.deleteDocumentAndExceptionByTemplate(query, url);

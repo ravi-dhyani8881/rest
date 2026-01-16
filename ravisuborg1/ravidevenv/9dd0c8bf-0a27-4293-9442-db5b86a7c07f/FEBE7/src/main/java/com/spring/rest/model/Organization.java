@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,17 +20,22 @@ import lombok.NoArgsConstructor;
 public class Organization implements Serializable {
 
 
-    private String id;
+    @JsonProperty("ID")
+    private String iD;
+
     private String name;
+
     private String description;
+
     private String createdAt;
+
     private String updatedAt;
 
 
 /*
 
     @Id
-    private String id;
+    private String iD;
     private String name;
     private String description;
     private String createdAt;
@@ -37,13 +43,16 @@ public class Organization implements Serializable {
 
 */
 
-    public String getId() {
-        return id;
+    @JsonProperty("ID")
+    public String getID() {
+        return iD;
     }
 
-    public void setId( String id) {
-        this.id = id;
+    @JsonProperty("ID")
+    public void setID( String iD) {
+        this.iD = iD;
     }
+
     public String getName() {
         return name;
     }
@@ -51,6 +60,7 @@ public class Organization implements Serializable {
     public void setName( String name) {
         this.name = name;
     }
+
     public String getDescription() {
         return description;
     }
@@ -58,6 +68,7 @@ public class Organization implements Serializable {
     public void setDescription( String description) {
         this.description = description;
     }
+
     public String getCreatedAt() {
         return createdAt;
     }
@@ -65,6 +76,7 @@ public class Organization implements Serializable {
     public void setCreatedAt( String createdAt) {
         this.createdAt = createdAt;
     }
+
     public String getUpdatedAt() {
         return updatedAt;
     }

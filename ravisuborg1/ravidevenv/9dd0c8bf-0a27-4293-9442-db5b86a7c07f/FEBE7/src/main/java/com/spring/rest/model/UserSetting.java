@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,19 +20,26 @@ import lombok.NoArgsConstructor;
 public class UserSetting implements Serializable {
 
 
-    private String id;
+    @JsonProperty("ID")
+    private String iD;
+
     private String orgId;
+
     private String subOrgId;
+
     private String environmentId;
+
     private String userId;
+
     private String createdAt;
+
     private String updatedAt;
 
 
 /*
 
     @Id
-    private String id;
+    private String iD;
     private String orgId;
     private String subOrgId;
     private String environmentId;
@@ -41,13 +49,16 @@ public class UserSetting implements Serializable {
 
 */
 
-    public String getId() {
-        return id;
+    @JsonProperty("ID")
+    public String getID() {
+        return iD;
     }
 
-    public void setId( String id) {
-        this.id = id;
+    @JsonProperty("ID")
+    public void setID( String iD) {
+        this.iD = iD;
     }
+
     public String getOrgId() {
         return orgId;
     }
@@ -55,6 +66,7 @@ public class UserSetting implements Serializable {
     public void setOrgId( String orgId) {
         this.orgId = orgId;
     }
+
     public String getSubOrgId() {
         return subOrgId;
     }
@@ -62,6 +74,7 @@ public class UserSetting implements Serializable {
     public void setSubOrgId( String subOrgId) {
         this.subOrgId = subOrgId;
     }
+
     public String getEnvironmentId() {
         return environmentId;
     }
@@ -69,6 +82,7 @@ public class UserSetting implements Serializable {
     public void setEnvironmentId( String environmentId) {
         this.environmentId = environmentId;
     }
+
     public String getUserId() {
         return userId;
     }
@@ -76,6 +90,7 @@ public class UserSetting implements Serializable {
     public void setUserId( String userId) {
         this.userId = userId;
     }
+
     public String getCreatedAt() {
         return createdAt;
     }
@@ -83,6 +98,7 @@ public class UserSetting implements Serializable {
     public void setCreatedAt( String createdAt) {
         this.createdAt = createdAt;
     }
+
     public String getUpdatedAt() {
         return updatedAt;
     }
