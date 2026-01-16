@@ -188,11 +188,15 @@ public ResponseEntity<?> updatechatHistory(
 			//default value asc|desc
 			@RequestParam(name = "sort" ,defaultValue = "" , required = false) String sort,
 			
+
+			@RequestParam(name = "advanceField" ,defaultValue = "" , required = false) String[] facetField ,
+			@RequestParam(name = "advanceQuery" ,defaultValue = "" , required = false) String facetQuery ,
+			@RequestParam(name = "advance" ,defaultValue = "false" , required = false) String facet ,
+
 			HttpServletRequest request, HttpServletResponse response
 			) {
 		ModelMap model=new ModelMap();
-		Object apiResponse=null;
-		
+		List<FacetFieldDTO> advance=null;
 	//		query=Utility.getQuery(query, userId);
 			Map<String, String[]> searchCriteria=new HashMap<>(); 
 			searchCriteria.put("q", new String[] { query });
@@ -202,8 +206,20 @@ public ResponseEntity<?> updatechatHistory(
 			searchCriteria.put("fq", fq);
 			searchCriteria.put("sort", new String[] { sort });
 			
-			 apiResponse = commonDocumentService.advanceSearchDocumentByTemplate(searchCriteria, url);
-			 if(apiResponse instanceof Exception )
+			searchCriteria.put("facet", new String[] { facet } );
+			searchCriteria.put("facet.query",  new String[] { facetQuery } );
+			if (facetField != null && facetField.length > 0) {
+			    searchCriteria.put("facet.field", facetField);
+			}
+			
+		    var apiResponse = commonDocumentService.advanceSearchDocumentByTemplate(searchCriteria, url);
+		
+		    List<FacetField> facetFieldsResponse =  ((QueryResponse)apiResponse).getFacetFields();
+				if(facet.equals("true")) {
+		          advance=facetFieldsResponse.stream().map(this::mapToFacetFieldDTO).collect(Collectors.toList());
+		        }
+		
+		  if(apiResponse instanceof Exception )
 			{
 				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			//	return model.addAttribute("Message", new ResponseMessage("Server down Internal server error",500));
@@ -221,6 +237,7 @@ public ResponseEntity<?> updatechatHistory(
 				    pagination.put("offset", start);
 				
 				    model.addAttribute("pagination",pagination);
+					model.addAttribute("advanced",advance);
 				return model.addAttribute("data",((QueryResponse) apiResponse).getResults());
 		}
 	}
