@@ -547,20 +547,6 @@ public ResponseEntity<?> deleteUserByQuery(
 	    }
 	}
    
-
-	private FacetFieldDTO mapToFacetFieldDTO(FacetField facetField) {
-        FacetFieldDTO facetFieldDTO = new FacetFieldDTO();
-        facetFieldDTO.setFieldName(facetField.getName());
-
-        List<FacetValueDTO> valuesDTO = facetField.getValues().stream()
-                .map(count -> new FacetValueDTO(count.getName(), count.getCount()))
-                .collect(Collectors.toList());
-
-        facetFieldDTO.setValues(valuesDTO);
-
-        return facetFieldDTO;
-    }
-
 	@PostMapping("/user-authentication")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "201", description = "API use for user authentication", content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserAuthResponse.class))) })
