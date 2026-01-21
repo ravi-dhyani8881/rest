@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: hrms-s9vvmu.whfqpq.us-east-2.febe.kbs
+    - host: hrms-b8d8hn.5427b8.us-east-2.febe.kbs
       http:
         paths:
           - path: /febe-rest-b6aa7816-8002-4b22-bf6b-5b85b15f49b2/
