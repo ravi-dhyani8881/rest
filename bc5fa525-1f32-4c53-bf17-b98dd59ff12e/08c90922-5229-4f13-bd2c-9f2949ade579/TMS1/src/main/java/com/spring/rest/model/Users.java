@@ -25,6 +25,8 @@ public class Users implements Serializable {
 
     private String email;
 
+    private String password;
+
 
 /*
 
@@ -32,6 +34,8 @@ public class Users implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
     private String email;
+    @Secure
+    private String password;
 
 */
 
@@ -51,5 +55,13 @@ public class Users implements Serializable {
 
     public void setEmail( String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword( String password) {
+        this.password = password;
     }
 }
