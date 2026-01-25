@@ -17,7 +17,7 @@ public class UsersRequest {
     private String id;
 
 
-    private String username;
+    private String email;
 
 
     // --- Getters & Setters ---
@@ -33,12 +33,12 @@ public class UsersRequest {
 
 
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
 
