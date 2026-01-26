@@ -1,20 +1,20 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: rest-ingress-f09b7e05-2e20-45d4-9407-7ac6d0cf59ce
+  name: rest-ingress-0ffe9fe5-5bdb-4f50-ab78-018f01a3b1d3
   namespace: 2e49f282-85d5-4866-af7d-8133a75e6769
   labels:
-    app: rest-app-f09b7e05-2e20-45d4-9407-7ac6d0cf59ce
+    app: rest-app-0ffe9fe5-5bdb-4f50-ab78-018f01a3b1d3
 spec:
   ingressClassName: nginx
   rules:
-    - host: project-3-ymxe7u.uwr7uw.us-east-2.febe.kbs
+    - host: project-3-jd0ql9.ye3azi.us-east-2.febe.kbs
       http:
         paths:
-          - path: /febe-rest-f09b7e05-2e20-45d4-9407-7ac6d0cf59ce/
+          - path: /febe-rest-0ffe9fe5-5bdb-4f50-ab78-018f01a3b1d3/
             pathType: Prefix
             backend:
               service:
-                name: rest-service-f09b7e05-2e20-45d4-9407-7ac6d0cf59ce
+                name: rest-service-0ffe9fe5-5bdb-4f50-ab78-018f01a3b1d3
                 port:
                   number: 80
