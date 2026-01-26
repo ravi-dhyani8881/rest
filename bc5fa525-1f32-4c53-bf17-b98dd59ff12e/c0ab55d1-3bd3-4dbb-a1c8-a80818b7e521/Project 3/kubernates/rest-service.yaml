@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: rest-service-3d24da32-0af5-4bda-a27f-962a35c184ed
+  name: rest-service-3cede942-2cd8-44a7-84fc-128169f9df7d
   namespace: 2e49f282-85d5-4866-af7d-8133a75e6769
   labels:
-    app: rest-app-3d24da32-0af5-4bda-a27f-962a35c184ed
+    app: rest-app-3cede942-2cd8-44a7-84fc-128169f9df7d
 spec:
   selector:
-    app: rest-app-3d24da32-0af5-4bda-a27f-962a35c184ed
+    app: rest-app-3cede942-2cd8-44a7-84fc-128169f9df7d
   ports:
     - protocol: TCP
       port: 80

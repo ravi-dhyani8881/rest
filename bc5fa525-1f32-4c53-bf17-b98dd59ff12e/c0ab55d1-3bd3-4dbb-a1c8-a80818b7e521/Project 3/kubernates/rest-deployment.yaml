@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: rest-app-3d24da32-0af5-4bda-a27f-962a35c184ed
+  name: rest-app-3cede942-2cd8-44a7-84fc-128169f9df7d
   namespace: 2e49f282-85d5-4866-af7d-8133a75e6769
   labels:
-    app: rest-app-3d24da32-0af5-4bda-a27f-962a35c184ed
+    app: rest-app-3cede942-2cd8-44a7-84fc-128169f9df7d
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: rest-app-3d24da32-0af5-4bda-a27f-962a35c184ed
+      app: rest-app-3cede942-2cd8-44a7-84fc-128169f9df7d
   template:
     metadata:
       labels:
-        app: rest-app-3d24da32-0af5-4bda-a27f-962a35c184ed
+        app: rest-app-3cede942-2cd8-44a7-84fc-128169f9df7d
     spec:
       containers:
-      - name: rest3d24da32-0af5-4bda-a27f-962a35c184ed
-        image: ravi8881/2e49f282-85d5-4866-af7d-8133a75e6769--bc5fa525-1f32-4c53-bf17-b98dd59ff12e-c0ab55d1-3bd3-4dbb-a1c8-a80818b7e521-rest:8.0.0
+      - name: rest3cede942-2cd8-44a7-84fc-128169f9df7d
+        image: ravi8881/2e49f282-85d5-4866-af7d-8133a75e6769--bc5fa525-1f32-4c53-bf17-b98dd59ff12e-c0ab55d1-3bd3-4dbb-a1c8-a80818b7e521-rest:9.0.0
         ports:
         - containerPort: 8080
