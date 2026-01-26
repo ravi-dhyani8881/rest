@@ -25,7 +25,7 @@ public class Users implements Serializable {
 
     private String name;
 
-    private String password_hash;
+    private String password;
 
     private String email;
 
@@ -36,7 +36,7 @@ public class Users implements Serializable {
     private String id;
     private String name;
     @Secure
-    private String password_hash;
+    private String password;
     private String email;
 
 */
@@ -59,12 +59,12 @@ public class Users implements Serializable {
         this.name = name;
     }
 
-    public String getPassword_hash() {
-        return password_hash;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPassword_hash( String password_hash) {
-        this.password_hash = password_hash;
+    public void setPassword( String password) {
+        this.password = password;
     }
 
     public String getEmail() {
