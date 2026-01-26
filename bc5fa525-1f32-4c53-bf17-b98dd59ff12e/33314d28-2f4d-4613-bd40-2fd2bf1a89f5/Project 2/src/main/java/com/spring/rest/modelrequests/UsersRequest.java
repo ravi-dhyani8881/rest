@@ -20,7 +20,7 @@ public class UsersRequest {
     private String name;
 
 
-    private String password;
+    private String password_hash;
 
 
     private String email;
@@ -49,12 +49,12 @@ public class UsersRequest {
 
 
 
-    public String getPassword() {
-        return password;
+    public String getPassword_hash() {
+        return password_hash;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPassword_hash(String password_hash) {
+        this.password_hash = password_hash;
     }
 
 

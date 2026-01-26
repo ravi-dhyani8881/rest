@@ -5,7 +5,7 @@ package com.spring.rest.util;
 public interface SolrUrls {
 	public static String protocol="http";
 			
-	public static String host="solr-service-c9cabf7f-83fd-4488-a5b7-8c504edb45f7";
+	public static String host="solr-service-a44cc2ed-4fbb-4a74-86a9-2296e99744b6";
 			
 	
     public static String port="80";
@@ -28,7 +28,7 @@ package com.spring.rest.util;
 
 public interface SolrUrls {
     public static String protocol = "http";
-    public static String host = "solr-service-c9cabf7f-83fd-4488-a5b7-8c504edb45f7";
+    public static String host = "solr-service-a44cc2ed-4fbb-4a74-86a9-2296e99744b6";
     public static String port = "80";
     public static String context = "solr";
 							
