@@ -5,7 +5,7 @@ package com.spring.rest.util;
 public interface SolrUrls {
 	public static String protocol="http";
 			
-	public static String host="solr-service-ef22f54d-c0f3-4a32-b229-af7ed9dd6796";
+	public static String host="solr-service-05a9a253-a873-43ca-8913-d317e491c165";
 			
 	
     public static String port="80";
@@ -18,7 +18,9 @@ public interface SolrUrls {
 
     public static String APIKEY_URL = protocol + "://" + host + ":" + port + "/" + context + "/apiKey";
 
+    public static final String PRODUCTS_URL = baseUrl+"/"+"products";
     public static final String USERS_URL = baseUrl+"/"+"users";
+    public static final String REVIEWS_URL = baseUrl+"/"+"reviews";
 }
 
 */
@@ -28,7 +30,7 @@ package com.spring.rest.util;
 
 public interface SolrUrls {
     public static String protocol = "http";
-    public static String host = "solr-service-ef22f54d-c0f3-4a32-b229-af7ed9dd6796";
+    public static String host = "solr-service-05a9a253-a873-43ca-8913-d317e491c165";
     public static String port = "80";
     public static String context = "solr";
 							
@@ -36,6 +38,8 @@ public interface SolrUrls {
 
     public static String APIKEY_URL = protocol + "://" + host + ":" + port + "/" + context + "/apiKey";
 
+    public static final String PRODUCTS_URL = baseUrl + "/" + "products";
     public static final String USERS_URL = baseUrl + "/" + "users";
+    public static final String REVIEWS_URL = baseUrl + "/" + "reviews";
 }
 

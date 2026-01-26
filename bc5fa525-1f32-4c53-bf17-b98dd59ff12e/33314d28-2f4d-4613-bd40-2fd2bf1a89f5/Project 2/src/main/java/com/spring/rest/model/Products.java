@@ -17,15 +17,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor // Generates a no-argument constructor (required by Jackson for deserialization)
 @AllArgsConstructor // Generates a constructor with all fields
 @JsonInclude(JsonInclude.Include.NON_NULL) 
-public class Users implements Serializable {
+public class Products implements Serializable {
 
 
     @JsonProperty("ID")
     private String iD;
 
-    private String username;
+    private String name;
 
-    private String email;
+    private String description;
 
     private String createdAt;
 
@@ -36,10 +36,8 @@ public class Users implements Serializable {
 
     @Id
     private String iD;
-    @Column(unique = true)
-    private String username;
-    @Column(unique = true)
-    private String email;
+    private String name;
+    private String description;
     private String createdAt;
     private String updatedAt;
 
@@ -55,20 +53,20 @@ public class Users implements Serializable {
         this.iD = iD;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUsername( String username) {
-        this.username = username;
+    public void setName( String name) {
+        this.name = name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getDescription() {
+        return description;
     }
 
-    public void setEmail( String email) {
-        this.email = email;
+    public void setDescription( String description) {
+        this.description = description;
     }
 
     public String getCreatedAt() {

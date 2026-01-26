@@ -17,15 +17,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor // Generates a no-argument constructor (required by Jackson for deserialization)
 @AllArgsConstructor // Generates a constructor with all fields
 @JsonInclude(JsonInclude.Include.NON_NULL) 
-public class Users implements Serializable {
+public class Reviews implements Serializable {
 
 
     @JsonProperty("ID")
     private String iD;
 
-    private String username;
+    private String productId;
 
-    private String email;
+    private String userId;
+
+    private int rating;
+
+    private String comment;
 
     private String createdAt;
 
@@ -36,10 +40,10 @@ public class Users implements Serializable {
 
     @Id
     private String iD;
-    @Column(unique = true)
-    private String username;
-    @Column(unique = true)
-    private String email;
+    private String productId;
+    private String userId;
+    private int rating;
+    private String comment;
     private String createdAt;
     private String updatedAt;
 
@@ -55,20 +59,36 @@ public class Users implements Serializable {
         this.iD = iD;
     }
 
-    public String getUsername() {
-        return username;
+    public String getProductId() {
+        return productId;
     }
 
-    public void setUsername( String username) {
-        this.username = username;
+    public void setProductId( String productId) {
+        this.productId = productId;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setEmail( String email) {
-        this.email = email;
+    public void setUserId( String userId) {
+        this.userId = userId;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating( int rating) {
+        this.rating = rating;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment( String comment) {
+        this.comment = comment;
     }
 
     public String getCreatedAt() {

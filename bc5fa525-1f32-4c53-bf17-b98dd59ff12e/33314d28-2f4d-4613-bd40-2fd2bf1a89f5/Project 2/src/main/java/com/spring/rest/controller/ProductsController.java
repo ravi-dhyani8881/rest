@@ -37,10 +37,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.spring.rest.model.Users;
-import com.spring.rest.modelrequests.UsersRequest;
+import com.spring.rest.model.Products;
+import com.spring.rest.modelrequests.ProductsRequest;
 import com.spring.rest.model.UserAuth;
-import com.spring.rest.apiresponse.UsersResponse;
+import com.spring.rest.apiresponse.ProductsResponse;
 import com.main.external.exception.user.UserException;
 import com.spring.rest.apiresponse.UserSignUpExample;
 import com.spring.rest.apiresponse.UserAuthResponse;
@@ -61,12 +61,12 @@ import io.swagger.annotations.ApiOperation;
 
 // version for 4.0.0
 
-@Api(value = "Users Mangment System" , description = "Service used to perform operation on users.", tags = "users")
+@Api(value = "Products Mangment System" , description = "Service used to perform operation on products.", tags = "products")
 @RestController
-@ExposesResourceFor(UsersController.class)
-// @RequestMapping("/Users")
+@ExposesResourceFor(ProductsController.class)
+// @RequestMapping("/Products")
 @RequestMapping("/api")
-public class UsersController {
+public class ProductsController {
 	
 	@Autowired
 	CommonDocumentService commonDocumentService;
@@ -77,37 +77,37 @@ public class UsersController {
 	@Autowired
 	JwtUtil	jwtUtil;
 	
-    String url=SolrUrls.USERS_URL;
+    String url=SolrUrls.PRODUCTS_URL;
     
 		
-	@ApiOperation(value = "Service used to create Users")
+	@ApiOperation(value = "Service used to create Products")
 	@StandardApiResponses
-	@RequestMapping(value="/users" , method=RequestMethod.POST)
+	@RequestMapping(value="/products" , method=RequestMethod.POST)
 	@ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "create a new Users",
+            @ApiResponse(responseCode = "201", description = "create a new Products",
                          content = @Content(mediaType = "application/json",
-                         schema = @Schema(implementation = Users.class)))
+                         schema = @Schema(implementation = Products.class)))
         })
-	public ResponseEntity<?>   createUsers(@RequestBody  UsersRequest usersRequest
+	public ResponseEntity<?>   createProducts(@RequestBody  ProductsRequest productsRequest
  , HttpServletResponse response, HttpServletRequest request) {
 		
 	       try {
 	          
 	            
-			//	users.setID(Utility.getUniqueId());
+			//	products.setID(Utility.getUniqueId());
 	          
 			
-	    	   Users users = ModelMapperUtil.mapCreateRequestToModel(usersRequest,  Users.class);
+	    	   Products products = ModelMapperUtil.mapCreateRequestToModel(productsRequest,  Products.class);
 
 	            // Call service layer
-	            Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate( users, url);
+	            Object apiResponse = commonDocumentService.addDocumentAndExceptionByTemplate( products, url);
 	            if (apiResponse instanceof Exception) {
 	                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	                        .body(ErrorResponse.of("internal_error", "Failed to save users"));
+	                        .body(ErrorResponse.of("internal_error", "Failed to save products"));
 	            }
 	            return ResponseEntity.status(HttpStatus.CREATED)
-	                    .body(new ResponseMessage.Builder("Users created successfully", 201)
-	                            .withUserObject(users)
+	                    .body(new ResponseMessage.Builder("Products created successfully", 201)
+	                            .withUserObject(products)
 	                            .build());
 	           }
 	        catch (Exception e) {
@@ -117,30 +117,30 @@ public class UsersController {
 	        }
 	    }
 	
-@ApiOperation(value = "This service used to update Users")
+@ApiOperation(value = "This service used to update Products")
 @StandardApiResponses	
-@RequestMapping(value="/users" , method=RequestMethod.PUT)
-public ResponseEntity<?> updateusers(
-        @RequestBody Users users,
+@RequestMapping(value="/products" , method=RequestMethod.PUT)
+public ResponseEntity<?> updateproducts(
+        @RequestBody Products products,
         HttpServletResponse response,
         HttpServletRequest request) {
 
-    String usersId = null;
+    String productsId = null;
 
     try {
        
 
          // ✅ Check for ID in Customers POJO
-	        if (users.getID() == null || users.getID().trim().isEmpty()) {
+	        if (products.getID() == null || products.getID().trim().isEmpty()) {
 	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
 	        }
 
     
-	        usersId = users.getID();
+	        productsId = products.getID();
             
             // ✅ Query Solr for existing record
-	        Object apiResponse = commonDocumentService.advanceQueryAndExceptionByTemplate("ID:" + usersId, url);
+	        Object apiResponse = commonDocumentService.advanceQueryAndExceptionByTemplate("ID:" + productsId, url);
 
         if (apiResponse instanceof Exception) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -153,15 +153,15 @@ public ResponseEntity<?> updateusers(
                     .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
 		}
       	SolrDocument solrDocument = ((QueryResponse) apiResponse).getResults().get(0);
-        commonDocumentService.updateDocumentAndExceptionByTemplate(this.createDoc(users,solrDocument), url);
+        commonDocumentService.updateDocumentAndExceptionByTemplate(this.createDoc(products,solrDocument), url);
 		
 		
-	//	commonDocumentService.updateDocumentAndExceptionByTemplate(users, url);
+	//	commonDocumentService.updateDocumentAndExceptionByTemplate(products, url);
 
         // ✅ Success Response
         ResponseMessage successResponse = new ResponseMessage.Builder("Content updated Successfully", 200)
-                .withID(usersId)
-                .withUserObject(users)
+                .withID(productsId)
+                .withUserObject(products)
                 .withResponseType("updated")
                 .build();
 
@@ -190,15 +190,15 @@ public <T> Map<String, Object> createDoc(T payloadObject, SolrDocument solrDocum
     return updatedDoc;
 }
 	
-	@ApiOperation(value = "This service used to search Users by query")
+	@ApiOperation(value = "This service used to search Products by query")
 	@StandardApiResponses
-	@RequestMapping(value="/users" , method=RequestMethod.GET)
+	@RequestMapping(value="/products" , method=RequestMethod.GET)
 	@ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User found",
                          content = @Content(mediaType = "application/json",
-                         schema = @Schema(implementation = UsersResponse.class)))
+                         schema = @Schema(implementation = ProductsResponse.class)))
         })
-	public ModelMap  searchUsers(@RequestParam(name = "query", required = true) String query,
+	public ModelMap  searchProducts(@RequestParam(name = "query", required = true) String query,
 			@RequestParam(name = "rows",  defaultValue = "8", required = false) String rows ,
 			@RequestParam(name = "start",defaultValue = "0", required = false) String start,
 			@RequestParam(name = "fl" ,defaultValue = "" , required = false) String fl ,
@@ -262,7 +262,7 @@ public <T> Map<String, Object> createDoc(T payloadObject, SolrDocument solrDocum
 	
 	@Hidden
 	@ApiOperation(value = "This service used to search content by query")
-	@RequestMapping(value="/searchUsersById" , method=RequestMethod.GET)
+	@RequestMapping(value="/searchProductsById" , method=RequestMethod.GET)
 	public ModelMap  searchContentById(@RequestParam(name = "Id", required = true) String query,
 			@RequestParam(name = "rows",  defaultValue = "8", required = false) String rows ,
 			@RequestParam(name = "start",defaultValue = "0", required = false) String start,
@@ -325,10 +325,10 @@ public <T> Map<String, Object> createDoc(T payloadObject, SolrDocument solrDocum
 		}
 	}
 	
-@ApiOperation(value = "This service delete Users by query")
+@ApiOperation(value = "This service delete Products by query")
 @StandardApiResponses
-@DeleteMapping("/users")
-public ResponseEntity<?> deleteUsersByQuery(
+@DeleteMapping("/products")
+public ResponseEntity<?> deleteProductsByQuery(
         @RequestParam(name = "query") String query) {
 
     try {
@@ -351,7 +351,7 @@ public ResponseEntity<?> deleteUsersByQuery(
 
         // ✅ Success
         return ResponseEntity.ok(
-                new ResponseMessage.Builder("Users deleted successfully with Query", 200)
+                new ResponseMessage.Builder("Products deleted successfully with Query", 200)
                         .withQuery(query)
                         .withResponseType("deleted")
                         .build()
