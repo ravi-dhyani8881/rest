@@ -59,7 +59,7 @@ import com.spring.rest.validation.ValidationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-// version for 7.0.0
+// version for 8.0.0
 
 @Api(value = "Users Mangment System" , description = "Service used to perform operation on users.", tags = "users")
 @RestController
