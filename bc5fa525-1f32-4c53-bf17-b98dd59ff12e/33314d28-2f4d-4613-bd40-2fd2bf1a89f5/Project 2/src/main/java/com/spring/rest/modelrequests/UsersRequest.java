@@ -23,6 +23,9 @@ public class UsersRequest {
     private String password;
 
 
+    private String email;
+
+
     // --- Getters & Setters ---
 
 
@@ -52,6 +55,16 @@ public class UsersRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
 

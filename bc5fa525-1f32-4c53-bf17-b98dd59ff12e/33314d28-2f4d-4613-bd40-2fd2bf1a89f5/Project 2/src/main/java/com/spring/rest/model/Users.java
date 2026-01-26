@@ -27,6 +27,8 @@ public class Users implements Serializable {
 
     private String password;
 
+    private String email;
+
 
 /*
 
@@ -35,6 +37,7 @@ public class Users implements Serializable {
     private String name;
     @Secure
     private String password;
+    private String email;
 
 */
 
@@ -62,5 +65,13 @@ public class Users implements Serializable {
 
     public void setPassword( String password) {
         this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail( String email) {
+        this.email = email;
     }
 }
