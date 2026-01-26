@@ -152,8 +152,11 @@ public ResponseEntity<?> updateproject(
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseMessage.Builder("No Unique ID to update, Invalid ID", 400).build());
 		}
-       
-        commonDocumentService.updateDocumentAndExceptionByTemplate(project, url);
+      	SolrDocument solrDocument = ((QueryResponse) apiResponse).getResults().get(0);
+        commonDocumentService.updateDocumentAndExceptionByTemplate(this.createDoc(project,solrDocument), url);
+		
+		
+	//	commonDocumentService.updateDocumentAndExceptionByTemplate(project, url);
 
         // ✅ Success Response
         ResponseMessage successResponse = new ResponseMessage.Builder("Content updated Successfully", 200)
@@ -171,6 +174,21 @@ public ResponseEntity<?> updateproject(
     }
 }
 
+
+public <T> Map<String, Object> createDoc(T payloadObject, SolrDocument solrDocument) {
+    Map<String, Object> updatedDoc = new HashMap<>();
+
+    // Copy existing Solr fields
+    solrDocument.forEach(updatedDoc::put);
+
+    // Convert POJO → Map
+    Map<String, Object> payloadMap = ObjectMapperUtil.convertToMap(payloadObject);
+
+    // Override with payload values
+    updatedDoc.putAll(payloadMap);
+
+    return updatedDoc;
+}
 	
 	@ApiOperation(value = "This service used to search Project by query")
 	@StandardApiResponses

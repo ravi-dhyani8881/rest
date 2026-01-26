@@ -25,7 +25,11 @@ public class ChatHistory implements Serializable {
 
     private String userId;
 
-    private String messages;
+    private String projectId;
+
+    private String role;
+
+    private String message;
 
     private String createdAt;
 
@@ -37,7 +41,9 @@ public class ChatHistory implements Serializable {
     @Id
     private String iD;
     private String userId;
-    private String messages;
+    private String projectId;
+    private String role;
+    private String message;
     private String createdAt;
     private String updatedAt;
 
@@ -61,12 +67,28 @@ public class ChatHistory implements Serializable {
         this.userId = userId;
     }
 
-    public String getMessages() {
-        return messages;
+    public String getProjectId() {
+        return projectId;
     }
 
-    public void setMessages( String messages) {
-        this.messages = messages;
+    public void setProjectId( String projectId) {
+        this.projectId = projectId;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole( String role) {
+        this.role = role;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage( String message) {
+        this.message = message;
     }
 
     public String getCreatedAt() {

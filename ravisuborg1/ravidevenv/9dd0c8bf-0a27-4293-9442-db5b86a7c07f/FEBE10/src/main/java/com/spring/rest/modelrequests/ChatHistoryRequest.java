@@ -17,7 +17,13 @@ public class ChatHistoryRequest {
     private String userId;
 
 
-    private String messages;
+    private String projectId;
+
+
+    private String role;
+
+
+    private String message;
 
 
     // --- Getters & Setters ---
@@ -33,12 +39,32 @@ public class ChatHistoryRequest {
 
 
 
-    public String getMessages() {
-        return messages;
+    public String getProjectId() {
+        return projectId;
     }
 
-    public void setMessages(String messages) {
-        this.messages = messages;
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
+    }
+
+
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
 
