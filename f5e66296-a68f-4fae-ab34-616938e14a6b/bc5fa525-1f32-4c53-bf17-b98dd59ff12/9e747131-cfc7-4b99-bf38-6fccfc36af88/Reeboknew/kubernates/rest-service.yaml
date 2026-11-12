@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rest-service-80eae2bb-89fa-42fc-a12b-99571b9be94d
+  namespace: 2e49f282-85d5-4866-af7d-8133a75e6769
+  labels:
+    app: rest-app-80eae2bb-89fa-42fc-a12b-99571b9be94d
+spec:
+  selector:
+    app: rest-app-80eae2bb-89fa-42fc-a12b-99571b9be94d
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: ClusterIP
+
