@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rest-ingress-80eae2bb-89fa-42fc-a12b-99571b9be94d
+  namespace: 2e49f282-85d5-4866-af7d-8133a75e6769
+  labels:
+    app: rest-app-80eae2bb-89fa-42fc-a12b-99571b9be94d
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: febecloud.com
+      http:
+        paths:
+        #  - path: /febe-rest-80eae2bb-89fa-42fc-a12b-99571b9be94d/
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: rest-service-80eae2bb-89fa-42fc-a12b-99571b9be94d
+                port:
+                  number: 80
