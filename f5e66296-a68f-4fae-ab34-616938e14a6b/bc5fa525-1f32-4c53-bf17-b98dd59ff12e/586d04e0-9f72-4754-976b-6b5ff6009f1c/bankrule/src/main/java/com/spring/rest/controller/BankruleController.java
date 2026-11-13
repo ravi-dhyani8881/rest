@@ -59,7 +59,7 @@ import com.spring.rest.validation.ValidationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-// version for 11.0.0
+// version for 12.0.0
 
 @Api(value = "Bankrule Mangment System" , description = "Service used to perform operation on bankrule.", tags = "bankrule")
 @RestController
